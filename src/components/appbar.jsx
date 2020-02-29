@@ -17,14 +17,10 @@ import Search from './search'
 import { burgerAction } from '../actions'
 
 class AppBar extends React.Component {
-    state = {
-        burger : false
-    }
-
     burgerClick = () => {
-        const { burger } = this.state
+        const burger = this.props.open || false
         this.props.burgerAction(!burger)
-        this.setState({burger : !burger})
+        console.log('burger-click')
     }
 
     render () {
@@ -59,9 +55,9 @@ class AppBar extends React.Component {
     }
 }
 
-const mapStore = ({ burger }) => {
+const mapStore = ({ burgerReducer }) => {
     return {
-        open : burger.burger
+        open : burgerReducer.burger
     }
 }
 

@@ -5,7 +5,9 @@
 .appbar-main-container {
     display: flex;
     width: 100%; height: 50px;
+    z-index: 5;
     background-color: $blue10;
+    @include depth-2;
     .appbar-burger {
         @include flex (row, center, center);
         @include animation-time(200ms);

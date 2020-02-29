@@ -55,14 +55,14 @@ $blueMagenta20 : #8764b8;
 
 // depth
 @mixin depth-2 {
-    box-shadow: 0px 2px 2px 0px rgba($color: $gray220, $alpha: 0.1);
+    box-shadow: 0px 2px 2px 0px rgba($color: black, $alpha: 0.1) !important;
 }
 @mixin depth-4 {
-    box-shadow: 0px 4px 8px 0px rgba($color: $gray220, $alpha: 0.1);
+    box-shadow: 0px 4px 8px 0px rgba($color: black, $alpha: 0.1) !important;
 }
 @mixin depth-6 {
-    box-shadow: 0px 8px 16px 0px rgba($color: $gray220, $alpha: 0.1);
+    box-shadow: 0px 8px 16px 0px rgba($color: black, $alpha: 0.1) !important;
 }
 @mixin depth-8 {
-    box-shadow: 0px 16px 32px 0px rgba($color: $gray220, $alpha: 0.1);
+    box-shadow: 0px 16px 32px 0px rgba($color: black, $alpha: 0.1) !important;
 }

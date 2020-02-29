@@ -1,0 +1,66 @@
+// import variable
+@import './variables.scss';
+
+// styling drawer
+.drawer-main-container {
+    height: calc(100vh - 50px);
+    // max-width: 300px;
+    background-color: $gray20;
+    @include depth-6;
+    @include animation-time(250ms);
+    .top {
+        @include flex(column, flex-start, center);
+        @include animation-time(250ms);
+        height: 90%; width: 100%;
+        padding: 0px 20px;
+        #item-1, #item-2, #item-3,
+        #item-4, #item-5 {
+            @include flex (row, '', center);
+            @include animation-time(250ms);
+            height: 50px; width: 100%;
+            // margin-top: 20px;
+            background-color: $gray20;
+            h1 {
+                margin-left: 15px;
+                font-size: 16px;
+                font-weight: 600;
+            }
+            &:hover {
+                background-color: $gray10;
+                color: $blue10;
+                transform: scale(1.05);
+                @include depth-6;
+            }
+        }
+    }
+    .bottom {
+        @include flex(column, center, center);
+        @include animation-time(250ms);
+        height: 10%;
+        // padding: 20px;
+        #last-item {
+            @include flex (row, '', center);
+            @include animation-time(250ms);
+            height: 50px; width: 100%;
+            background-color: $gray20;
+            h1 {
+                margin-left: 15px;
+                font-size: 16px;
+                font-weight: 600;
+            }
+            &:hover {
+                background-color: $gray10;
+                color: $blue10;
+                transform: scale(1.05);
+                @include depth-6;
+            }
+        }
+    }
+    // icons style
+    #dash-icon, #people-icon, #car-icon,
+    #rating-icon, #history-icon, #setting-icon,
+    #exit-icon {
+        @include flex (row, center, center);
+        height: 50px; width: 50px;
+    }
+}

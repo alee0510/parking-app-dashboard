@@ -6,7 +6,7 @@ import { burgerReducer } from './componentReducers'
 
 // combine all reducer
 const allReducers = combineReducers({
-    burger : burgerReducer
+    burgerReducer
 })
 
 // export all reducers
