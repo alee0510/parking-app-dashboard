@@ -1,0 +1,29 @@
+// import variable
+@import './variables.scss';
+
+// styling search
+.search-main-container {
+    display: flex;
+    height: 100%; width: 100%;
+    background-color: rgba($color: white, $alpha: 0.5);
+    border-radius: 2px;
+    color: white;
+    #search-icon {
+        @include flex (row, center, center);
+        height: 100%; width: 40px;
+    }
+    input {
+        width: calc(100% - 40px);
+        padding: 10px;
+        border: none;
+        background-color: rgba($color: white, $alpha: 0.1);
+        &:hover {
+            background-color: rgba($color: white, $alpha: 0.3);
+        }
+        &:focus {
+            outline: none;
+            color: black;
+            background-color: rgba($color: white, $alpha: 0.8);
+        }
+    }
+}

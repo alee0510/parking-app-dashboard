@@ -7,6 +7,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import ReduxThunk from 'redux-thunk'
+import allReducers from './reducers'
 
 // import main component
 import Main from './main'
@@ -14,9 +15,13 @@ import Main from './main'
 // import style
 import './styles/index.scss'
 
+// create store
+const store = createStore(allReducers, {}, composeWithDevTools(applyMiddleware(ReduxThunk)))
+
 ReactDOM.render(
-    <BrowserRouter>
-        <Main/>
-    </BrowserRouter>
-    ,document.getElementById('root')
+    <Provider store = {store}>
+        <BrowserRouter>
+            <Main/>
+        </BrowserRouter>
+    </Provider>, document.getElementById('root')
 )

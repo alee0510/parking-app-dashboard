@@ -1,0 +1,16 @@
+// import variable
+@import './variables.scss';
+
+// styling burger menu
+.burger-main-container {
+    @include flex (column, space-between, '');
+    width: 65%; height: 45%;
+    padding: 0px 0px;
+    #burger-top, #burger-middle, #burger-bottom {
+        @include animation-time (150ms);
+        background-color: white !important;
+        background-color: $gray220;
+        border-radius: 50px !important;
+        height: 3px;
+    }
+}

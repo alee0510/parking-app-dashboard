@@ -1,0 +1,68 @@
+import React from 'react'
+import { connect } from 'react-redux'
+import { Avatar } from '@material-ui/core'
+
+// import icons
+import Brightness4Icon from '@material-ui/icons/Brightness4'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+
+// import style
+import '../styles/appbar.scss'
+
+// import components
+import Burger from './burger'
+import Search from './search'
+
+// import action
+import { burgerAction } from '../actions'
+
+class AppBar extends React.Component {
+    state = {
+        burger : false
+    }
+
+    burgerClick = () => {
+        const { burger } = this.state
+        this.props.burgerAction(!burger)
+        this.setState({burger : !burger})
+    }
+
+    render () {
+        return (
+            <div className = 'appbar-main-container'>
+                <div 
+                    className = 'appbar-burger' 
+                    onClick = {this.burgerClick}>
+                    <Burger open = {this.props.open}/>
+                </div>
+                <div className = 'appbar-contents'>
+                    <div id = 'appbar-left'>
+                        <h1>Home</h1>
+                    </div>
+                    <div id = 'appbar-middle'>
+                        <Search/>
+                    </div>
+                    <div id = 'appbar-right'>
+                        <div id = 'theme'>
+                            <Brightness4Icon style = {{ height : 22, width : 22}}/> 
+                        </div>
+                        <div id = 'notification'>
+                            <NotificationsIcon style = {{ height : 22, width : 22}}/>
+                        </div>
+                        <div id = 'avatar'>
+                            <Avatar style = {{ height : 35, width : 35}}>U</Avatar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
+const mapStore = ({ burger }) => {
+    return {
+        open : burger.burger
+    }
+}
+
+export default connect(mapStore, { burgerAction })(AppBar)
