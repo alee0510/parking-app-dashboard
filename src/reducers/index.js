@@ -2,11 +2,11 @@
 import { combineReducers } from 'redux'
 
 // import reducers
-import { burgerReducer } from './componentReducers'
+import { burgerReducer, avatarReducer } from './componentReducers'
 
 // combine all reducer
 const allReducers = combineReducers({
-    burgerReducer
+    burgerReducer, avatarReducer
 })
 
 // export all reducers

@@ -25,6 +25,7 @@ class Drawer extends React.Component {
             this.props.burgerAction(false)
         }
     }
+    
     render () {
         const styles = {
             container : {

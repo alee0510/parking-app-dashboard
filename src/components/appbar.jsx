@@ -14,13 +14,19 @@ import Burger from './burger'
 import Search from './search'
 
 // import action
-import { burgerAction } from '../actions'
+import { burgerAction, avatarAction } from '../actions'
 
 class AppBar extends React.Component {
     burgerClick = () => {
-        const burger = this.props.open || false
+        const burger = this.props.burger || false
         this.props.burgerAction(!burger)
         console.log('burger-click')
+    }
+
+    avatarClick = () => {
+        const avatar = this.props.avatar || false
+        this.props.avatarAction(!avatar)
+        console.log('avatar-click')
     }
 
     render () {
@@ -29,7 +35,7 @@ class AppBar extends React.Component {
                 <div 
                     className = 'appbar-burger' 
                     onClick = {this.burgerClick}>
-                    <Burger open = {this.props.open}/>
+                    <Burger open = {this.props.burger}/>
                 </div>
                 <div className = 'appbar-contents'>
                     <div id = 'appbar-left'>
@@ -45,7 +51,7 @@ class AppBar extends React.Component {
                         <div id = 'notification'>
                             <NotificationsIcon style = {{ height : 22, width : 22}}/>
                         </div>
-                        <div id = 'avatar'>
+                        <div id = 'avatar' onClick = {this.avatarClick}>
                             <Avatar style = {{ height : 35, width : 35}}>U</Avatar>
                         </div>
                     </div>
@@ -55,10 +61,17 @@ class AppBar extends React.Component {
     }
 }
 
-const mapStore = ({ burgerReducer }) => {
+const mapStore = ({ burgerReducer, avatarReducer }) => {
     return {
-        open : burgerReducer.burger
+        burger : burgerReducer.burger,
+        avatar : avatarReducer.avatar
     }
 }
 
-export default connect(mapStore, { burgerAction })(AppBar)
+const mapDispatch = () => {
+    return {
+        burgerAction, avatarAction
+    }
+}
+
+export default connect(mapStore, mapDispatch())(AppBar)
