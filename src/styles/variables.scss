@@ -1,0 +1,67 @@
+// neutral colors
+$gray220 : #11100f;
+$gray210 : #161514;
+$gray190 : #201f1e;
+$gray180 : #252423;
+$gray170 : #292827;
+$gray160 : #323130;
+$gray150 : #3b3a39;
+$gray140 : #484644;
+$gray130 : #605e5c;
+$gray120 : #797775;
+$gray110 : #8a8886;
+$gray100 : #979593;
+$gray90 : #a19f9d;
+$gray80 : #b3b0ad;
+$gray70 : #b3b0ad;
+$gray60 : #c8c6c4;
+$gray50 : #d2d0ce;
+$gray40 : #e1dfdd;
+$gray30 : #edebe9;
+$gray20 : #f3f2f1;
+$gray10 : #faf9f8;
+
+// other colors
+$success : #dff6dd;
+$warning : #fff4ce;
+$error : #d83b01;
+$cyanBlue : #0078d4;
+$blue10 : #4f6bed;
+$magentaPink : #e3008c;
+$cyan20 : #038387;
+$cyan30 : #005b70;
+$green10 : #498205;
+$blueMagenta30 : #5c2e91;
+$blueMagenta20 : #8764b8;
+
+// settings
+@mixin center {
+    position: absolute;
+    top : 0%; right: 0%;
+    transform: translate(-50%, -50%);
+}
+@mixin flex ($direction, $justify, $align) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+}
+
+// animation
+@mixin animation-time ($time) {
+    transition: all $time cubic-bezier(0, 0.995, 0.99, 1) !important;
+    -webkit-transition: all $time cubic-bezier(0, 0.995, 0.99, 1) !important
+}
+
+// depth
+@mixin depth-2 {
+    box-shadow: 0px 2px 2px 0px rgba($color: $gray220, $alpha: 0.1);
+}
+@mixin depth-4 {
+    box-shadow: 0px 4px 8px 0px rgba($color: $gray220, $alpha: 0.1);
+}
+@mixin depth-6 {
+    box-shadow: 0px 8px 16px 0px rgba($color: $gray220, $alpha: 0.1);
+}
+@mixin depth-8 {
+    box-shadow: 0px 16px 32px 0px rgba($color: $gray220, $alpha: 0.1);
+}
