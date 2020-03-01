@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import BubbleChartIcon from '@material-ui/icons/BubbleChart'
 import PeopleIcon from '@material-ui/icons/People'
 import DriveEtaIcon from '@material-ui/icons/DriveEta'
+import LocationOnIcon from '@material-ui/icons/LocationOn'
 import GradeIcon from '@material-ui/icons/Grade'
 import HistoryIcon from '@material-ui/icons/History'
 import SettingsIcon from '@material-ui/icons/Settings'
@@ -72,6 +73,12 @@ class Drawer extends React.Component {
                             <DriveEtaIcon/>
                         </div>
                         <h1 style = {styles.text}>Vehicles</h1>
+                    </div>
+                    <div id = 'item-1' style = {styles.items}>
+                        <div id = 'location-icon'>
+                            <LocationOnIcon/>
+                        </div>
+                        <h1 style = {styles.text}>Parking Area</h1>
                     </div>
                     <div id = 'item-1' style = {styles.items}>
                         <div id = 'rating-icon'>

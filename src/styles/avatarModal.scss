@@ -5,10 +5,11 @@
 .avatar-modal-main-container {
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: fixed;
+    // position: absolute;
     top: 60px; right: 15px;
     height: 300px; width: 230px;
-    z-index: 5;
+    z-index: 4;
     background-color: $gray20;
     @include depth-6;
     @include animation-time(250ms);

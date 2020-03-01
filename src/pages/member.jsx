@@ -6,6 +6,9 @@ import React from 'react'
 // import ClearIcon from '@material-ui/icons/Clear'
 // import CheckIcon from '@material-ui/icons/Check'
 
+// import components
+import TabMenu from '../components/tabs'
+
 // import style
 import '../styles/member.scss'
 
@@ -13,7 +16,8 @@ class Member extends React.Component {
     render () {
         return (
             <div className = 'member-main-container'>
-                Member
+                <h1>Member</h1>
+                <TabMenu/>
             </div>
         )
     }

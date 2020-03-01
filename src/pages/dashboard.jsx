@@ -5,6 +5,9 @@ import AppBar from '../components/appbar'
 import Drawer from '../components/drawer'
 import AvatarModal from '../components/avatarModal'
 
+// import pages
+import Member from './member'
+
 // import style
 import '../styles/dashboard.scss'
 
@@ -15,6 +18,7 @@ class Dashboard extends React.Component {
                 <AppBar/>
                 <Drawer/>
                 <AvatarModal/>
+                <Member/>
             </div>
         )
     }

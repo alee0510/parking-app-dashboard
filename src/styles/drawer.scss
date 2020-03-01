@@ -3,8 +3,11 @@
 
 // styling drawer
 .drawer-main-container {
+    position: fixed;
+    top: 50px; left: 0px;
     height: calc(100vh - 50px);
     // max-width: 300px;
+    z-index: 4;
     background-color: $gray20;
     @include depth-6;
     @include animation-time(250ms);
@@ -13,8 +16,7 @@
         @include animation-time(250ms);
         height: 90%; width: 100%;
         padding: 0px 20px;
-        #item-1, #item-2, #item-3,
-        #item-4, #item-5 {
+        #item-1 {
             @include flex (row, '', center);
             @include animation-time(250ms);
             height: 50px; width: 100%;
@@ -57,7 +59,7 @@
         }
     }
     // icons style
-    #dash-icon, #people-icon, #car-icon,
+    #dash-icon, #people-icon, #car-icon,#location-icon,
     #rating-icon, #history-icon, #setting-icon,
     #exit-icon {
         @include flex (row, center, center);
