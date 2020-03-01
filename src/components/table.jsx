@@ -1,5 +1,5 @@
 import React from 'react'
-import { Select, MenuItem } from '@material-ui/core'
+import { Select, MenuItem, Typography } from '@material-ui/core'
 
 // import icons
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
@@ -16,21 +16,21 @@ const Table = (props) => {
     const pagination = () => {
         return (
             <div className = 'pagination'>
-                <h1>row per-page</h1>
+                <Typography style = {{marginRight : 15}}>row per-page</Typography>
                 <Select
                     value = {props.rowPerPage}
-                    onChange = {props.handleChange}
+                    onChange = {(event) => props.handleOption(event.target.value)}
                     disableUnderline = {true}
                 >
-                    {props.optionItems.map((item, index) => {
+                    {props.menuItems.map((item, index) => {
                         return <MenuItem key = {index} value={item}>{item}</MenuItem>
                     })}
                 </Select>
-                <div id = 'previous' onClick = {props.hanldePrevious}>
+                <div id = 'previous'>
                     <NavigateBeforeIcon/>
                 </div>
-                <h1>{props.page} of {props.totalPage}</h1>
-                <div id = 'next' onClick = {props.hanldeNext}>
+                <Typography>{props.page} of {props.totalPage}</Typography>
+                <div id = 'next'>
                     <NavigateNextIcon/>
                 </div>
             </div>

@@ -8,7 +8,7 @@ import { getTotalUserReducer, getUserReducer } from './memberReducers'
 // combine all reducer
 const allReducers = combineReducers({
     burgerReducer, avatarReducer,
-    getTotalUserReducer, getUserReducer
+    totalAccount : getTotalUserReducer, account : getUserReducer
 })
 
 // export all reducers

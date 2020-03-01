@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs, Tab, makeStyles, withStyles } from '@material-ui/core'
+import { Tabs, Tab, withStyles } from '@material-ui/core'
 
 // styling Tabs and Tab
 const StyledTabs = withStyles({
@@ -30,15 +30,9 @@ const StyledTab = withStyles(theme => ({
 }))(props => <Tab disableRipple {...props} style = {{minWidth : 80, minHeight : 40}}/>)
 
 const TabMenu = (props) => {
-    const [value, setValue] = React.useState(0)
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue)
-    }
-
     return (
         <div className = 'tab-main-conatiner'>
-            <StyledTabs value = {value} onChange = {handleChange}>
+            <StyledTabs value = {props.value} onChange = {props.handleTab}>
                 <StyledTab label = 'Account'/>
                 <StyledTab label = 'Profile'/>
             </StyledTabs>

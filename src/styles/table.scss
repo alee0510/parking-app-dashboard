@@ -1,0 +1,64 @@
+// import variable
+@import './variables.scss';
+
+// styling table
+.table-main-container {
+    width: 100%; height: 100%;
+    background-color: $gray20;
+    @include depth-4;
+    .table-contents {
+        overflow: auto;
+        height: calc(100% - 50px); width: 100%;
+        table {
+            border-collapse: collapse;
+            position: relative;
+            width: 100%;
+            tr th, tr td {
+                border-collapse: collapse;
+                text-align: left;
+                padding: 5px;
+                height: 45px;
+                border-bottom: 1px solid rgba($color: $gray220, $alpha: 0.05);
+                &:first-child {
+                    width: 50px;
+                }
+                &:last-child {
+                    width: 100px;
+                }
+            }
+            tr th {
+                position: sticky;
+                text-transform: capitalize;
+                font-size: 16px;
+                font-weight: 600;
+                top: 0px;
+                z-index: 3;
+                background-color: $gray20;
+                @include depth-2;
+            }
+            tr td {
+                font-size: 14px;
+            }
+            tbody tr {
+                @include animation-time(200ms);
+                &:hover {
+                    @include depth-6;
+                    transform: scale(1.01);
+                }
+            }
+        }
+    }
+    .pagination {
+        @include flex (row, flex-end, center);
+        width: 100%; height: 50px;
+        border-top: 1px solid rgba($color: $gray220, $alpha: 0.1);
+        #previous, #next {
+            margin: 0px 20px;
+            cursor: pointer;
+            @include animation-time(150ms);
+            &:active {
+                transform: scale(0.6);
+            }
+        }
+    }
+}
