@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { TOTAL_USER, GET_USER, NEXT_USER, PREV_USER } from '../helpers/actionTypes'
+import { TOTAL_USER, GET_USER, NEXT_USER, PREV_USER, GET_PROFILE, NEXT_PROFILE, PREV_PROFILE } from '../helpers/actionTypes'
 import { API_URL_ADMIN } from '../helpers/apiUrl'
 
 export const getUserAction = (limit) => {
@@ -42,6 +42,48 @@ export const prevUserAction = (id, limit) => {
             dispatch({
                 type : PREV_USER,
                 payload : user.data
+            })
+        } catch (err) {
+            console.log(err.response.data || err)
+        }
+    }
+}
+
+export const getProfileAction = (limit) => {
+    return async (dispatch) => {
+        try {
+            let profile = await Axios.get(API_URL_ADMIN + `/get/users/profile/?limit=${limit}`)
+            dispatch({
+                type : GET_PROFILE,
+                payload : profile.data
+            })
+        } catch (err) {
+            console.log(err.response.data || err)
+        }
+    }
+}
+
+export const nextProfileAction = (id, limit) => {
+    return async (dispatch) => {
+        try {
+            let profile = await Axios.get(API_URL_ADMIN + `/get/users/profile/next/?id=${id}&limit=${limit}`)
+            dispatch({
+                type : NEXT_PROFILE,
+                payload : profile.data
+            })
+        } catch (err) {
+            console.log(err.response.data || err)
+        }
+    }
+}
+
+export const prevProfileAction = (id, limit) => {
+    return async (dispatch) => {
+        try {
+            let profile = await Axios.get(API_URL_ADMIN + `/get/users/profile/prev/?id=${id}&limit=${limit}`)
+            dispatch({
+                type : PREV_PROFILE,
+                payload : profile.data
             })
         } catch (err) {
             console.log(err.response.data || err)
