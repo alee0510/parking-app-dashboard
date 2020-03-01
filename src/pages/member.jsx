@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 // import icons
-// import EditIcon from '@material-ui/icons/Edit'
-// import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
 // import ClearIcon from '@material-ui/icons/Clear'
 // import CheckIcon from '@material-ui/icons/Check'
 
@@ -21,7 +21,9 @@ class Member extends React.Component {
     state = {
         tabValue : 0,
         page : 1,
-        rowPerPage : 10
+        rowPerPage : 10,
+        selectedId : null,
+        hoverId : null
     }
 
     componentDidMount () {
@@ -62,16 +64,36 @@ class Member extends React.Component {
         this.props.prevUserAction(firstId, rowPerPage)
     }
 
+    handleMouseEnter = (id) => {
+        this.setState({hover : true, hoverId : id})
+    }
+
     tableAccount = () => {
-        return this.props.account.map((value, index) => {
+        const { hoverId } = this.state
+        return this.props.account.map(({id, username, email, role, status}, index) => {
             return (
-                <tr key = {index}>
+                <tr key = {index}
+                    onMouseEnter = { _ => this.setState({hoverId : id})}
+                    onMouseLeave = { _ => this.setState({hoverId : 0})}
+                >
                     <td></td>
-                    <td>{value.username}</td>
-                    <td>{value.email}</td>
-                    <td>{value.role === 2 ? 'admin' : 'user'}</td>
-                    <td>{value.status === 0 ? 'not-active' : 'active'}</td>
-                    <td></td>
+                    <td>{username}</td>
+                    <td>{email}</td>
+                    <td>{role === 2 ? 'admin' : 'user'}</td>
+                    <td>{status === 0 ? 'not-active' : 'active'}</td>
+                    <td>
+                        <div id = 'edit-icon' 
+                            style = {{display : hoverId === id ? 'flex' : 'none'}}
+                            onClick = { _ => this.setState({selectedId : id})}
+                        >
+                            <EditIcon/>
+                        </div>
+                        <div id = 'delete-icon' 
+                            style = {{display : hoverId === id ? 'flex' : 'none'}}
+                        >
+                            <DeleteIcon/>
+                        </div>
+                    </td>
                 </tr>
             )
         })
@@ -79,6 +101,9 @@ class Member extends React.Component {
 
     render () {
         const { tabValue, page, rowPerPage } = this.state
+        // console.log('tab-value', tabValue)
+        // console.log('hover-id', hoverId)
+        // console.log('selected-id', selectedId)
         return (
             <div className = 'member-main-container'>
                 <h1>Member</h1>

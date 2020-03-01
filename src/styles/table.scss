@@ -13,7 +13,9 @@
             border-collapse: collapse;
             position: relative;
             width: 100%;
+            // background-color: blue;
             tr th, tr td {
+                min-width: 100%;
                 border-collapse: collapse;
                 text-align: left;
                 padding: 5px;
@@ -23,7 +25,12 @@
                     width: 50px;
                 }
                 &:last-child {
-                    width: 100px;
+                    display: flex;
+                    padding: 0px;
+                    justify-content: center;
+                    max-width: 100px;
+                    width: 50px;
+                    // background-color: red;
                 }
             }
             tr th {
@@ -38,6 +45,16 @@
             }
             tr td {
                 font-size: 14px;
+                #edit-icon, #delete-icon {
+                    display: none;
+                    height: 100%; width: 50px;
+                    color: $gray130;
+                    cursor: pointer;
+                    @include flex(row, center, center);
+                    &:hover {
+                        background-color: $gray40;
+                    }
+                }
             }
             tbody tr {
                 @include animation-time(200ms);
