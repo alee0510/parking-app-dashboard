@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Select, MenuItem } from '@material-ui/core'
+import { Select, MenuItem, Avatar } from '@material-ui/core'
 
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
@@ -9,7 +9,9 @@ import ClearIcon from '@material-ui/icons/Clear'
 import CheckIcon from '@material-ui/icons/Check'
 
 // import action
-import { getUserAction, nextUserAction, prevUserAction } from '../actions'
+import { getUserAction, nextUserAction, prevUserAction,
+    getProfileAction, nextProfileAction, prevProfileAction
+} from '../actions'
 
 // import components
 import TabMenu from '../components/tabs'
@@ -33,37 +35,43 @@ class Member extends React.Component {
     }
 
     handleTab = () => {
-        const { tabValue } = this.state
-        this.setState({tabValue : tabValue ? 0 : 1})
+        const { tabValue, rowPerPage } = this.state
+        this.setState({tabValue : tabValue ? 0 : 1, rowPerPage : 10, page : 1})
+        this.props.getProfileAction(rowPerPage)
     }
 
     handleOption = (value) => {
         this.setState({rowPerPage : value, page : 1})
-        this.props.getUserAction(value)
+        this.state.tabValue ? this.props.getProfileAction(value) 
+        : this.props.getUserAction(value)
     }
 
     handleNext = () => {
-        const { page, rowPerPage } = this.state
+        const { page, rowPerPage, tabValue } = this.state
         // check page
         if (page * rowPerPage >= this.props.total) return null
         this.setState({page : page + 1})
 
         // get last id and do query
-        const lastId = this.props.account[rowPerPage - 1].id
-        console.log('lastId', lastId)
-        this.props.nextUserAction(lastId, rowPerPage)
+        const lastId = tabValue ? this.props.profile[rowPerPage - 1].id 
+        : this.props.account[rowPerPage - 1].id
+        // console.log('lastId', lastId)
+        tabValue ? this.props.nextProfileAction(lastId, rowPerPage) 
+        : this.props.nextUserAction(lastId, rowPerPage)
     }
 
     handlePrevious = () => {
-        const { page, rowPerPage } = this.state
+        const { page, rowPerPage, tabValue } = this.state
         // check page
         if (page <= 1) return null
         this.setState({page : page - 1})
 
         // get first id and do query
-        const firstId = this.props.account[0].id
-        console.log('firstId', firstId)
-        this.props.prevUserAction(firstId, rowPerPage)
+        const firstId = tabValue ? this.props.profile[0].id 
+        : this.props.account[0].id
+        // console.log('firstId', firstId)
+        tabValue ? this.props.prevProfileAction(firstId, rowPerPage) 
+        : this.props.prevUserAction(firstId, rowPerPage)
     }
 
     renderOption = () => {
@@ -138,6 +146,22 @@ class Member extends React.Component {
         })
     }
 
+    tableProfile = () => {
+        return this.props.profile.map(({id, image, username, name, birthdate, phone, address}, index) => {
+            return (
+                <tr key = {id}>
+                    <td></td>
+                    <td>{username}</td>
+                    <td>{name}</td>
+                    <td>{birthdate.split('T')[0]}</td>
+                    <td>{phone}</td>
+                    <td>{address}</td>
+                    <td></td>
+                </tr>
+            )
+        })
+    }
+
     render () {
         const { tabValue, page, rowPerPage } = this.state
         // console.log('tab-value', tabValue)
@@ -152,14 +176,15 @@ class Member extends React.Component {
                 <div  className = 'table'>
                     <Table
                         className = 'table'
-                        headerItems = {['username', 'email', 'role', 'status']}
+                        headerItems = {tabValue ? ['username', 'name', 'birthdate', 'phone', 'address'] 
+                        : ['username', 'email', 'role', 'status']}
                         menuItems = {[10, 15, 20, 25, 30]}
                         optionValue = {rowPerPage}
                         handleOption = {this.handleOption}
                         page = {page}
                         rowPerPage = {rowPerPage}
                         totalPage = {Math.ceil(this.props.total/rowPerPage)}
-                        tableBody = {this.tableAccount}
+                        tableBody = {tabValue ? this.tableProfile : this.tableAccount}
                         handlePrevious = {this.handlePrevious}
                         handleNext = {this.handleNext}
                     />
@@ -169,16 +194,18 @@ class Member extends React.Component {
     }
 }
 
-const mapStore = ({ account, totalAccount }) => {
+const mapStore = ({ account, totalAccount, profile }) => {
     return {
         account : account.user,
-        total : totalAccount.userTotal
+        total : totalAccount.userTotal,
+        profile : profile.profile
     }
 }
 
 const mapDispatch = () => {
     return {
-        getUserAction, nextUserAction, prevUserAction
+        getUserAction, nextUserAction, prevUserAction,
+        getProfileAction, nextProfileAction, prevProfileAction
     }
 }
 
