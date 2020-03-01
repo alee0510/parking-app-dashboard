@@ -26,11 +26,11 @@ const Table = (props) => {
                         return <MenuItem key = {index} value={item}>{item}</MenuItem>
                     })}
                 </Select>
-                <div id = 'previous'>
+                <div id = 'previous' onClick = {props.handlePrevious}>
                     <NavigateBeforeIcon/>
                 </div>
                 <Typography>{props.page} of {props.totalPage}</Typography>
-                <div id = 'next'>
+                <div id = 'next' onClick = {props.handleNext}>
                     <NavigateNextIcon/>
                 </div>
             </div>

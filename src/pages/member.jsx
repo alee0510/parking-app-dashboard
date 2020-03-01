@@ -25,7 +25,6 @@ class Member extends React.Component {
     }
 
     componentDidMount () {
-        console.log('ok')
         this.props.getUserAction(this.state.rowPerPage)
     }
 
@@ -39,7 +38,7 @@ class Member extends React.Component {
         this.props.getUserAction(value)
     }
 
-    hanldeNext = () => {
+    handleNext = () => {
         const { page, rowPerPage } = this.state
         // check page
         if (page * rowPerPage >= this.props.total) return null
@@ -58,9 +57,9 @@ class Member extends React.Component {
         this.setState({page : page - 1})
 
         // get first id and do query
-        const firstId = this.props.data[0].id
+        const firstId = this.props.account[0].id
         console.log('firstId', firstId)
-        this.props.prevData(firstId, rowPerPage)
+        this.props.prevUserAction(firstId, rowPerPage)
     }
 
     tableAccount = () => {
@@ -97,8 +96,8 @@ class Member extends React.Component {
                         rowPerPage = {rowPerPage}
                         totalPage = {Math.ceil(this.props.total/rowPerPage)}
                         tableBody = {this.tableAccount}
-                        // handlePrevious = {this.handlePrevious}
-                        // handleNext = {this.handleNext}
+                        handlePrevious = {this.handlePrevious}
+                        handleNext = {this.handleNext}
                     />
                 </div>
             </div>
