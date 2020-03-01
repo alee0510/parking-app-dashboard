@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Select, MenuItem } from '@material-ui/core'
 
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-// import ClearIcon from '@material-ui/icons/Clear'
-// import CheckIcon from '@material-ui/icons/Check'
+import ClearIcon from '@material-ui/icons/Clear'
+import CheckIcon from '@material-ui/icons/Check'
 
 // import action
 import { getUserAction, nextUserAction, prevUserAction } from '../actions'
@@ -23,7 +24,8 @@ class Member extends React.Component {
         page : 1,
         rowPerPage : 10,
         selectedId : null,
-        hoverId : null
+        hoverId : null,
+        role : 3
     }
 
     componentDidMount () {
@@ -64,13 +66,50 @@ class Member extends React.Component {
         this.props.prevUserAction(firstId, rowPerPage)
     }
 
-    handleMouseEnter = (id) => {
-        this.setState({hover : true, hoverId : id})
+    renderOption = () => {
+        return (
+            <Select 
+                value = {this.state.role} 
+                onChange = {(e) => this.setState({role : e.target.value})}
+                disableUnderline = {true}
+            >
+                <MenuItem value = {1}>super admin</MenuItem>
+                <MenuItem value = {2}>admin</MenuItem>
+                <MenuItem value = {3}>user</MenuItem>
+            </Select>
+        )
     }
 
     tableAccount = () => {
-        const { hoverId } = this.state
+        const { hoverId, selectedId } = this.state
         return this.props.account.map(({id, username, email, role, status}, index) => {
+            if (id === selectedId) {
+                return (
+                    <tr key = {index}
+                        onMouseEnter = { _ => this.setState({hoverId : id})}
+                        onMouseLeave = { _ => this.setState({hoverId : 0})}
+                    >
+                        <td></td>
+                        <td>{username}</td>
+                        <td>{email}</td>
+                        <td>{this.renderOption()}</td>
+                        <td>{status === 0 ? 'not-active' : 'active'}</td>
+                        <td>
+                            <div id = 'check-icon' 
+                                style = {{display : hoverId === id ? 'flex' : 'none'}}
+                            >
+                                <CheckIcon/>
+                            </div>
+                            <div id = 'clear-icon' 
+                                style = {{display : hoverId === id ? 'flex' : 'none'}}
+                                onClick = { _ => this.setState({ selectedId : null})}
+                            >
+                                <ClearIcon/>
+                            </div>
+                        </td>
+                    </tr>   
+                )
+            }
             return (
                 <tr key = {index}
                     onMouseEnter = { _ => this.setState({hoverId : id})}
