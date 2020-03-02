@@ -1,0 +1,39 @@
+// import variable
+@import './variables.scss';
+
+// styling header
+.header-main-container {
+    @include flex (row, space-between, center);
+    height: 120px; width: 100%;
+    padding: 20px;
+    // background-color: yellow;
+    position: sticky;
+    .logo {
+        height: 80px; width: auto;
+        // background-color: blue;
+        @include flex (row, center, center);
+        #img-logo {
+            height: 100%; width: auto;
+            object-fit: cover;
+        }
+    }
+    .action-button {
+        @include flex (row, space-evenly, center);
+        height: 80px; width: 250px;
+        // background-color: pink;
+        #divider {
+            height: 40%; width: 2px;
+            background-color: $gray10;
+        }
+        h1 {
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: $gray10;
+            @include animation-time (250ms);
+            &:hover {
+                font-weight: 700;
+            }
+        }
+    }
+}

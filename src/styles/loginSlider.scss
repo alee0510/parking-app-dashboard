@@ -1,0 +1,80 @@
+// import variable
+@import './variables.scss';
+
+// styling slider
+.login-slider-container {
+    position: absolute;
+    top: 0px; right: 0px;
+    height: 100%;
+    padding: 50px;
+    background-color: rgba($color: $gray10, $alpha: 0.6);
+    backdrop-filter: blur(10px);
+    @include depth-6;
+    @include animation-time(250ms);
+    .button-close {
+        position: absolute;
+        right: 50px;
+        height: 50px; width: 50px;
+        cursor: pointer;
+    }
+    form {
+        width: 100%; height: 100%;
+        // background-color: pink;
+        padding: 50px;
+        #title {
+            text-align: center;
+            padding: 15% 0px;
+            font-size: 42px;
+            font-weight: 800;
+        }
+        #username, #password {
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: capitalize;
+            padding: 15px 0px;
+        }
+        .form-input-username, .form-input-password {
+            display: flex;
+            height: 50px; width: 100%;
+            background-color: rgba($color: $gray10, $alpha: 0.7);
+            margin-bottom: 10px;
+            border-radius: 5px;
+            @include depth-4;
+            #account-icon, #visibility-icon {
+                @include flex (row, center, center);
+                width: 50px; height: 50px;
+            }
+            input {
+                height: 100%; width: calc(100% - 50px);
+                padding: 10px;
+                font-size: 16px;
+                border: none;
+                border-radius: 0px 5px 5px 0px;
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+        .button {
+            display: flex;
+            justify-content: space-between;
+            width: 100%; height: auto;
+            margin-top: 25%;
+            #button-sign-in, #button-sign-up {
+                height: 50px; width: 48%;
+                border-radius: 5px;
+                color: $gray10;
+                @include animation-time(250ms);
+                &:hover {
+                    @include depth-6;
+                }
+            }
+            #button-sign-in {
+                background-color: $cyanBlue;
+            }
+            #button-sign-up {
+                background-color: $magentaPink;
+            }
+        }
+    }
+}
