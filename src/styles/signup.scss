@@ -1,0 +1,120 @@
+// import variable
+@import './variables.scss';
+
+// styling signup
+.signup-main-container {
+    height: 100vh; width: 100vw;
+    background: url('http://localhost:3000/images/aachal-YoWA3cOjOYM-unsplash-edit.jpg') no-repeat center fixed;
+    background-size: cover;
+    .form-sign-up {
+        @include center;
+        display: flex;
+        align-items: center;
+        width: 50%; height: 80%;
+        background-color: rgba($color: $gray10, $alpha: 0.6);
+        backdrop-filter: blur(10px);
+        border-radius: 5px;
+        position: relative;
+        .signup-footer {
+            position: absolute;
+            bottom: 0px;
+            height: 50px; width: 100%;
+            // background-color: yellow;
+            #footer {
+                @include flex(row, center, center);
+                height: 100%; width: 100%;
+                text-decoration: none;
+                h1 {
+                    font-size: 15px;
+                    font-weight: 600;
+                    margin-left: 5px;
+                    cursor: pointer;
+                    @include animation-time(150ms);
+                    &:hover {
+                        font-size: 16px;
+                        color: $blue10;
+                    }
+                    &:active {
+                        font-size: 14.5px;
+                    }
+                }
+            }
+        }
+        .logo-box {
+            width: 40%; height: 100%;
+            // background-color: red;
+            @include flex (row, center, center);
+            #logo {
+                width: 60%; height: auto;
+                object-fit: cover;
+            }
+        }
+        form {
+            width: 60%; height: 100%;
+            // background-color: pink;
+            padding: 5%;
+            #title {
+                font-size: 42px;
+                text-transform: capitalize;
+                font-weight: 600;
+                padding-bottom: 10%;
+            }
+            #username, #email, #password {
+                text-transform: capitalize;
+                font-size: 16px;
+            }
+            .form-input-username, .form-input-email,
+            .form-input-password, .form-input-confirmpassword {
+                @include depth-4;
+                display: flex;
+                height: 50px; width: 100%;
+                background-color: $gray40;
+                margin: 15px 0px;
+                border-radius: 5px;
+                input {
+                    border: none;
+                    width: calc(100% - 50px);
+                    border-radius: 0px 5px 5px 0px;
+                    padding: 10px;
+                    font-size: 16px;
+                    background-color: rgba($color: $gray20, $alpha: 0.3);
+                    @include animation-time (100ms);
+                    &:hover {
+                        background-color: rgba($color: $gray20, $alpha: 0.7);
+                    }
+                    &:focus {
+                        outline: none;
+                        background-color: rgba($color: $gray10, $alpha: 0.9);
+                    }
+                }
+            }
+            #account-icon, #email-icon, #visibility-icon {
+                height: 50px; width: 50px;
+                color: $gray150;
+                @include flex (row, center, center);
+            }
+            #visibility-icon {
+                cursor: pointer;
+                @include animation-time(150ms);
+                &:active {
+                    transform: scale(0.9);
+                }
+            }
+            .button-container {
+                @include flex (row, flex-end, center);
+                width: 100%; height: 50px;
+                margin-top: 10%;
+                #signup-button {
+                    width: 40%; height: 100%;
+                    border-radius: 5px;
+                    color: $gray10;
+                    background-color: $blueMagenta30;
+                    @include animation-time(150ms);
+                    &:hover{
+                        @include depth-6;
+                    }
+                }
+            }
+        }
+    }
+}

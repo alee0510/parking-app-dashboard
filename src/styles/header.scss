@@ -5,7 +5,7 @@
 .header-main-container {
     @include flex (row, space-between, center);
     height: 120px; width: 100%;
-    padding: 20px;
+    padding: 20px 40px;
     // background-color: yellow;
     position: sticky;
     .logo {
@@ -30,9 +30,10 @@
             font-size: 16px;
             font-weight: 600;
             color: $gray10;
-            @include animation-time (250ms);
+            @include animation-time (150ms);
             &:hover {
-                font-weight: 700;
+                font-size: 17px;
+                color: $error;
             }
         }
     }

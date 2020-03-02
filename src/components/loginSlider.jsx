@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button } from '@material-ui/core'
+import { Link } from 'react-router-dom'
+import { Button, makeStyles } from '@material-ui/core'
 
 // import icons
 import ClearIcon from '@material-ui/icons/Clear'
@@ -11,12 +12,14 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import '../styles/loginSlider.scss'
 
 const LoginSlider = (props) => {
+    const [visible, setVisible] = React.useState(false)
+
     const style = {
         container : {
-            display : props.hide ? 'block' : 'none',
-            width : props.hide ? '35%' : 0
+            display : props.hide ? 'block' : 'none'
         }
     }
+
     return (
         <div className = 'login-slider-container' style = {style.container}>
             <div className = 'button-close' onClick = {props.handleClose}>
@@ -32,15 +35,21 @@ const LoginSlider = (props) => {
                     <input type = 'text' refs = 'username' placeholder = 'e.g. username.'/>
                 </div>
                 <h1 id = 'password'>Password</h1>
-                <div className = 'form-input-password'>
-                    <div id = 'visibility-icon'>
-                        <VisibilityIcon/>
+                <div className = 'form-input-password' >
+                    <div id = 'visibility-icon' onClick = { _ => setVisible(!visible)}>
+                        {visible ? <VisibilityIcon/> : <VisibilityOffIcon/>}
                     </div>
-                    <input type = 'password' refs = 'passsword' placeholder = 'e.g. xYzs190.'/>
+                    <input 
+                        type = {visible ? 'text' : 'password'} 
+                        refs = 'passsword' 
+                        placeholder = 'e.g. xYzs190.'
+                    />
                 </div>
                 <div className = 'button'>
                     <Button id = 'button-sign-in'>Sign-In</Button>
-                    <Button id = 'button-sign-up'>Sign-Up</Button>
+                    <Link to = 'signup' id = 'link-sign-up'>
+                        <Button id = 'button-sign-up'>Sign-Up</Button>
+                    </Link>
                 </div>
             </form>
         </div>
