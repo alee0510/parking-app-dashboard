@@ -5,8 +5,10 @@ import { LOG_IN, LOG_OUT, STAY_LOGIN } from '../helpers/actionTypes'
 export const loginAction = (body) => {
     return async (dispatch) => {
         try {
-            let { data, headers } = await Axios.get(API_URL_USER + '/login', body)
+            let { data, headers } = await Axios.post(API_URL_USER + '/login', body)
             console.log(headers['auth-token'])
+            localStorage.setItem('id', data.id)
+            localStorage.setItem('role', data.role)
             localStorage.setItem('token', headers['auth-token'])
             dispatch({
                 type : LOG_IN,
@@ -22,7 +24,7 @@ export const loginAction = (body) => {
     }
 }
 
-export const registerAction = (body) => {
+export const registerAction = async (body) => {
     try {
         // post user account
         let { data } = await Axios.post(API_URL_USER + '/register', {
@@ -33,7 +35,7 @@ export const registerAction = (body) => {
 
         // initialize user profile
         const profile = {
-            id : postUser.data.id, 
+            id : data.id, 
             name : body.name,
             image : null,
             birthdate : null,

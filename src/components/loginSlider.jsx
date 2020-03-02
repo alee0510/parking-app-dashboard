@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { Button, makeStyles } from '@material-ui/core'
 
 // import icons
@@ -8,16 +9,31 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
+// import action
+import { loginAction } from '../actions'
+
 // import style
 import '../styles/loginSlider.scss'
 
 const LoginSlider = (props) => {
     const [visible, setVisible] = React.useState(false)
 
+    // define ref
+    let username = React.createRef()
+    let password = React.createRef()
+
     const style = {
         container : {
             display : props.hide ? 'block' : 'none'
         }
+    }
+
+    const handelSignIn = () => {
+        console.log(username.current.value, password.current.value)
+        props.loginAction({
+            username : username.current.value, 
+            password : password.current.value
+        })
     }
 
     return (
@@ -32,7 +48,7 @@ const LoginSlider = (props) => {
                     <div id = 'account-icon'>
                         <AccountBoxIcon/>
                     </div>
-                    <input type = 'text' refs = 'username' placeholder = 'e.g. username.'/>
+                    <input type = 'text' ref = {username} placeholder = 'e.g. username.'/>
                 </div>
                 <h1 id = 'password'>Password</h1>
                 <div className = 'form-input-password' >
@@ -41,12 +57,12 @@ const LoginSlider = (props) => {
                     </div>
                     <input 
                         type = {visible ? 'text' : 'password'} 
-                        refs = 'passsword' 
+                        ref = {password}
                         placeholder = 'e.g. xYzs190.'
                     />
                 </div>
                 <div className = 'button'>
-                    <Button id = 'button-sign-in'>Sign-In</Button>
+                    <Button id = 'button-sign-in' onClick = {handelSignIn}>Sign-In</Button>
                     <Link to = 'signup' id = 'link-sign-up'>
                         <Button id = 'button-sign-up'>Sign-Up</Button>
                     </Link>
@@ -56,4 +72,4 @@ const LoginSlider = (props) => {
     )
 }
 
-export default LoginSlider
+export default connect(null, { loginAction })(LoginSlider)

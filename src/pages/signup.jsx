@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '@material-ui/core'
 
 // import icons
+import FaceIcon from '@material-ui/icons/Face';
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import MailIcon from '@material-ui/icons/Mail'
 import VisibilityIcon from '@material-ui/icons/Visibility'
@@ -24,13 +25,24 @@ class SignUp extends React.Component {
                 <div className = 'form-sign-up'>
                     <form>
                         <h1 id = 'title'>Create your Parking Account</h1>
+                        <h1 id = 'name'>Full Name</h1>
+                        <div className = 'form-input-name'>
+                            <div id = 'account-icon'>
+                                <FaceIcon/>
+                            </div>
+                            <input
+                                autoFocus 
+                                type = 'text' 
+                                refs = 'name' 
+                                placeholder = 'e.g. John Doe.'
+                            />
+                        </div>
                         <h1 id = 'username'>Username</h1>
                         <div className = 'form-input-username'>
                             <div id = 'account-icon'>
                                 <AccountBoxIcon/>
                             </div>
                             <input
-                                autoFocus 
                                 type = 'text' 
                                 refs = 'username' 
                                 placeholder = 'e.g. username.'
