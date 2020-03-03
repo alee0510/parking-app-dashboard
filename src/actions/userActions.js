@@ -60,7 +60,7 @@ export const registerAction = async (body) => {
         if (res) console.log('register success.')
 
     } catch (err) {
-        console.log(err.response.data || err)
+        console.log(err.response ? err.response.data : err)
     }
 }
 
@@ -78,7 +78,7 @@ export const stayLogin = () => {
                 payload : data
             })
         } catch (err) {
-            console.log(err.response.data || err)
+            console.log(err.response ? err.response.data : err)
         }
     }
 }
