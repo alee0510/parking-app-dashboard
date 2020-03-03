@@ -11,7 +11,7 @@ import '../styles/home.scss'
 
 class Home extends React.Component {
     state = {
-        loginSlider : false
+        loginSlider : true
     }
 
     handleLoginSlider = () => {

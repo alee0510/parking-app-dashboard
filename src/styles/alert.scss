@@ -3,9 +3,25 @@
 
 // styling alert
 .alert-container {
-    height: 40px; width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    height: auto; width: 100%;
+    margin-top: 10%;
     background-color: $error;
+    border-radius: 10px;
+    #close-icon {
+        @include flex (row, center, center);
+        color: $gray10;
+        min-height: 40px; height: 100%; width: 40px;
+        cursor: pointer;
+        @include animation-time(150ms);
+        &:active {
+            transform: scale(0.9);
+        }
+    }
     h1 {
+        padding: 5px 0px 5px 15px;
+        font-style: italic;
         font-size: 14px;
         font-weight: 400;
         color: $gray10;

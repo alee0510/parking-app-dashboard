@@ -2,6 +2,7 @@
 export const LOG_IN = 'LOG_IN'
 export const LOG_OUT = 'LOG_OUT'
 export const LOG_IN_ERROR = 'LOG_IN_ERROR'
+export const CLEAR_ERROR = 'CLEAR_ERROR'
 export const REGISTER = 'REGISTER'
 
 // DOM action => action toogle from DOM interactions

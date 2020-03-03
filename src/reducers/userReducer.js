@@ -1,4 +1,4 @@
-import { LOG_IN, LOG_OUT, STAY_LOGIN, LOG_IN_ERROR } from '../helpers/actionTypes'
+import { LOG_IN, LOG_OUT, STAY_LOGIN, LOG_IN_ERROR, CLEAR_ERROR } from '../helpers/actionTypes'
 
 const INITIAL_STATE = {
     data : [],
@@ -20,6 +20,7 @@ export const userReducer = (state = INITIAL_STATE, action) => {
             return  {
                 ...state, data : [], error : true, msg : action.payload
             }
+        case CLEAR_ERROR : return INITIAL_STATE
         case STAY_LOGIN :
             return {
                 ...state, data : action.payload, error : false, msg : ''

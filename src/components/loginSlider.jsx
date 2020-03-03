@@ -10,7 +10,10 @@ import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
 // import action
-import { loginAction } from '../actions'
+import { loginAction, clearErrorLogin } from '../actions'
+
+// import component
+import Alert from '../components/alert'
 
 // import style
 import '../styles/loginSlider.scss'
@@ -29,13 +32,13 @@ const LoginSlider = (props) => {
     }
 
     const handelSignIn = () => {
-        console.log(username.current.value, password.current.value)
         props.loginAction({
             username : username.current.value, 
             password : password.current.value
         })
     }
 
+    // triger alert
     return (
         <div className = 'login-slider-container' style = {style.container}>
             <div className = 'button-close' onClick = {props.handleClose}>
@@ -61,6 +64,7 @@ const LoginSlider = (props) => {
                         placeholder = 'e.g. xYzs190.'
                     />
                 </div>
+                <Alert open = {props.open} msg = {props.msg} handleClose = {props.clearErrorLogin}/>
                 <div className = 'button'>
                     <Button id = 'button-sign-in' onClick = {handelSignIn}>Sign-In</Button>
                     <Link to = 'signup' id = 'link-sign-up'>
@@ -72,4 +76,17 @@ const LoginSlider = (props) => {
     )
 }
 
-export default connect(null, { loginAction })(LoginSlider)
+const mapStore = ({ user }) => {
+    return {
+        open : user.error,
+        msg : user.msg
+    }
+}
+
+const mapDispatch = () => {
+    return {
+        loginAction, clearErrorLogin
+    }
+}
+
+export default connect(mapStore, mapDispatch())(LoginSlider)

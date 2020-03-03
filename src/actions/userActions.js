@@ -1,10 +1,11 @@
 import Axios from 'axios' 
 import { API_URL_USER } from '../helpers/apiUrl'
-import { LOG_IN, LOG_OUT, STAY_LOGIN, LOG_IN_ERROR } from '../helpers/actionTypes'
+import { LOG_IN, LOG_OUT, STAY_LOGIN, LOG_IN_ERROR, CLEAR_ERROR } from '../helpers/actionTypes'
 
 export const loginAction = (body) => {
     return async (dispatch) => {
         try {
+            if (!body.username || !body.password) throw ('please fill your username and password')
             let { data, headers } = await Axios.post(API_URL_USER + '/login', body)
             console.log(headers['auth-token'])
             localStorage.setItem('id', data.id)
@@ -15,11 +16,10 @@ export const loginAction = (body) => {
                 payload : data
             })
         } catch (err) {
-            console.log(err.response.data || err)
             localStorage.removeItem('token')
             dispatch({
                 type : LOG_IN_ERROR,
-                payload : err.response.data || err
+                payload : err.response ? err.response.data : err
             })
         }
     }
@@ -31,6 +31,11 @@ export const logOutAction = () => {
     }
 }
 
+export const clearErrorLogin = () => {
+    return {
+        type : CLEAR_ERROR
+    }
+}
 export const registerAction = async (body) => {
     try {
         // post user account
