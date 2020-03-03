@@ -4,7 +4,7 @@ import { combineReducers } from 'redux'
 // import reducers
 import { burgerReducer, avatarReducer } from './componentReducers'
 import { getTotalUserReducer, getUserReducer, getProfileReducer } from './memberReducers'
-import { userReducer } from './userReducer'
+import { userReducer, userProfileReducer } from './userReducer'
 
 // combine all reducer
 const allReducers = combineReducers({
@@ -12,7 +12,8 @@ const allReducers = combineReducers({
     totalAccount : getTotalUserReducer, 
     account : getUserReducer,
     profile : getProfileReducer, 
-    user : userReducer
+    user : userReducer,
+    userProfile : userProfileReducer
 })
 
 // export all reducers

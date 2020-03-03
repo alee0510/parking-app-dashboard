@@ -13,6 +13,7 @@ import { avatarAction, logOutAction } from '../actions'
 
 // import style
 import '../styles/avatarModal.scss'
+import { API_URL } from '../helpers/apiUrl'
 
 class AvatarModal extends React.Component {
     outsideClick = (e) => {
@@ -54,9 +55,15 @@ class AvatarModal extends React.Component {
         return (
             <div className = 'avatar-modal-main-container' ref = 'area' style = {styles.container}>
                 <div className = 'top'>
-                    <Avatar style = {styles.avatar}>u</Avatar>
-                    <h1>username</h1>
-                    <h3>useremail@gmail.com</h3>
+                    {
+                        this.props.image ? <Avatar style = {styles.avatar} src = {API_URL + this.props.image} alt = 'avatar'/>
+                        : <Avatar style = {styles.avatar}>
+                            {this.props.username ? this.props.username.split('')[0] :  'U'}
+                        </Avatar>
+                    }
+                    {/* <Avatar style = {styles.avatar}>u</Avatar> */}
+                    <h1>{this.props.username || 'username'}</h1>
+                    <h3>{this.props.email || 'useremail@gmail.com'}</h3>
                 </div>
                 <div className = 'bottom'>
                     <div className = 'item-1'>
@@ -83,9 +90,12 @@ class AvatarModal extends React.Component {
     }
 }
 
-const mapStore = ({ avatarReducer }) => {
+const mapStore = ({ avatarReducer, user, userProfile }) => {
     return {
-        open : avatarReducer.avatar
+        open : avatarReducer.avatar,
+        username : user.data.username,
+        email : user.data.email,
+        image : userProfile.data.image
     }
 }
 

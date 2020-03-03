@@ -4,6 +4,8 @@ export const LOG_OUT = 'LOG_OUT'
 export const LOG_IN_ERROR = 'LOG_IN_ERROR'
 export const CLEAR_ERROR = 'CLEAR_ERROR'
 export const REGISTER = 'REGISTER'
+export const GET_USER_PROFILE = 'GET_USER_PROFILE'
+export const GET_PROFILE_ERROR = 'GET_PROFILE_ERROR'
 
 // DOM action => action toogle from DOM interactions
 export const BURGER = 'BURGER'
