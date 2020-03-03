@@ -43,8 +43,14 @@ export const loginAction = (body) => {
 }
 
 export const logOutAction = () => {
-    return {
-        type : LOG_OUT
+    return (dispatch) => {
+        localStorage.clear()
+        dispatch({
+            type : LOG_OUT
+        })
+        dispatch({
+            type : GET_PROFILE_ERROR
+        })
     }
 }
 

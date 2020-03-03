@@ -30,6 +30,7 @@ class AppBar extends React.Component {
     }
 
     render () {
+        // console.log(window.location.pathname.substr(1))
         return (
             <div className = 'appbar-main-container'>
                 <div 
@@ -39,7 +40,9 @@ class AppBar extends React.Component {
                 </div>
                 <div className = 'appbar-contents'>
                     <div id = 'appbar-left'>
-                        <h1>Home</h1>
+                        <h1 style = {{textTransform : 'capitalize'}}>
+                            {window.location.pathname.substr(1)}
+                        </h1>
                     </div>
                     <div id = 'appbar-middle'>
                         <Search/>

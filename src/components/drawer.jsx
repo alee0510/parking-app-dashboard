@@ -13,7 +13,7 @@ import SettingsIcon from '@material-ui/icons/Settings'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 // import action
-import { burgerAction } from '../actions'
+import { burgerAction, logOutAction } from '../actions'
 
 // import style
 import '../styles/drawer.scss'
@@ -25,6 +25,10 @@ class Drawer extends React.Component {
             console.log('outside')
             this.props.burgerAction(false)
         }
+    }
+
+    handleExit = () => {
+        this.props.logOutAction()
     }
     
     render () {
@@ -100,7 +104,7 @@ class Drawer extends React.Component {
                     </div>
                 </div>
                 <div className = 'bottom' style = {styles.bottom}>
-                    <div id = 'last-item'>
+                    <div id = 'last-item' onClick = {this.handleExit}>
                         <div id = 'exit-icon'>
                             <ExitToAppIcon/>
                         </div>
@@ -118,4 +122,10 @@ const mapStore = ({ burgerReducer }) => {
     }
 }
 
-export default connect(mapStore, { burgerAction })(Drawer)
+const mapDispatch = () => {
+    return {
+        burgerAction, logOutAction
+    }
+}
+
+export default connect(mapStore, mapDispatch())(Drawer)
