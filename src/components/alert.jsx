@@ -1,27 +1,22 @@
 import React from 'react'
-import { Button, Dialog, DialogActions,
-    DialogContent, DialogContentText, DialogTitle 
-} from '@material-ui/core'
 
-export default function AlertDialog (props) {
+// import style
+import '../styles/alert.scss'
+
+const Alert = (props) =>{
+    const style = {
+        container : {
+            display : props.open ? 'block' : 'none'
+        }
+    }
     return (
-        <div>
-            <Dialog
-                open={props.open}
-                onClose={handleClose}
-            >
-                <DialogTitle id="alert-dialog-title">{"Error"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {props}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                <Button onClick={props.handleClose} color="primary" autoFocus>
-                    Agree
-                </Button>
-                </DialogActions>
-            </Dialog>
+        <div className = 'alert-container' style = {style.container}>
+            <div id = 'close-icon'>
+
+            </div>
+            <h1>{props.msg}</h1>
         </div>
     )
 }
+
+export default Alert

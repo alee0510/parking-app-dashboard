@@ -1,0 +1,13 @@
+// import variable
+@import './variables.scss';
+
+// styling alert
+.alert-container {
+    height: 40px; width: 100%;
+    background-color: $error;
+    h1 {
+        font-size: 14px;
+        font-weight: 400;
+        color: $gray10;
+    }
+}

@@ -1,7 +1,9 @@
-import { LOG_IN, LOG_OUT, STAY_LOGIN } from '../helpers/actionTypes'
+import { LOG_IN, LOG_OUT, STAY_LOGIN, LOG_IN_ERROR } from '../helpers/actionTypes'
 
 const INITIAL_STATE = {
-    data : []
+    data : [],
+    error : false,
+    msg : ''
 }
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -13,6 +15,10 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         case LOG_OUT : 
             return {
                 ...state, data : []
+            }
+        case LOG_IN_ERROR :
+            return  {
+                ...state, data : [], error : true, msg : action.payload
             }
         case STAY_LOGIN :
             return {

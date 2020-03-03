@@ -1,6 +1,6 @@
 import Axios from 'axios' 
 import { API_URL_USER } from '../helpers/apiUrl'
-import { LOG_IN, LOG_OUT, STAY_LOGIN } from '../helpers/actionTypes'
+import { LOG_IN, LOG_OUT, STAY_LOGIN, LOG_IN_ERROR } from '../helpers/actionTypes'
 
 export const loginAction = (body) => {
     return async (dispatch) => {
@@ -18,7 +18,8 @@ export const loginAction = (body) => {
             console.log(err.response.data || err)
             localStorage.removeItem('token')
             dispatch({
-                type : LOG_OUT
+                type : LOG_IN_ERROR,
+                payload : err.response.data || err
             })
         }
     }
