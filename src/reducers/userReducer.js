@@ -10,11 +10,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case LOG_IN : 
             return {
-                ...state, data : action.payload
+                ...state, data : action.payload, error : false, msg : ''
             }
         case LOG_OUT : 
             return {
-                ...state, data : []
+                ...state, data : [], error : false, msg : ''
             }
         case LOG_IN_ERROR :
             return  {
@@ -22,7 +22,7 @@ export const userReducer = (state = INITIAL_STATE, action) => {
             }
         case STAY_LOGIN :
             return {
-                ...state, data : action.payload
+                ...state, data : action.payload, error : false, msg : ''
             }
         default : return state
     }

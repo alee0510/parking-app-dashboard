@@ -9,7 +9,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 // import action
-import { avatarAction } from '../actions'
+import { avatarAction, logOutAction } from '../actions'
 
 // import style
 import '../styles/avatarModal.scss'
@@ -21,6 +21,12 @@ class AvatarModal extends React.Component {
             console.log('outside')
             this.props.avatarAction(false)
         }
+    }
+
+    handleSignOut = () => {
+        this.props.logOutAction()
+        this.props.avatarAction(false)
+        localStorage.clear()
     }
 
     render () {
@@ -65,7 +71,7 @@ class AvatarModal extends React.Component {
                         </div>
                         <h3>My profile</h3>
                     </div>
-                    <div className = 'item-3'>
+                    <div className = 'item-3' onClick = {this.handleSignOut}>
                         <div id = 'exit-icon'>
                             <ExitToAppIcon style = {styles.icons}/>
                         </div>
@@ -83,4 +89,10 @@ const mapStore = ({ avatarReducer }) => {
     }
 }
 
-export default connect(mapStore, { avatarAction })(AvatarModal)
+const mapDispatch = () => {
+    return {
+        avatarAction, logOutAction
+    }
+}
+
+export default connect(mapStore, mapDispatch())(AvatarModal)

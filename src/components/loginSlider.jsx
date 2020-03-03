@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Button, makeStyles } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 // import icons
 import ClearIcon from '@material-ui/icons/Clear'

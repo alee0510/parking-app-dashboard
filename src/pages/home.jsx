@@ -1,4 +1,6 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 // import components
 import Header from '../components/header'
@@ -6,12 +8,10 @@ import LoginSlider from '../components/loginSlider'
 
 // import styling
 import '../styles/home.scss'
-import { Redirect } from 'react-router-dom'
 
 class Home extends React.Component {
     state = {
-        loginSlider : false,
-        registerSlider : false
+        loginSlider : false
     }
 
     handleLoginSlider = () => {
@@ -19,8 +19,9 @@ class Home extends React.Component {
     }
 
     render () {
-        const { loginSlider, registerSlider } = this.state
-        if (localStorage.getItem('role') == 1) return <Redirect to = '/dashboard'/>
+        const { loginSlider } = this.state
+        const roleId = this.props.id || parseInt(localStorage.getItem('role'))
+        if ([1, 2].includes(roleId)) return <Redirect to = '/dashboard'/>
         return (
             <div className = 'home-main-container'>
                 <Header handleSignIn = {this.handleLoginSlider}/>
@@ -30,4 +31,10 @@ class Home extends React.Component {
     }
 }
 
-export default Home
+const mapStore = ({ user }) => {
+    return {
+        id : parseInt(user.data.id)
+    }
+}
+
+export default connect(mapStore)(Home)

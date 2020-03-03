@@ -25,6 +25,12 @@ export const loginAction = (body) => {
     }
 }
 
+export const logOutAction = () => {
+    return {
+        type : LOG_OUT
+    }
+}
+
 export const registerAction = async (body) => {
     try {
         // post user account
