@@ -1,5 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { stayLogin } from './actions'
 
 // import pages
 import Dashboard from './pages/dashboard'
@@ -7,6 +9,10 @@ import Home from './pages/home'
 import SignUp from './pages/signup'
 
 class Main extends React.Component {
+    componentDidMount () {
+        this.props.stayLogin()
+    }
+
     render () {
         return (
             <div className = 'main-container'>
@@ -20,4 +26,4 @@ class Main extends React.Component {
     }
 }
 
-export default Main
+export default connect(null, { stayLogin })(Main)

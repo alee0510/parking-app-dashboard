@@ -89,12 +89,23 @@ export const stayLogin = () => {
 
             // request stay login
             const options = { headers : {'Auth-Token' : token} }
-            let { data } = Axios.post(API_URL_USER + '/user/staylogin', {}, options)
+            let user = await Axios.get(API_URL_USER + '/staylogin', options)
+            let profile = await Axios.get(API_URL_USER + '/profile', options)
             dispatch({
                 type : STAY_LOGIN,
-                payload : data
+                payload : user.data
+            })
+            dispatch({
+                type : GET_USER_PROFILE,
+                payload : profile.data
             })
         } catch (err) {
+            dispatch({
+                type : LOG_OUT
+            })
+            dispatch({
+                type : GET_PROFILE_ERROR
+            })
             console.log(err.response ? err.response.data : err)
         }
     }

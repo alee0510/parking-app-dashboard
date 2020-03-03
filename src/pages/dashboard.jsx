@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { stayLogin } from '../actions'
 
 // import components
 import AppBar from '../components/appbar'
