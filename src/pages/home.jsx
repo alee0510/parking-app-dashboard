@@ -21,7 +21,7 @@ class Home extends React.Component {
     render () {
         const { loginSlider } = this.state
         const roleId = this.props.id || parseInt(localStorage.getItem('role'))
-        if ([1, 2].includes(roleId)) return <Redirect to = '/dashboard'/>
+        if ([1, 2].includes(roleId)) return <Redirect to = '/dashboard/feed'/>
         return (
             <div className = 'home-main-container'>
                 <Header handleSignIn = {this.handleLoginSlider}/>

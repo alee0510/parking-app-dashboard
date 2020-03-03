@@ -41,7 +41,7 @@ class AppBar extends React.Component {
                 <div className = 'appbar-contents'>
                     <div id = 'appbar-left'>
                         <h1 style = {{textTransform : 'capitalize'}}>
-                            {window.location.pathname.substr(1)}
+                            {window.location.pathname.split('/')[2]}
                         </h1>
                     </div>
                     <div id = 'appbar-middle'>

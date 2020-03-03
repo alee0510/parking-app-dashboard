@@ -1,5 +1,5 @@
 import { TOTAL_USER, GET_USER, NEXT_USER, PREV_USER, 
-    GET_PROFILE, NEXT_PROFILE, PREV_PROFILE 
+    GET_PROFILE, NEXT_PROFILE, PREV_PROFILE, GET_ROLES 
 } from '../helpers/actionTypes'
 
 export const getTotalUserReducer = (state = { userTotal : 0}, action) => {
@@ -43,6 +43,16 @@ export const getProfileReducer = (state = { profile : [] }, action) => {
         case PREV_PROFILE :
             return {
                 ...state, profile : action.payload.reverse()
+            }
+        default : return state
+    }
+}
+
+export const getUserRoleReducer = (state = { roles : [] }, action) => {
+    switch(action.type) {
+        case GET_ROLES :
+            return {
+                ...state, roles : action.payload
             }
         default : return state
     }

@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { TOTAL_USER, GET_USER, NEXT_USER, PREV_USER, GET_PROFILE, NEXT_PROFILE, PREV_PROFILE } from '../helpers/actionTypes'
+import { TOTAL_USER, GET_USER, NEXT_USER, PREV_USER, GET_PROFILE, NEXT_PROFILE, PREV_PROFILE, GET_ROLES } from '../helpers/actionTypes'
 import { API_URL_ADMIN } from '../helpers/apiUrl'
 
 export const getUserAction = (limit) => {
@@ -16,7 +16,7 @@ export const getUserAction = (limit) => {
                 payload : totalUser.data[0]
             })
         } catch (err) {
-            console.log(err.response.data || err)
+            console.log(err.response ? err.response.data : err)
         }
     }
 }
@@ -30,7 +30,7 @@ export const nextUserAction = (id, limit) => {
                 payload : user.data
             })
         } catch (err) {
-            console.log(err.response.data || err)
+            console.log(err.response ? err.response.data : err)
         }
     }
 }
@@ -44,7 +44,7 @@ export const prevUserAction = (id, limit) => {
                 payload : user.data
             })
         } catch (err) {
-            console.log(err.response.data || err)
+            console.log(err.response ? err.response.data : err)
         }
     }
 }
@@ -58,7 +58,7 @@ export const getProfileAction = (limit) => {
                 payload : profile.data
             })
         } catch (err) {
-            console.log(err.response.data || err)
+            console.log(err.response ? err.response.data : err)
         }
     }
 }
@@ -72,7 +72,7 @@ export const nextProfileAction = (id, limit) => {
                 payload : profile.data
             })
         } catch (err) {
-            console.log(err.response.data || err)
+            console.log(err.response ? err.response.data : err)
         }
     }
 }
@@ -86,7 +86,21 @@ export const prevProfileAction = (id, limit) => {
                 payload : profile.data
             })
         } catch (err) {
-            console.log(err.response.data || err)
+            console.log(err.response ? err.response.data : err)
+        }
+    }
+}
+
+export const getUserRoles = () => {
+    return async (dispatch) => {
+        try {
+            let { data } = await Axios.get(API_URL_ADMIN + '/get/roles')
+            dispatch({
+                type : GET_ROLES,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
         }
     }
 }

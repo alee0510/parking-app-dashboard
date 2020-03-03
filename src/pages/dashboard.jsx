@@ -1,4 +1,5 @@
 import React from 'react'
+import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { stayLogin } from '../actions'
 
@@ -13,18 +14,17 @@ import Member from './member'
 
 // import style
 import '../styles/dashboard.scss'
-import { Route } from 'react-router-dom'
 
 class Dashboard extends React.Component {
     render () {
         const { match } = this.props
-        // console.log(match)
+        if (!localStorage.getItem('token')) return <Redirect to = '/'/>
         return (
             <div className = 'dashboard-main-container'>
                 <AppBar/>
                 <Drawer/>
                 <AvatarModal/>
-                <Route path={match.path} component = {Chart}/>
+                <Route path={match.path + '/feed'} component = {Chart}/>
                 <Route path={match.path + '/member'} component = {Member}/>
             </div>
         )

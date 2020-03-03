@@ -24,6 +24,7 @@ export const TOTAL_HISTORY = 'TOTAL_HISTORY'
 export const GET_USER = 'GET_USER'
 export const NEXT_USER = 'NEXT_USER'
 export const PREV_USER = 'PREV_USER'
+export const GET_ROLES = 'GET_ROLES'
 
 // user profile
 export const GET_PROFILE = 'GET_PROFILE'

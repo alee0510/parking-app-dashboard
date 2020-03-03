@@ -11,7 +11,8 @@ import CheckIcon from '@material-ui/icons/Check'
 
 // import action
 import { getUserAction, nextUserAction, prevUserAction,
-    getProfileAction, nextProfileAction, prevProfileAction
+    getProfileAction, nextProfileAction, prevProfileAction,
+    getUserRoles
 } from '../actions'
 
 // import components
@@ -33,6 +34,7 @@ class Member extends React.Component {
 
     componentDidMount () {
         this.props.getUserAction(this.state.rowPerPage)
+        this.props.getUserRoles()
     }
 
     handleTab = () => {
@@ -81,10 +83,9 @@ class Member extends React.Component {
                 value = {this.state.role} 
                 onChange = {(e) => this.setState({role : e.target.value})}
                 disableUnderline = {true}
-            >
-                <MenuItem value = {1}>super admin</MenuItem>
-                <MenuItem value = {2}>admin</MenuItem>
-                <MenuItem value = {3}>user</MenuItem>
+            > {
+                this.props.roles.map(item => <MenuItem value = {item.id}>{item.role}</MenuItem>)
+            }
             </Select>
         )
     }
@@ -92,33 +93,22 @@ class Member extends React.Component {
     tableAccount = () => {
         const { hoverId, selectedId } = this.state
         return this.props.account.map(({id, username, email, role, status}, index) => {
-            if (id === selectedId) {
-                return (
-                    <tr key = {index}
-                        onMouseEnter = { _ => this.setState({hoverId : id})}
-                        onMouseLeave = { _ => this.setState({hoverId : 0})}
-                    >
-                        <td></td>
-                        <td>{username}</td>
-                        <td>{email}</td>
-                        <td>{this.renderOption()}</td>
-                        <td>{status === 0 ? 'not-active' : 'active'}</td>
-                        <td>
-                            <div id = 'check-icon' 
-                                style = {{display : hoverId === id ? 'flex' : 'none'}}
-                            >
-                                <CheckIcon/>
-                            </div>
-                            <div id = 'clear-icon' 
-                                style = {{display : hoverId === id ? 'flex' : 'none'}}
-                                onClick = { _ => this.setState({ selectedId : null})}
-                            >
-                                <ClearIcon/>
-                            </div>
-                        </td>
-                    </tr>   
-                )
-            }
+            // if (id === selectedId) {
+            //     return (
+            //         <tr key = {index}
+            //             onMouseEnter = { _ => this.setState({hoverId : id})}
+            //             onMouseLeave = { _ => this.setState({hoverId : 0})}
+            //         >
+            //             <td></td>
+            //             <td>{username}</td>
+            //             <td>{email}</td>
+            //             <td>{this.renderOption()}</td>
+            //             <td>{status === 0 ? 'not-active' : 'active'}</td>
+            //             <td>
+            //             </td>
+            //         </tr>   
+            //     )
+            // }
             return (
                 <tr key = {index}
                     onMouseEnter = { _ => this.setState({hoverId : id})}
@@ -127,21 +117,43 @@ class Member extends React.Component {
                     <td></td>
                     <td>{username}</td>
                     <td>{email}</td>
-                    <td>{role === 2 ? 'admin' : 'user'}</td>
-                    <td>{status === 0 ? 'not-active' : 'active'}</td>
                     <td>
-                        <div id = 'edit-icon' 
-                            style = {{display : hoverId === id ? 'flex' : 'none'}}
-                            onClick = { _ => this.setState({selectedId : id})}
-                        >
-                            <EditIcon/>
-                        </div>
-                        <div id = 'delete-icon' 
-                            style = {{display : hoverId === id ? 'flex' : 'none'}}
-                        >
-                            <DeleteIcon/>
-                        </div>
+                        {
+                            id === selectedId ? this.renderOption() : role === 2 ? 'admin' : 'user'
+                        }
                     </td>
+                    <td>{status === 0 ? 'not-active' : 'active'}</td>
+                    {
+                        id === selectedId ? (
+                            <td>
+                                <div id = 'check-icon' 
+                                    style = {{display : hoverId === id ? 'flex' : 'none'}}
+                                >
+                                    <CheckIcon/>
+                                </div>
+                                <div id = 'clear-icon' 
+                                    style = {{display : hoverId === id ? 'flex' : 'none'}}
+                                    onClick = { _ => this.setState({ selectedId : null})}
+                                >
+                                <ClearIcon/>
+                                </div>
+                            </td>
+                        ) : (
+                            <td>
+                                <div id = 'edit-icon' 
+                                    style = {{display : hoverId === id ? 'flex' : 'none'}}
+                                    onClick = { _ => this.setState({selectedId : id})}
+                                >
+                                    <EditIcon/>
+                                </div>
+                                <div id = 'delete-icon' 
+                                    style = {{display : hoverId === id ? 'flex' : 'none'}}
+                                >
+                                    <DeleteIcon/>
+                                </div>
+                            </td>
+                        )
+                    }
                 </tr>
             )
         })
@@ -197,19 +209,21 @@ class Member extends React.Component {
     }
 }
 
-const mapStore = ({ account, totalAccount, profile, user }) => {
+const mapStore = ({ account, totalAccount, profile, user, roles }) => {
     return {
         account : account.user,
         total : totalAccount.userTotal,
         profile : profile.profile,
-        id : parseInt(user.data.id)
+        id : parseInt(user.data.id),
+        roles : roles.roles
     }
 }
 
 const mapDispatch = () => {
     return {
         getUserAction, nextUserAction, prevUserAction,
-        getProfileAction, nextProfileAction, prevProfileAction
+        getProfileAction, nextProfileAction, prevProfileAction,
+        getUserRoles
     }
 }
 
