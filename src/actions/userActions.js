@@ -1,5 +1,5 @@
 import Axios from 'axios' 
-import { API_URL_USER, API_URL } from '../helpers/apiUrl'
+import { API_URL_USER } from '../helpers/apiUrl'
 import { LOG_IN, LOG_OUT, STAY_LOGIN, LOG_IN_ERROR, CLEAR_ERROR, GET_USER_PROFILE, GET_PROFILE_ERROR } from '../helpers/actionTypes'
 
 export const loginAction = (body) => {

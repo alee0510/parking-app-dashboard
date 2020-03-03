@@ -84,7 +84,7 @@ class Member extends React.Component {
                 onChange = {(e) => this.setState({role : e.target.value})}
                 disableUnderline = {true}
             > {
-                this.props.roles.map(item => <MenuItem value = {item.id}>{item.role}</MenuItem>)
+                this.props.roles.map(item => <MenuItem key = {item.id} value = {item.id}>{item.role}</MenuItem>)
             }
             </Select>
         )
