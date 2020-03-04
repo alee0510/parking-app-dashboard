@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Select, MenuItem } from '@material-ui/core'
+import { Select, MenuItem, Typography } from '@material-ui/core'
 
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
@@ -86,8 +86,12 @@ class Member extends React.Component {
         : this.props.prevUserAction(firstId, rowPerPage)
     }
 
-    handleSortByChange = (e) => {
-        this.setState({sortByValue : e.target.value})
+    handleSortByChange = (value) => {
+        this.setState({sortByValue : value})
+        if (this.state.tabValue) { // tabValue !== 0, profile tab
+            return this.props.getProfileAction(this.state.rowPerPage, value || null)
+        }
+        this.props.getUserAction(this.state.rowPerPage, value || null)
     }
 
     renderOption = () => {
@@ -105,10 +109,17 @@ class Member extends React.Component {
 
     renderSortByOption = () => {
         return (
-            <div className = 'member-sortby-container'>
+            <div className = 'member-sortby-container' 
+                style = {{display : parseInt(localStorage.getItem('role')) === 1 ? 'flex' : 'none'}}
+            >
+                <Typography 
+                    style = {{fontSize : 16, fontWeight : 400, marginRight : 15}}
+                >
+                    Sort by
+                </Typography>
                 <Select 
                     value = {this.state.sortByValue} 
-                    onChange = {(e) => this.handleSortByChange(e)}
+                    onChange = {(e) => this.handleSortByChange(e.target.value)}
                     disableUnderline = {true}
                 >
                     <MenuItem value = {0}>All</MenuItem>
@@ -200,6 +211,7 @@ class Member extends React.Component {
                 <h1>Member</h1>
                 <div className = 'tab-menu'>
                     <TabMenu value = {tabValue} handleTab = {this.handleTab}/>
+                    {this.renderSortByOption()}
                 </div>
                 <div  className = 'table'>
                     <Table

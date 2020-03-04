@@ -7,7 +7,7 @@ import { TOTAL_USER, GET_USER, NEXT_USER,
 import { API_URL_ADMIN } from '../helpers/apiUrl'
 
 // get user account
-const role = parseInt(localStorage.getItem('id'))
+const role = parseInt(localStorage.getItem('role'))
 export const getUserAction = (limit, only = null) => {
     return async (dispatch) => {
         try {

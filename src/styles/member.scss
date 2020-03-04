@@ -17,14 +17,20 @@
         margin-bottom: 10px;
     }
     .tab-menu {
-        width: 200px;
+        @include flex (row, space-between, center);
+        width: 100%;
         margin-bottom: 15px;
         // background-color: red;
     }
     .table {
         width: 100%; height: calc(100% - 110px);
-        background-color: pink;
+        // background-color: pink;
         overflow: hidden;
+    }
+    .member-sortby-container {
+        @include flex (row, '', center);
+        height: 100%; width: auto;
+        // background-color: yellow;
     }
 
 }
