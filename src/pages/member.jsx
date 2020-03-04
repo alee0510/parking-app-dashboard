@@ -30,7 +30,8 @@ class Member extends React.Component {
         selectedId : null,
         hoverId : null,
         role : 1,
-        sortByValue : 0
+        sortByValue : 0,
+        dataId : 0
     }
 
     componentDidMount () {
