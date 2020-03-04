@@ -1,6 +1,6 @@
 import { TOTAL_USER, GET_USER, NEXT_USER, PREV_USER, 
     GET_PROFILE, NEXT_PROFILE, PREV_PROFILE, GET_ROLES, 
-    GET_USER_ERROR, GET_PROFILE_ERROR 
+    GET_USER_ERROR, GET_PROFILE_ERROR, EDIT_ROLE, EDIT_ROLE_ERROR 
 } from '../helpers/actionTypes'
 
 export const getTotalUserReducer = (state = { userTotal : 0}, action) => {
@@ -21,6 +21,10 @@ export const getUserReducer = (state = { user : [] }, action) => {
             return { user : action.payload.reverse() }
         case GET_USER_ERROR : 
             return { user : [] }
+        case EDIT_ROLE :
+            return { user : action.payload }
+        case EDIT_ROLE_ERROR : 
+            return { ...state }
         default : return state
     }
 }

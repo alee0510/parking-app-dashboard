@@ -34,3 +34,7 @@ export const GET_PROFILE = 'GET_PROFILE'
 export const NEXT_PROFILE = 'NEXT_PROFILE'
 export const PREV_PROFILE = 'PREV_PROFILE'
 export const GET_PROFILE_ERROR = 'GET_PROFILE_ERORR'
+
+// edit role
+export const EDIT_ROLE = 'EDIT_ROLE'
+export const EDIT_ROLE_ERROR = 'EDIT_ROLE_ERROR'

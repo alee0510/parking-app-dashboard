@@ -12,7 +12,7 @@ import CheckIcon from '@material-ui/icons/Check'
 // import action
 import { getUserAction, nextUserAction, prevUserAction,
     getProfileAction, nextProfileAction, prevProfileAction,
-    getUserRoles
+    getUserRoles, editUserRole
 } from '../actions'
 
 // import components
@@ -30,8 +30,7 @@ class Member extends React.Component {
         selectedId : null,
         hoverId : null,
         role : 1,
-        sortByValue : 0,
-        dataId : 0
+        sortByValue : 0
     }
 
     componentDidMount () {
@@ -95,6 +94,12 @@ class Member extends React.Component {
         this.props.getUserAction(this.state.rowPerPage, value || null)
     }
 
+    hanldeEditConfirmation = (id) => {
+        const dataId = this.props.account[0].id
+        this.props.editUserRole(id, this.state.role, dataId, this.state.rowPerPage, this.state.sortByValue || null)
+        this.setState({ selectedId : null })
+    }
+
     renderOption = () => {
         return (
             <Select 
@@ -139,7 +144,7 @@ class Member extends React.Component {
                     onMouseEnter = { _ => this.setState({hoverId : id})}
                     onMouseLeave = { _ => this.setState({hoverId : 0})}
                 >
-                    <td></td>
+                    <td>{id}</td>
                     <td>{username}</td>
                     <td>{email}</td>
                     <td>
@@ -153,6 +158,7 @@ class Member extends React.Component {
                             <td>
                                 <div id = 'check-icon' 
                                     style = {{display : hoverId === id ? 'flex' : 'none'}}
+                                    onClick = {_ => this.hanldeEditConfirmation(id)}
                                 >
                                     <CheckIcon/>
                                 </div>
@@ -249,7 +255,7 @@ const mapDispatch = () => {
     return {
         getUserAction, nextUserAction, prevUserAction,
         getProfileAction, nextProfileAction, prevProfileAction,
-        getUserRoles
+        getUserRoles, editUserRole
     }
 }
 
