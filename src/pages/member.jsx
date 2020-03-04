@@ -93,22 +93,6 @@ class Member extends React.Component {
     tableAccount = () => {
         const { hoverId, selectedId } = this.state
         return this.props.account.map(({id, username, email, role, status}, index) => {
-            // if (id === selectedId) {
-            //     return (
-            //         <tr key = {index}
-            //             onMouseEnter = { _ => this.setState({hoverId : id})}
-            //             onMouseLeave = { _ => this.setState({hoverId : 0})}
-            //         >
-            //             <td></td>
-            //             <td>{username}</td>
-            //             <td>{email}</td>
-            //             <td>{this.renderOption()}</td>
-            //             <td>{status === 0 ? 'not-active' : 'active'}</td>
-            //             <td>
-            //             </td>
-            //         </tr>   
-            //     )
-            // }
             return (
                 <tr key = {index}
                     onMouseEnter = { _ => this.setState({hoverId : id})}

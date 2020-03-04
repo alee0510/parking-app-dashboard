@@ -1,13 +1,12 @@
 import { TOTAL_USER, GET_USER, NEXT_USER, PREV_USER, 
-    GET_PROFILE, NEXT_PROFILE, PREV_PROFILE, GET_ROLES 
+    GET_PROFILE, NEXT_PROFILE, PREV_PROFILE, GET_ROLES, 
+    GET_USER_ERROR, GET_PROFILE_ERROR 
 } from '../helpers/actionTypes'
 
 export const getTotalUserReducer = (state = { userTotal : 0}, action) => {
     switch(action.type) {
         case TOTAL_USER :
-            return {
-                ...state, userTotal : action.payload
-            }
+            return { userTotal : action.payload }
         default : return state
     }
 }
@@ -15,17 +14,13 @@ export const getTotalUserReducer = (state = { userTotal : 0}, action) => {
 export const getUserReducer = (state = { user : [] }, action) => {
     switch(action.type) {
         case GET_USER :
-            return {
-                ...state, user : action.payload
-            }
+            return { user : action.payload }
         case NEXT_USER :
-            return {
-                ...state, user : action.payload
-            }
+            return { user : action.payload }
         case PREV_USER :
-            return {
-                ...state, user : action.payload.reverse()
-            }
+            return { user : action.payload.reverse() }
+        case GET_USER_ERROR : 
+            return { user : [] }
         default : return state
     }
 }
@@ -33,17 +28,13 @@ export const getUserReducer = (state = { user : [] }, action) => {
 export const getProfileReducer = (state = { profile : [] }, action) => {
     switch(action.type) {
         case GET_PROFILE :
-            return {
-                ...state, profile : action.payload
-            }
+            return { profile : action.payload }
         case NEXT_PROFILE :
-            return {
-                ...state, profile : action.payload
-            }
+            return { profile : action.payload }
         case PREV_PROFILE :
-            return {
-                ...state, profile : action.payload.reverse()
-            }
+            return { profile : action.payload.reverse() }
+        case GET_PROFILE_ERROR :
+            return { profile : [] }
         default : return state
     }
 }
@@ -51,9 +42,7 @@ export const getProfileReducer = (state = { profile : [] }, action) => {
 export const getUserRoleReducer = (state = { roles : [] }, action) => {
     switch(action.type) {
         case GET_ROLES :
-            return {
-                ...state, roles : action.payload
-            }
+            return { roles : action.payload }
         default : return state
     }
 }
