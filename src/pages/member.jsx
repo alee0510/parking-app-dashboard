@@ -29,18 +29,23 @@ class Member extends React.Component {
         rowPerPage : 10,
         selectedId : null,
         hoverId : null,
-        role : 3
+        role : 1,
+        sortByValue : 0
     }
 
     componentDidMount () {
-        this.props.getUserAction(this.state.rowPerPage)
+        const role = parseInt(localStorage.getItem('role'))
+        role === 1 ? this.props.getUserAction(this.state.rowPerPage) 
+        : this.props.getProfileAction(this.state.rowPerPage, 3)
+        
         this.props.getUserRoles()
     }
 
     handleTab = () => {
         const { tabValue, rowPerPage } = this.state
-        this.setState({tabValue : tabValue ? 0 : 1, rowPerPage : 10, page : 1})
-        this.props.getProfileAction(rowPerPage)
+        this.setState({tabValue : tabValue ? 0 : 1, rowPerPage : 10, page : 1}, 
+            () => this.state.tabValue === 1 ? this.props.getProfileAction(rowPerPage) : null
+        )
     }
 
     handleOption = (value) => {
@@ -59,6 +64,8 @@ class Member extends React.Component {
         const lastId = tabValue ? this.props.profile[rowPerPage - 1].id 
         : this.props.account[rowPerPage - 1].id
         // console.log('lastId', lastId)
+
+        // check tab value
         tabValue ? this.props.nextProfileAction(lastId, rowPerPage) 
         : this.props.nextUserAction(lastId, rowPerPage)
     }
@@ -73,8 +80,14 @@ class Member extends React.Component {
         const firstId = tabValue ? this.props.profile[0].id 
         : this.props.account[0].id
         // console.log('firstId', firstId)
+
+        // check tab value
         tabValue ? this.props.prevProfileAction(firstId, rowPerPage) 
         : this.props.prevUserAction(firstId, rowPerPage)
+    }
+
+    handleSortByChange = (e) => {
+        this.setState({sortByValue : e.target.value})
     }
 
     renderOption = () => {
@@ -87,6 +100,22 @@ class Member extends React.Component {
                 this.props.roles.map(item => <MenuItem key = {item.id} value = {item.id}>{item.role}</MenuItem>)
             }
             </Select>
+        )
+    }
+
+    renderSortByOption = () => {
+        return (
+            <div className = 'member-sortby-container'>
+                <Select 
+                    value = {this.state.sortByValue} 
+                    onChange = {(e) => this.handleSortByChange(e)}
+                    disableUnderline = {true}
+                >
+                    <MenuItem value = {0}>All</MenuItem>
+                    <MenuItem value = {2}>Admin</MenuItem>
+                    <MenuItem value = {3}>User</MenuItem>
+                </Select>
+            </div>
         )
     }
 
