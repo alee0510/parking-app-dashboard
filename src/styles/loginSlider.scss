@@ -4,13 +4,13 @@
 // styling slider
 .login-slider-container {
     position: absolute;
-    top: 0px; right: 0px;
+    top: 0px;
     height: 100%; width: 35%;
     padding: 50px;
     background-color: rgba($color: $gray10, $alpha: 0.6);
     backdrop-filter: blur(10px);
     @include depth-6;
-    @include animation-time(250ms);
+    @include animation-time(300ms);
     .button-close {
         position: absolute;
         right: 50px;

@@ -27,7 +27,7 @@ const LoginSlider = (props) => {
 
     const style = {
         container : {
-            display : props.hide ? 'block' : 'none'
+            right : props.hide ? '-35%' : 0
         }
     }
 
@@ -38,7 +38,6 @@ const LoginSlider = (props) => {
         })
     }
 
-    // triger alert
     return (
         <div className = 'login-slider-container' style = {style.container}>
             <div className = 'button-close' onClick = {props.handleClose}>
@@ -66,9 +65,9 @@ const LoginSlider = (props) => {
                 </div>
                 <Alert open = {props.open} msg = {props.msg} handleClose = {props.clearErrorLogin}/>
                 <div className = 'button'>
-                    <Button id = 'button-sign-in' onClick = {handelSignIn}>Sign-In</Button>
+                    <Button id = 'button-sign-in' onClick = {handelSignIn}>Log In</Button>
                     <Link to = 'signup' id = 'link-sign-up'>
-                        <Button id = 'button-sign-up'>Sign-Up</Button>
+                        <Button id = 'button-sign-up'>Sign Up</Button>
                     </Link>
                 </div>
             </form>

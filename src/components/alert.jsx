@@ -1,5 +1,5 @@
 import React from 'react'
-import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+import CancelIcon from '@material-ui/icons/Cancel'
 
 // import style
 import '../styles/alert.scss'
@@ -15,7 +15,7 @@ const Alert = (props) =>{
         <div className = 'alert-container' style = {style.container}>
             <h1>{props.msg}</h1>
             <div id = 'close-icon' onClick = {props.handleClose}>
-                <HighlightOffIcon/>
+                <CancelIcon/>
             </div>
         </div>
     )

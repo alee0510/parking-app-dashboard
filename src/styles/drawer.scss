@@ -68,7 +68,7 @@
     }
     // icons style
     #dash-icon, #people-icon, #car-icon,#location-icon,
-    #rating-icon, #history-icon, #setting-icon,
+    #rating-icon, #history-icon, #payment-icon,
     #exit-icon {
         @include flex (row, center, center);
         height: 50px; width: 50px;

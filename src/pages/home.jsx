@@ -1,6 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Slider from "react-slick"
 
 // import components
 import Header from '../components/header'
@@ -16,6 +17,10 @@ class Home extends React.Component {
 
     handleLoginSlider = () => {
         this.setState({loginSlider : !this.state.loginSlider})
+    }
+
+    renderCarousel = () => {
+        console.log('carousel')
     }
 
     render () {

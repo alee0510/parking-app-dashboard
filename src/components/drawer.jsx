@@ -9,7 +9,8 @@ import DriveEtaIcon from '@material-ui/icons/DriveEta'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import GradeIcon from '@material-ui/icons/Grade'
 import HistoryIcon from '@material-ui/icons/History'
-import SettingsIcon from '@material-ui/icons/Settings'
+import ReceiptIcon from '@material-ui/icons/Receipt'
+// import SettingsIcon from '@material-ui/icons/Settings'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 // import action
@@ -57,56 +58,57 @@ class Drawer extends React.Component {
             document.removeEventListener('click', this.outsideClick)
         }
 
+        const pathname = window.location.pathname.split('/')[2]
         return (
             <div className = 'drawer-main-container' ref = 'area' style = {styles.container}>
                 <div className = 'top' style = {styles.menus}>
                     <div id = 'item-1' style = {styles.items}>
                         <div id = 'dash-icon'>
-                            <BubbleChartIcon/>
+                            <BubbleChartIcon style = {{color : pathname === 'feed' ? '#4f6bed' : '#11100f'}}/>
                         </div>
                         <h1 style = {styles.text}>Dashboard</h1>
                     </div>
                     <div id = 'item-1' style = {styles.items}>
                         <div id = 'people-icon'>
-                            <PeopleIcon/>
+                            <PeopleIcon style = {{color : pathname === 'member' ? '#4f6bed' : '#11100f'}}/>
                         </div>
                         <h1 style = {styles.text}>Members</h1>
                     </div>
                     <div id = 'item-1' style = {styles.items}>
                         <div id = 'car-icon'>
-                            <DriveEtaIcon/>
+                            <DriveEtaIcon style = {{color : pathname === 'vehicles' ? '#4f6bed' : '#11100f'}}/>
                         </div>
                         <h1 style = {styles.text}>Vehicles</h1>
                     </div>
                     <div id = 'item-1' style = {styles.items}>
                         <div id = 'location-icon'>
-                            <LocationOnIcon/>
+                            <LocationOnIcon style = {{color : pathname === 'parkingarea' ? '#4f6bed' : '#11100f'}}/>
                         </div>
                         <h1 style = {styles.text}>Parking Area</h1>
                     </div>
                     <div id = 'item-1' style = {styles.items}>
                         <div id = 'rating-icon'>
-                            <GradeIcon/>
+                            <GradeIcon style = {{color : pathname === 'rating' ? '#4f6bed' : '#11100f'}}/>
                         </div>
                         <h1 style = {styles.text}>Ratings</h1>
                     </div>
                     <div id = 'item-1' style = {styles.items}>
                         <div id = 'history-icon'>
-                            <HistoryIcon/>
+                            <HistoryIcon style = {{color : pathname === 'history' ? '#4f6bed' : '#11100f'}}/>
                         </div>
                         <h1 style = {styles.text}>History</h1>
                     </div>
                     <div id = 'item-1' style = {styles.items}>
-                        <div id = 'setting-icon'>
-                            <SettingsIcon/>
+                        <div id = 'payment-icon'>
+                            <ReceiptIcon style = {{color : pathname === 'payment' ? '#4f6bed' : '#11100f'}}/>
                         </div>
-                        <h1 style = {styles.text}>Setting</h1>
+                        <h1 style = {styles.text}>Payment</h1>
                     </div>
                 </div>
                 <div className = 'bottom' style = {styles.bottom}>
                     <div id = 'last-item' onClick = {this.handleExit}>
                         <div id = 'exit-icon'>
-                            <ExitToAppIcon/>
+                            <ExitToAppIcon />
                         </div>
                         <h1 style = {styles.text}>Exit</h1>
                     </div>
