@@ -1,6 +1,7 @@
 import Axios from 'axios' 
 import { API_URL_USER } from '../helpers/apiUrl'
-import { LOG_IN, LOG_OUT, STAY_LOGIN, LOG_IN_ERROR, CLEAR_ERROR, GET_USER_PROFILE, GET_PROFILE_ERROR } from '../helpers/actionTypes'
+import { LOG_IN, LOG_OUT, STAY_LOGIN, LOG_IN_ERROR, 
+    CLEAR_LOGIN_ERROR, GET_USER_PROFILE, GET_PROFILE_ERROR } from '../helpers/actionTypes'
 
 export const loginAction = (body) => {
     return async (dispatch) => {
@@ -16,13 +17,6 @@ export const loginAction = (body) => {
                 payload : data
             })
             
-            // request user profile
-            // let profile = await Axios.get(API_URL_USER + `/profile/${data.id}`)
-            // dispatch({
-            //     type : GET_USER_PROFILE,
-            //     payload : profile.data
-            // })
-
             // set local storage
             localStorage.setItem('id', data.id)
             localStorage.setItem('role', data.role)
@@ -33,7 +27,6 @@ export const loginAction = (body) => {
                 type : LOG_IN_ERROR,
                 payload : err.response ? err.response.data : err
             })
-            // dispatch({ type : GET_PROFILE_ERROR })
         }
     }
 }
@@ -47,35 +40,7 @@ export const logOutAction = () => {
 }
 
 export const clearErrorLogin = () => {
-    return { type : CLEAR_ERROR }
-}
-
-export const registerAction = async (body) => {
-    try {
-        // post user account
-        let { data } = await Axios.post(API_URL_USER + '/register', {
-            username : body.username,
-            email : body.email,
-            password : body.password
-        })
-
-        // initialize user profile
-        const profile = {
-            id : data.id, 
-            name : body.name,
-            image : null,
-            birthdate : null,
-            phone : null,
-            address : null
-        }
-
-        // post user profile
-        let res = await Axios.post(API_URL_USER + '/profile/add', profile)
-        if (res) console.log('register success.')
-
-    } catch (err) {
-        console.log(err.response ? err.response.data : err)
-    }
+    return { type : CLEAR_LOGIN_ERROR }
 }
 
 export const stayLogin = () => {
@@ -87,19 +52,20 @@ export const stayLogin = () => {
             // request stay login
             const options = { headers : {'Auth-Token' : token} }
             let user = await Axios.get(API_URL_USER + '/staylogin', options)
-            let profile = await Axios.get(API_URL_USER + `/profile/${user.data.id}`)
             dispatch({
                 type : STAY_LOGIN,
                 payload : user.data
             })
+            // get user profile
+            let profile = await Axios.get(API_URL_USER + `/profile/${user.data.id}`)
             dispatch({
                 type : GET_USER_PROFILE,
                 payload : profile.data
             })
         } catch (err) {
+            console.log(err.response ? err.response.data : err)
             dispatch({ type : LOG_OUT })
             dispatch({ type : GET_PROFILE_ERROR })
-            console.log(err.response ? err.response.data : err)
         }
     }
 }

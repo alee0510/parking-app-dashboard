@@ -12,7 +12,7 @@ import CheckIcon from '@material-ui/icons/Check'
 // import action
 import { getUserAction, nextUserAction, prevUserAction,
     getProfileAction, nextProfileAction, prevProfileAction,
-    getUserRoles, editUserRole
+    getUserRoles, editUserRole, getTotalUser
 } from '../actions'
 
 // import components
@@ -35,21 +35,31 @@ class Member extends React.Component {
 
     componentDidMount () {
         const role = parseInt(localStorage.getItem('role'))
+        // get total user
+        this.props.getTotalUser()
+
+        // get initialize data
         role === 1 ? this.props.getUserAction(this.state.rowPerPage) 
         : this.props.getProfileAction(this.state.rowPerPage, 3)
         
+        // get user role
         this.props.getUserRoles()
     }
 
     handleTab = () => {
         const { tabValue, rowPerPage } = this.state
-        this.setState({tabValue : tabValue ? 0 : 1, rowPerPage : 10, page : 1}, 
-            () => this.state.tabValue === 1 ? this.props.getProfileAction(rowPerPage) : null
+        this.setState({tabValue : tabValue ? 0 : 1, rowPerPage : 10, page : 1, sortByValue : 0}, 
+            () => {
+                this.props.getTotalUser()
+                this.state.tabValue === 1 ? this.props.getProfileAction(rowPerPage) : this.props.getUserAction(rowPerPage)
+            }
         )
     }
 
     handleOption = (value) => {
         this.setState({rowPerPage : value, page : 1})
+
+        // refresh user and profile data
         this.state.tabValue ? this.props.getProfileAction(value) 
         : this.props.getUserAction(value)
     }
@@ -87,7 +97,12 @@ class Member extends React.Component {
     }
 
     handleSortByChange = (value) => {
-        this.setState({sortByValue : value})
+        this.setState({sortByValue : value, page : 1})
+
+        // refresh total data
+        this.props.getTotalUser(value)
+
+        // refresh user data
         if (this.state.tabValue) { // tabValue !== 0, profile tab
             return this.props.getProfileAction(this.state.rowPerPage, value || null)
         }
@@ -197,7 +212,7 @@ class Member extends React.Component {
                     <td></td>
                     <td>{username}</td>
                     <td>{name}</td>
-                    <td>{birthdate.split('T')[0]}</td>
+                    <td>{birthdate ? birthdate.split('T')[0] : birthdate}</td>
                     <td>{phone}</td>
                     <td>{address}</td>
                     <td></td>
@@ -255,7 +270,7 @@ const mapDispatch = () => {
     return {
         getUserAction, nextUserAction, prevUserAction,
         getProfileAction, nextProfileAction, prevProfileAction,
-        getUserRoles, editUserRole
+        getUserRoles, editUserRole, getTotalUser
     }
 }
 

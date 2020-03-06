@@ -6,6 +6,25 @@ import { TOTAL_USER, GET_USER, NEXT_USER,
 } from '../helpers/actionTypes'
 import { API_URL_ADMIN } from '../helpers/apiUrl'
 
+// get total users data
+export const getTotalUser = (role = null) => {
+    return async (dispatch) => {
+        try {
+            // define query
+            const query = role ? `?role=${role}` : ``
+            console.log(query)
+            const { data } = await Axios.get(API_URL_ADMIN + `/get/users/total/${query}`)
+            dispatch({
+                type : TOTAL_USER,
+                payload : data
+            })
+
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        }
+    }
+}
+
 // get user account
 const role = parseInt(localStorage.getItem('role'))
 export const getUserAction = (limit, only = null) => {
@@ -16,16 +35,12 @@ export const getUserAction = (limit, only = null) => {
             console.log(query)
 
             // do request
-            let user = await Axios.get(API_URL_ADMIN + `/get/users/${query}`)
+            const { data } = await Axios.get(API_URL_ADMIN + `/get/users/${query}`)
             dispatch({
                 type : GET_USER,
-                payload : user.data
+                payload : data
             })
-            let totalUser = await Axios.get(API_URL_ADMIN + `/get/users/total`)
-            dispatch({
-                type : TOTAL_USER,
-                payload : totalUser.data[0]
-            })
+
         } catch (err) {
             console.log(err.response ? err.response.data : err)
             dispatch({ type : GET_USER_ERROR })
@@ -42,10 +57,10 @@ export const nextUserAction = (id, limit, only = null) => {
             console.log(query)
 
             // do request
-            let user = await Axios.get(API_URL_ADMIN + `/get/users/next/${query}`)
+            const { data } = await Axios.get(API_URL_ADMIN + `/get/users/next/${query}`)
             dispatch({
                 type : NEXT_USER,
-                payload : user.data
+                payload : data
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
@@ -63,10 +78,10 @@ export const prevUserAction = (id, limit, only = null) => {
             console.log(query)
 
             // do request
-            let user = await Axios.get(API_URL_ADMIN + `/get/users/prev/${query}`)
+            const { data } = await Axios.get(API_URL_ADMIN + `/get/users/prev/${query}`)
             dispatch({
                 type : PREV_USER,
-                payload : user.data
+                payload : data
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
@@ -85,10 +100,10 @@ export const getProfileAction = (limit, only = null) => {
             console.log(query)
             
             // do request
-            let profile = await Axios.get(API_URL_ADMIN + `/get/users/profile/${query}`)
+            const { data } = await Axios.get(API_URL_ADMIN + `/get/users/profile/${query}`)
             dispatch({
                 type : GET_PROFILE,
-                payload : profile.data
+                payload : data
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
@@ -106,10 +121,10 @@ export const nextProfileAction = (id, limit, only = null) => {
             console.log(query)
             
             // do request
-            let profile = await Axios.get(API_URL_ADMIN + `/get/users/profile/next/${query}`)
+            const { data } = await Axios.get(API_URL_ADMIN + `/get/users/profile/next/${query}`)
             dispatch({
                 type : NEXT_PROFILE,
-                payload : profile.data
+                payload : data
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
@@ -127,10 +142,10 @@ export const prevProfileAction = (id, limit, only = null) => {
             console.log(query)
 
             // do request
-            let profile = await Axios.get(API_URL_ADMIN + `/get/users/profile/prev/${query}`)
+            const { data } = await Axios.get(API_URL_ADMIN + `/get/users/profile/prev/${query}`)
             dispatch({
                 type : PREV_PROFILE,
-                payload : profile.data
+                payload : data
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
@@ -143,7 +158,7 @@ export const prevProfileAction = (id, limit, only = null) => {
 export const getUserRoles = () => {
     return async (dispatch) => {
         try {
-            let { data } = await Axios.get(API_URL_ADMIN + '/get/roles')
+            const { data } = await Axios.get(API_URL_ADMIN + '/get/roles')
             dispatch({
                 type : GET_ROLES,
                 payload : data
@@ -168,7 +183,7 @@ export const editUserRole = (userId, roleId,  dataId, limit, only = null) => {
             
             // get profile data
             console.log('get request')
-            let { data } = await Axios.get(API_URL_ADMIN + `/get/users/next/${query}`)            
+            const { data } = await Axios.get(API_URL_ADMIN + `/get/users/next/${query}`)            
             dispatch({
                 type : EDIT_ROLE,
                 payload : data

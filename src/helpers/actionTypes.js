@@ -2,7 +2,7 @@
 export const LOG_IN = 'LOG_IN'
 export const LOG_OUT = 'LOG_OUT'
 export const LOG_IN_ERROR = 'LOG_IN_ERROR'
-export const CLEAR_ERROR = 'CLEAR_ERROR'
+export const CLEAR_LOGIN_ERROR = 'CLEAR_LOGIN_ERROR'
 export const REGISTER = 'REGISTER'
 export const GET_USER_ACCOUNT = 'GET_USER_ACCOUNT'
 export const GET_USER_ACCOUNT_ERROR = 'GET_USER_ACCOUNT_ERROR'
