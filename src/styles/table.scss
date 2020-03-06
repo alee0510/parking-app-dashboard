@@ -18,7 +18,7 @@
                 min-width: 100%;
                 border-collapse: collapse;
                 text-align: left;
-                padding: 5px;
+                padding: 0px 10px;
                 height: 45px;
                 border-bottom: 1px solid rgba($color: $gray220, $alpha: 0.05);
                 &:first-child {
@@ -26,7 +26,7 @@
                 }
                 &:last-child {
                     display: flex;
-                    padding: 0px;
+                    // padding: 0px 0px !important;
                     justify-content: center;
                     max-width: 100px;
                     width: 50px;

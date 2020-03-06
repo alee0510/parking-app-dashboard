@@ -11,33 +11,29 @@ export const loginAction = (body) => {
             // do request
             let { data, headers } = await Axios.post(API_URL_USER + '/login', body)
             console.log(headers['auth-token'])
-
-            // request user profile
-            const options = { headers : {'Auth-Token' : headers['auth-token']} }
-            let profile = await Axios.get(API_URL_USER + '/profile', options)
-            
-            // set local storage
-            localStorage.setItem('id', data.id)
-            localStorage.setItem('role', data.role)
-            localStorage.setItem('token', headers['auth-token'])
-
-            dispatch({
-                type : GET_USER_PROFILE,
-                payload : profile
-            })
             dispatch({
                 type : LOG_IN,
                 payload : data
             })
+            
+            // request user profile
+            // let profile = await Axios.get(API_URL_USER + `/profile/${data.id}`)
+            // dispatch({
+            //     type : GET_USER_PROFILE,
+            //     payload : profile.data
+            // })
+
+            // set local storage
+            localStorage.setItem('id', data.id)
+            localStorage.setItem('role', data.role)
+            localStorage.setItem('token', headers['auth-token'])
         } catch (err) {
             console.log(err.response ? err.response.data : err)
             dispatch({
                 type : LOG_IN_ERROR,
                 payload : err.response ? err.response.data : err
             })
-            dispatch({
-                type : GET_PROFILE_ERROR
-            })
+            // dispatch({ type : GET_PROFILE_ERROR })
         }
     }
 }
@@ -45,19 +41,13 @@ export const loginAction = (body) => {
 export const logOutAction = () => {
     return (dispatch) => {
         localStorage.clear()
-        dispatch({
-            type : LOG_OUT
-        })
-        dispatch({
-            type : GET_PROFILE_ERROR
-        })
+        dispatch({ type : LOG_OUT })
+        dispatch({ type : GET_PROFILE_ERROR })
     }
 }
 
 export const clearErrorLogin = () => {
-    return {
-        type : CLEAR_ERROR
-    }
+    return { type : CLEAR_ERROR }
 }
 
 export const registerAction = async (body) => {
@@ -93,11 +83,11 @@ export const stayLogin = () => {
         try {
             const token = localStorage.getItem('token')
             if (!token) throw('invalid token.')
-
+            
             // request stay login
             const options = { headers : {'Auth-Token' : token} }
             let user = await Axios.get(API_URL_USER + '/staylogin', options)
-            let profile = await Axios.get(API_URL_USER + '/profile', options)
+            let profile = await Axios.get(API_URL_USER + `/profile/${user.data.id}`)
             dispatch({
                 type : STAY_LOGIN,
                 payload : user.data
@@ -107,12 +97,8 @@ export const stayLogin = () => {
                 payload : profile.data
             })
         } catch (err) {
-            dispatch({
-                type : LOG_OUT
-            })
-            dispatch({
-                type : GET_PROFILE_ERROR
-            })
+            dispatch({ type : LOG_OUT })
+            dispatch({ type : GET_PROFILE_ERROR })
             console.log(err.response ? err.response.data : err)
         }
     }

@@ -17,13 +17,11 @@ export const getUserAction = (limit, only = null) => {
 
             // do request
             let user = await Axios.get(API_URL_ADMIN + `/get/users/${query}`)
-            let totalUser = await Axios.get(API_URL_ADMIN + `/get/users/total`)
-
-            // triger reducer
             dispatch({
                 type : GET_USER,
                 payload : user.data
             })
+            let totalUser = await Axios.get(API_URL_ADMIN + `/get/users/total`)
             dispatch({
                 type : TOTAL_USER,
                 payload : totalUser.data[0]
@@ -162,14 +160,15 @@ export const editUserRole = (userId, roleId,  dataId, limit, only = null) => {
         try {
             // do request to edit user role by id
             console.log('do request')
-            let response = await Axios.patch(API_URL_ADMIN + `/edit/roles/${userId}`, {role : roleId})
-
+            await Axios.patch(API_URL_ADMIN + `/edit/roles/${userId}`, { role : roleId })
+            
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
             const query = `?id=${dataId + 1}&limit=${limit}&only=${only}`
             console.log(query)
-
+            
+            // get profile data
             console.log('get request')
-            let { data } = await Axios.get(API_URL_ADMIN + `/get/users/next/${query}`)
+            let { data } = await Axios.get(API_URL_ADMIN + `/get/users/next/${query}`)            
             dispatch({
                 type : EDIT_ROLE,
                 payload : data

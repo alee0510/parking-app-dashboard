@@ -4,9 +4,7 @@ import { BURGER, AVATAR } from '../helpers/actionTypes'
 export const burgerReducer = (state = { burger : false }, action) => {
     switch(action.type) {
         case BURGER : 
-            return {
-                ...state, burger : action.payload
-            }
+            return { burger : action.payload }
         default : return state
     }
 }
@@ -14,9 +12,7 @@ export const burgerReducer = (state = { burger : false }, action) => {
 export const avatarReducer = (state = { avatar : false }, action) => {
     switch(action.type) {
         case AVATAR :
-            return {
-                ...state, avatar : action.payload
-            }
+            return { state, avatar : action.payload }
         default : return state
     }
 }

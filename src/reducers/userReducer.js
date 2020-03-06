@@ -12,14 +12,9 @@ export const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state, data : action.payload, error : false, msg : ''
             }
-        case LOG_OUT : 
-            return {
-                ...state, data : [], error : false, msg : ''
-            }
-        case LOG_IN_ERROR :
-            return  {
-                ...state, data : [], error : true, msg : action.payload
-            }
+        case LOG_OUT : return INITIAL_STATE
+        case LOG_IN_ERROR : 
+            return  { ...state, error : true, msg : action.payload }
         case CLEAR_ERROR : return INITIAL_STATE
         case STAY_LOGIN :
             return {
@@ -32,13 +27,9 @@ export const userReducer = (state = INITIAL_STATE, action) => {
 export const userProfileReducer = (state = { data : [] }, action) => {
     switch(action.type) {
         case GET_USER_PROFILE :
-            return {
-                ...state, data : action.payload
-            }
+            return { data : action.payload }
         case GET_PROFILE_ERROR :
-            return {
-                ...state, data : []
-            }
+            return INITIAL_STATE
         default : return state
     }
 }

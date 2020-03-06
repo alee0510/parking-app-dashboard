@@ -144,7 +144,7 @@ class Member extends React.Component {
                     onMouseEnter = { _ => this.setState({hoverId : id})}
                     onMouseLeave = { _ => this.setState({hoverId : 0})}
                 >
-                    <td>{id}</td>
+                    <td></td>
                     <td>{username}</td>
                     <td>{email}</td>
                     <td>
