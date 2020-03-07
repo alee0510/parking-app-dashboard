@@ -4,6 +4,8 @@ export const LOG_OUT = 'LOG_OUT'
 export const LOG_IN_ERROR = 'LOG_IN_ERROR'
 export const CLEAR_LOGIN_ERROR = 'CLEAR_LOGIN_ERROR'
 export const REGISTER = 'REGISTER'
+
+// user account
 export const GET_USER_ACCOUNT = 'GET_USER_ACCOUNT'
 export const GET_USER_ACCOUNT_ERROR = 'GET_USER_ACCOUNT_ERROR'
 export const GET_USER_PROFILE = 'GET_USER_PROFILE'
@@ -16,7 +18,7 @@ export const AVATAR = 'AVATAR'
 // stay login
 export const STAY_LOGIN = 'STAY_LOG_IN'
 
-// data sets
+// DATA SETS
 export const TOTAL_USER = 'TOTAL_USER'
 // export const TOTAL_VEHICLE = 'TOTAL_VEHICLE'
 export const TOTAL_RATING = 'TOTAL_RATING'
@@ -40,21 +42,10 @@ export const EDIT_ROLE_ERROR = 'EDIT_ROLE_ERROR'
 // data sets : VEHICLE
 export const GET_TOTAL_CAR_BRAND = 'GET_TOTAL_CAR_BRAND'
 export const GET_CAR_BRANDS = 'GET_CAR_BRANDS'
-export const ADD_CAR_BRAND = 'ADD_CAR_BRAND'
-export const EDIT_CAR_BRAND = 'EDIT_CAR_BRAND'
-export const DELETE_CAR_BRAND = 'DELETE_CAR_BRAND'
 
 export const GET_TOTAL_CAR_TYPE = 'GET_TOTAL_CAR_TYPE'
 export const GET_CAR_TYPES = 'GET_CAR_TYPES'
-export const ADD_CAR_TYPES = 'ADD_CAR_TYPES'
-export const EDIT_CAR_TYPES = 'EDIT_CAR_TYPES'
-export const DELETE_CAR_TYPES = 'DELETE_CAR_TYPES'
 
 export const GET_MOTOR_BRANDS = 'GET_MOTOR_BRANDS'
-export const ADD_MOTOR_BRAND = 'ADD_MOTOR_BRAND'
-export const EDIT_MOTOR_BRAND = 'EDIT_MOTOR_BRAND'
-export const DELETE_MOTOR_BRAND = 'DELETE_MOTOR_BRAND'
+
 export const GET_MOTOR_TYPES = 'GET_MOTOR_TYPES'
-export const ADD_MOTOR_TYPES = 'ADD_MOTOR_TYPES'
-export const EDIT_MOTOR_TYPES = 'EDIT_MOTOR_TYPES'
-export const DELETE_MOTOR_TYPES = 'DELETE_MOTOR_TYPES'
