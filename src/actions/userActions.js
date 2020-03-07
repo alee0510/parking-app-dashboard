@@ -7,7 +7,7 @@ export const loginAction = (body) => {
     return async (dispatch) => {
         try {
             // check user input
-            if (!body.username || !body.password) throw ('please fill your username and password')
+            if (!body.username || !body.password) throw new Error ('please fill your username and password')
             
             // do request
             let { data, headers } = await Axios.post(API_URL_USER + '/login', body)
@@ -47,7 +47,7 @@ export const stayLogin = () => {
     return async (dispatch) => {
         try {
             const token = localStorage.getItem('token')
-            if (!token) throw('invalid token.')
+            if (!token) throw new Error ('invalid token.')
             
             // request stay login
             const options = { headers : {'Auth-Token' : token} }
@@ -63,6 +63,7 @@ export const stayLogin = () => {
                 payload : profile.data
             })
         } catch (err) {
+            console.log('stay login running . . .')
             console.log(err.response ? err.response.data : err)
             dispatch({ type : LOG_OUT })
             dispatch({ type : GET_PROFILE_ERROR })

@@ -33,8 +33,8 @@ const TabMenu = (props) => {
     return (
         <div className = 'tab-main-conatiner'>
             <StyledTabs value = {props.value} onChange = {props.handleTab}>
-                <StyledTab label = 'Account'/>
-                <StyledTab label = 'Profile'/>
+                <StyledTab label = {props.label1}/>
+                <StyledTab label = {props.label2}/>
             </StyledTabs>
         </div>
     )

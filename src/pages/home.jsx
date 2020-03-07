@@ -1,6 +1,4 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
 import Slider from "react-slick"
 
 // import components
@@ -25,8 +23,6 @@ class Home extends React.Component {
 
     render () {
         const { loginSlider } = this.state
-        const roleId = this.props.id || parseInt(localStorage.getItem('role'))
-        if ([1, 2].includes(roleId)) return <Redirect to = '/dashboard/feed'/>
         return (
             <div className = 'home-main-container'>
                 <Header handleSignIn = {this.handleLoginSlider}/>
@@ -36,10 +32,4 @@ class Home extends React.Component {
     }
 }
 
-const mapStore = ({ user }) => {
-    return {
-        id : parseInt(user.data.id)
-    }
-}
-
-export default connect(mapStore)(Home)
+export default Home

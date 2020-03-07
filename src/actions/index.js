@@ -2,3 +2,4 @@
 export * from './componentActions'
 export * from './memberActions'
 export * from './userActions'
+export * from './vehicleAction'

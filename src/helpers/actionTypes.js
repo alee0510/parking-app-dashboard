@@ -18,23 +18,40 @@ export const STAY_LOGIN = 'STAY_LOG_IN'
 
 // data sets
 export const TOTAL_USER = 'TOTAL_USER'
-export const TOTAL_VEHICLE = 'TOTAL_VEHICLE'
+// export const TOTAL_VEHICLE = 'TOTAL_VEHICLE'
 export const TOTAL_RATING = 'TOTAL_RATING'
 export const TOTAL_HISTORY = 'TOTAL_HISTORY'
 export const GET_ROLES = 'GET_ROLES'
 
-// user account
+// data sets : USER Accounts and Profiles
 export const GET_USER = 'GET_USER'
 export const NEXT_USER = 'NEXT_USER'
 export const PREV_USER = 'PREV_USER'
 export const GET_USER_ERROR = 'GET_USER_ERROR'
-
 // user profile
 export const GET_PROFILE = 'GET_PROFILE'
 export const NEXT_PROFILE = 'NEXT_PROFILE'
 export const PREV_PROFILE = 'PREV_PROFILE'
 export const GET_PROFILE_ERROR = 'GET_PROFILE_ERORR'
-
 // edit role
 export const EDIT_ROLE = 'EDIT_ROLE'
 export const EDIT_ROLE_ERROR = 'EDIT_ROLE_ERROR'
+
+// data sets : VEHICLE
+export const GET_CAR_BRANDS = 'GET_CAR_BRANDS'
+export const ADD_CAR_BRAND = 'ADD_CAR_BRAND'
+export const EDIT_CAR_BRAND = 'EDIT_CAR_BRAND'
+export const DELET_CAR_BRAND = 'DELETE_CAR_BRAND'
+export const GET_CAR_TYPES = 'GET_CAR_TYPES'
+export const ADD_CAR_TYPES = 'ADD_CAR_TYPES'
+export const EDIT_CAR_TYPES = 'EDIT_CAR_TYPES'
+export const DELETE_CAR_TYPES = 'DELETE_CAR_TYPES'
+
+export const GET_MOTOR_BRANDS = 'GET_MOTOR_BRANDS'
+export const ADD_MOTOR_BRAND = 'ADD_MOTOR_BRAND'
+export const EDIT_MOTOR_BRAND = 'EDIT_MOTOR_BRAND'
+export const DELET_MOTOR_BRAND = 'DELETE_MOTOR_BRAND'
+export const GET_MOTOR_TYPES = 'GET_MOTOR_TYPES'
+export const ADD_MOTOR_TYPES = 'ADD_MOTOR_TYPES'
+export const EDIT_MOTOR_TYPES = 'EDIT_MOTOR_TYPES'
+export const DELETE_MOTOR_TYPES = 'DELETE_MOTOR_TYPES'

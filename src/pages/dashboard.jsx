@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 // import components
 import AppBar from '../components/appbar'
@@ -9,6 +9,7 @@ import AvatarModal from '../components/avatarModal'
 // import pages
 import Chart from './chart'
 import Member from './member'
+import Vehicles from './vehicles'
 
 // import style
 import '../styles/dashboard.scss'
@@ -23,6 +24,7 @@ class Dashboard extends React.Component {
                 <AvatarModal/>
                 <Route path={match.path + '/feed'} component = {Chart}/>
                 <Route path={match.path + '/member'} component = {Member}/>
+                <Route path={match.path + '/vehicles'} component = {Vehicles}/>
             </div>
         )
     }

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Select, MenuItem, Typography } from '@material-ui/core'
 
@@ -223,16 +222,11 @@ class Member extends React.Component {
 
     render () {
         const { tabValue, page, rowPerPage } = this.state
-        // console.log('tab-value', tabValue)
-        // console.log('hover-id', hoverId)
-        // console.log('selected-id', selectedId)
-        const id = this.props.id || localStorage.getItem('token')
-        if (!id) return <Redirect to ='/'/>
         return (
             <div className = 'member-main-container'>
                 <h1>Member</h1>
                 <div className = 'tab-menu'>
-                    <TabMenu value = {tabValue} handleTab = {this.handleTab}/>
+                    <TabMenu value = {tabValue} handleTab = {this.handleTab} label1 = 'Account' label2 = 'Profiles'/>
                     {this.renderSortByOption()}
                 </div>
                 <div  className = 'table'>
