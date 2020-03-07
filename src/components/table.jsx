@@ -4,6 +4,7 @@ import { Select, MenuItem, Typography } from '@material-ui/core'
 // import icons
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
+import AddIcon from '@material-ui/icons/Add'
 
 // import style
 import '../styles/table.scss'
@@ -37,6 +38,15 @@ const Table = (props) => {
         )
     }
 
+    const style = {
+        add : {
+            display : props.addButton ? 'flex' : 'none'
+        },
+        footer : {
+            display : props.footer ? 'flex' : 'none'
+        }
+    }
+
     return (
         <div className = 'table-main-container'>
             <div className = 'table-contents'>
@@ -45,13 +55,20 @@ const Table = (props) => {
                         <tr>
                             <th></th>
                             {tableHeader()}
-                            <th></th>
+                            <th>
+                                <div style = {style.add} id = 'add-icon'>
+                                    <AddIcon/>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {props.tableBody()}
                     </tbody>
                 </table>
+            </div>
+            <div className = 'footer' style = {style.footer}>
+                {props.footer ? props.footer() : null}
             </div>
             {pagination()}
         </div>

@@ -152,9 +152,9 @@ class Member extends React.Component {
 
     tableAccount = () => {
         const { hoverId, selectedId } = this.state
-        return this.props.account.map(({id, username, email, role, status}, index) => {
+        return this.props.account.map(({id, username, email, role, status}) => {
             return (
-                <tr key = {index}
+                <tr key = {id}
                     onMouseEnter = { _ => this.setState({hoverId : id})}
                     onMouseLeave = { _ => this.setState({hoverId : 0})}
                 >
@@ -180,7 +180,7 @@ class Member extends React.Component {
                                     style = {{display : hoverId === id ? 'flex' : 'none'}}
                                     onClick = { _ => this.setState({ selectedId : null})}
                                 >
-                                <ClearIcon/>
+                                    <ClearIcon/>
                                 </div>
                             </td>
                         ) : (
@@ -205,7 +205,7 @@ class Member extends React.Component {
     }
 
     tableProfile = () => {
-        return this.props.profile.map(({id, image, username, name, birthdate, phone, address}, index) => {
+        return this.props.profile.map(({id, username, name, birthdate, phone, address}) => {
             return (
                 <tr key = {id}>
                     <td></td>

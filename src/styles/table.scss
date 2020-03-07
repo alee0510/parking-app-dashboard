@@ -42,12 +42,20 @@
                 z-index: 3;
                 background-color: $gray20;
                 @include depth-2;
+                #add-icon {
+                    height: 100%; width: 50px;
+                    color: $gray130;
+                    cursor: pointer;
+                    @include flex(row, center, center);
+                    &:active {
+                        transform: scale(0.9);  
+                    }
+                }
             }
             tr td {
                 font-size: 14px;
                 #edit-icon, #delete-icon,
                 #check-icon, #clear-icon {
-                    display: none;
                     height: 100%; width: 50px;
                     color: $gray130;
                     cursor: pointer;
