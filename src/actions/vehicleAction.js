@@ -32,7 +32,7 @@ export const getInitialCarBrands = (limit) => {
         }
     }
 }
-export const getNextCarBrand = (id, limit) => {
+export const getNextCarBrands = (id, limit) => {
     return async (dispacth) => {
         try {
             console.log('next brand')
@@ -118,7 +118,7 @@ export const getPrevCarTypes = (id, limit) => {
 }
 
 // MOTOR BRANDS
-export const getTotalMotorBrand = () => {
+export const getTotalMotorBrands = () => {
     return async (dispacth) => {
         try {
             const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/brands/total`)
@@ -171,7 +171,7 @@ export const getPrevMotorBrands = (id, limit) => {
     }
 }
 // MOTOR TYPES
-export const getTotalMotorType = () => {
+export const getTotalMotorTypes = () => {
     return async (dispacth) => {
         try {
             const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/types/total`)
@@ -184,7 +184,7 @@ export const getTotalMotorType = () => {
         }
     }
 }
-export const getInitialMotorBrands = (limit) => {
+export const getInitialMotorTypes = (limit) => {
     return async (dispacth) => {
         try {
             const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/types/?limit=${limit}`)
@@ -197,7 +197,7 @@ export const getInitialMotorBrands = (limit) => {
         }
     }
 }
-export const getNextMotorBrands = (id, limit) => {
+export const getNextMotorTypes = (id, limit) => {
     return async (dispacth) => {
         try {
             const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/types/next/?id=${id}&limit=${limit}`)
@@ -210,7 +210,7 @@ export const getNextMotorBrands = (id, limit) => {
         }
     }
 }
-export const getPrevMotorBrands = (id, limit) => {
+export const getPrevMotorTypes = (id, limit) => {
     return async (dispacth) => {
         try {
             const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/types/prev/?id=${id}&limit=${limit}`)
