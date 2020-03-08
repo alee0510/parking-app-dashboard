@@ -93,7 +93,8 @@ class Vehicles extends React.Component {
     handleBrandNext = () => {
         const { page, rowPerPage, tabValue } = this.state
         // check page
-        if (page * rowPerPage >= this.props.carBrandTotal) return null
+        const totalPage = tabValue ? this.props.motorBrandTotal : this.props.carBrandTotal
+        if (page * rowPerPage >= totalPage) return null
         this.setState({page : page + 1})
 
         // get last id and do query
@@ -239,7 +240,6 @@ class Vehicles extends React.Component {
                             handlePrevious = {this.handleBrandPrev}
                             handleNext = {this.handleBrandNext}
                             addButton = {true}
-                            // handleAdd = 
                         />
                     </div>
                     <div className = 'type-table'>

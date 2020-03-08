@@ -1,0 +1,22 @@
+// import variable
+@import './variables.scss';
+
+// styling rating page
+.rating-main-container {
+    position: relative;
+    top: 50px;
+    left: 50px;
+    height: calc(100vh - 50px); 
+    width: calc(100% - 50px);
+    padding: 2% 50px;
+    // background-color: yellow;
+    h1 {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    .rating-table-container {
+        width: 100%; height: calc(100% - 50px); 
+        // background-color: pink;
+    }
+}

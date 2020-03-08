@@ -10,6 +10,8 @@ import AvatarModal from '../components/avatarModal'
 import Chart from './chart'
 import Member from './member'
 import Vehicles from './vehicles'
+import Rating from './rating'
+import History from './history'
 
 // import style
 import '../styles/dashboard.scss'
@@ -25,6 +27,8 @@ class Dashboard extends React.Component {
                 <Route path={match.path + '/feed'} component = {Chart}/>
                 <Route path={match.path + '/member'} component = {Member}/>
                 <Route path={match.path + '/vehicles'} component = {Vehicles}/>
+                <Route path={match.path + '/rating'} component = {Rating}/>
+                <Route path={match.path + '/history'} component = {History}/>
             </div>
         )
     }

@@ -1,3 +1,5 @@
 export const API_URL = 'http://localhost:2000'
 export const API_URL_ADMIN = 'http://localhost:2000/api/admin'
 export const API_URL_USER = 'http://localhost:2000/api/user'
+export const API_RATING = 'http://localhost:2000/api/rating'
+export const API_HISTORY = 'http://localhost:2000/api/history'

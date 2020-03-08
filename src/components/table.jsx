@@ -42,9 +42,9 @@ const Table = (props) => {
         add : {
             display : props.addButton ? 'flex' : 'none'
         },
-        footer : {
-            display : props.footer ? 'flex' : 'none'
-        }
+        // footer : {
+        //     display : props.footer ? 'flex' : 'none'
+        // }
     }
 
     return (
@@ -67,9 +67,9 @@ const Table = (props) => {
                     </tbody>
                 </table>
             </div>
-            <div className = 'footer' style = {style.footer}>
+            {/* <div className = 'footer' style = {style.footer}>
                 {props.footer ? props.footer() : null}
-            </div>
+            </div> */}
             {pagination()}
         </div>
     )

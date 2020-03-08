@@ -124,7 +124,7 @@ export const getTotalMotorBrands = () => {
             const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/brands/total`)
             dispacth({
                 type : GET_TOTAL_MOTOR_BRANDS,
-                payload : data
+                payload : data[0]
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
@@ -177,7 +177,7 @@ export const getTotalMotorTypes = () => {
             const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/types/total`)
             dispacth({
                 type : GET_TOTAL_MOTOR_TYPES,
-                payload : data
+                payload : data[0]
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
