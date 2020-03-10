@@ -12,6 +12,7 @@ import Member from './member'
 import Vehicles from './vehicles'
 import Rating from './rating'
 import History from './history'
+import Payment from './payment'
 
 // import style
 import '../styles/dashboard.scss'
@@ -29,6 +30,7 @@ class Dashboard extends React.Component {
                 <Route path={match.path + '/vehicles'} component = {Vehicles}/>
                 <Route path={match.path + '/rating'} component = {Rating}/>
                 <Route path={match.path + '/history'} component = {History}/>
+                <Route path={match.path + '/payment'} component = {Payment}/>
             </div>
         )
     }

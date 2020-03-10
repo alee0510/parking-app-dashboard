@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import StarIcon from '@material-ui/icons/Star'
 
 // import actions creator
 import { getRatingTotal, getInitialRating, getNextRating, getPrevRating } from '../actions'
@@ -59,7 +60,11 @@ class Rating extends React.Component {
             <tr key = {id}>
                 <td></td>
                 <td>{username}</td>
-                <td>{rating}</td>
+                <td>
+                    {
+                        new Array(rating).fill(0).map(item => (<StarIcon key = {item} style ={{ color : '#ffb900'}}/>))
+                    }
+                </td>
                 <td>{message}</td>
                 <td>{date}</td>
                 <td>{place_name}</td>

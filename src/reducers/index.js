@@ -4,27 +4,32 @@ import { combineReducers } from 'redux'
 // import reducers
 import { burgerReducer, avatarReducer } from './componentReducers'
 import { getTotalUserReducer, 
-    getUserReducer, 
-    getProfileReducer, 
-    getUserRoleReducer } from './memberReducers'
+        getUserReducer, 
+        getProfileReducer, 
+        getUserRoleReducer } from './memberReducers'
 import { userReducer, userProfileReducer } from './userReducer'
 import { carBrandReducrer, 
-    carTypeReducer, 
-    carBrandTotal, 
-    carTypeTotal,
-    motorBrandTotal, 
-    motorBrandReducer, 
-    motorTypeTotal, 
-    motorTypeReducer } from './vehicleReducer'
+        carTypeReducer, 
+        carBrandTotal, 
+        carTypeTotal,
+        motorBrandTotal, 
+        motorBrandReducer, 
+        motorTypeTotal, 
+        motorTypeReducer } from './vehicleReducer'
 import { totalRating, ratingReducer } from './ratingReducer'
 import { historyTotal, 
-    historyReducer, 
-    onActiveTotal, 
-    onActiveReducer } from './historyReducer'
+        historyReducer, 
+        onActiveTotal, 
+        onActiveReducer } from './historyReducer'
+import { paymentTotalData, 
+        paymentReducer,
+        paymentStatus,
+        paymentTypes } from './paymentReducer'
 
 // combine all reducer
 const allReducers = combineReducers({
-    burgerReducer, avatarReducer,
+    burgerReducer, 
+    avatarReducer,
     totalAccount : getTotalUserReducer, 
     account : getUserReducer,
     profile : getProfileReducer,
@@ -33,8 +38,10 @@ const allReducers = combineReducers({
     userProfile : userProfileReducer,
     carBrands : carBrandReducrer,
     carTypes : carTypeReducer,
-    carBrandTotal, carTypeTotal,
-    motorBrandTotal, motorTypeTotal,
+    carBrandTotal, 
+    carTypeTotal,
+    motorBrandTotal, 
+    motorTypeTotal,
     motorBrands : motorBrandReducer,
     motorTypes : motorTypeReducer,
     totalRating,
@@ -42,7 +49,11 @@ const allReducers = combineReducers({
     historyTotal,
     historyReducer,
     onActiveTotal,
-    onActiveReducer
+    onActiveReducer,
+    paymentTotalData, 
+    paymentReducer,
+    paymentStatus,
+    paymentTypes
 })
 
 // export all reducers
