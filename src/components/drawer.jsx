@@ -82,7 +82,7 @@ class Drawer extends React.Component {
                     </div>
                     <div id = 'item-1' style = {styles.items}>
                         <div id = 'location-icon'>
-                            <LocationOnIcon style = {{color : pathname === 'parkingarea' ? '#4f6bed' : '#11100f'}}/>
+                            <LocationOnIcon style = {{color : pathname === 'parking' ? '#4f6bed' : '#11100f'}}/>
                         </div>
                         <h1 style = {styles.text}>Parking Area</h1>
                     </div>
