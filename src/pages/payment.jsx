@@ -1,5 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Select, MenuItem, Typography } from '@material-ui/core'
+
+// import icons
+import EditIcon from '@material-ui/icons/Edit'
+import ClearIcon from '@material-ui/icons/Clear'
+import CheckIcon from '@material-ui/icons/Check'
 
 // import actions creator
 import { 
@@ -21,7 +27,9 @@ import '../styles/payment.scss'
 class Payment extends React.Component {
     state = {
         page : 1,
-        rowPerPage : 10
+        rowPerPage : 10,
+        hoverId : null,
+        sortBy : 0
     }
 
     componentDidMount () {
@@ -34,28 +42,94 @@ class Payment extends React.Component {
 
     handleOption = (value) => {
         this.setState({ rowPerPage : value, page : 1})
-        this.props.getInitialPaymentData(value)
+        this.props.getInitialPaymentData(value, this.state.sortBy || null)
     }
 
     tablePayment = () => {
+        const { hoverId } = this.state
         return this.props.payment.map(({id, date, type, amount, username, status}) => (
-            <tr key = {id}>
+            <tr 
+                key = {id}
+                onMouseEnter = { _ => this.setState({hoverId : id})}
+                onMouseLeave = { _ => this.setState({hoverId : 0})}
+            >
                 <td></td>
                 <td>{date.split('T')[0]}</td>
                 <td>{this.props.types[type-1].type}</td>
                 <td>{amount}</td>
                 <td>{username}</td>
                 <td>{this.props.status[status-1].status}</td>
-                <td></td>
+                <td>
+                <div id = 'delete-icon' 
+                        style = {{display : hoverId === id & parseInt(type) === 1 ? 'flex' : 'none'}}
+                    >
+                        <EditIcon/>
+                    </div>
+                </td>
             </tr>
         ))
+    }
+
+    handleSortByChange = (value) => {
+        this.setState({ sortBy : value, page : 1, rowPerPage : 10 })
+        this.props.getInitialPaymentData(this.state.rowPerPage, value)
+        this.props.getTotalPaymentData(value)
+    }
+
+    handleNext = () => {
+        const { page, rowPerPage, sortBy } = this.state
+
+        // check page
+        if (page * rowPerPage >= this.props.total) return null
+        this.setState({page : page + 1})
+
+        // get last id
+        const lastId = this.props.payment[rowPerPage - 1].id
+
+        this.props.getNextPaymentData(lastId, rowPerPage, sortBy || null)
+    }
+
+    handlePrev = () => {
+        const { page, rowPerPage, sortBy } = this.state
+
+        // check page
+        if (page <= 1) return null
+        this.setState({ page : page - 1 })
+
+        // get first id
+        const firstId = this.props.payment[0].id
+
+        this.props.getPrevPaymentData(firstId, rowPerPage, sortBy || null)
+    }
+
+    renderSortBy = () => {
+        return (
+            <div className = 'sort-by'>
+                <Typography 
+                    style = {{fontSize : 16, fontWeight : 400, marginRight : 15}}
+                >
+                    Sort by
+                </Typography>
+                <Select 
+                    value = {this.state.sortBy} 
+                    onChange = {(e) => this.handleSortByChange(e.target.value)}
+                    disableUnderline = {true}
+                >
+                    <MenuItem value = {0}>All</MenuItem>
+                    {this.props.types.map(({id, type}) => (<MenuItem key = {id} value = {id}>{type}</MenuItem>))}
+                </Select>
+            </div>
+        )
     }
 
     render () {
         const { page, rowPerPage } = this.state
         return (
             <div className = 'payment-main-container'>
-                <h1>Payment</h1>
+                <div className = 'title'>
+                    <h1>Payment</h1>
+                    {this.renderSortBy()}
+                </div>
                 <div className = 'payment-table-container'>
                     <Table
                         className = 'table'

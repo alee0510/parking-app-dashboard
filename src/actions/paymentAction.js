@@ -6,10 +6,10 @@ import { GET_TRANSACTION_HISTORY,
 import { API_PAYMENT } from '../helpers/apiUrl'
 
 // transaction history
-export const getTotalPaymentData = () => {
+export const getTotalPaymentData = (type = null) => {
     return async (dispatch) => {
         try {
-            const { data } = await Axios.get(API_PAYMENT + `/data/total`)
+            const { data } = await Axios.get(API_PAYMENT + `/data/total/?type=${type}`)
             dispatch({
                 type : GET_TRANSACTION_HISTORY_TOTAL,
                 payload : data[0]

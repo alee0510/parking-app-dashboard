@@ -1,6 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+// import icons
+import DeleteIcon from '@material-ui/icons/Delete'
+
 // import actions creator
 import { getPartner, getPathAction } from '../actions'
 
@@ -11,20 +14,35 @@ import Table from '../components/table'
 import '../styles/partner.scss'
 
 class Partner extends React.Component {
+    state = {
+        hoverId : null
+    }
+
     componentDidMount () {
         this.props.getPathAction('partner')
         this.props.getPartner()
     }
 
     tablePartner = () => {
+        const { hoverId } = this.state
         return this.props.partner.map(({id, company, phone, email, admin}) => (
-            <tr key = {id}>
+            <tr 
+                key = {id}
+                onMouseEnter = { _ => this.setState({hoverId : id})}
+                onMouseLeave = { _ => this.setState({hoverId : 0})}
+            >
                 <td></td>
                 <td>{company}</td>
                 <td>{phone}</td>
                 <td>{email}</td>
                 <td>{admin}</td>
-                <td></td>
+                <td>
+                    <div id = 'delete-icon' 
+                        style = {{display : hoverId === id ? 'flex' : 'none'}}
+                    >
+                        <DeleteIcon/>
+                    </div>
+                </td>
             </tr>
         ))
     }

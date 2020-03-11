@@ -66,15 +66,16 @@ class Member extends React.Component {
     }
 
     handleOption = (value) => {
+        const { sortByValue, tabValue } = this.state
         this.setState({rowPerPage : value, page : 1})
 
         // refresh user and profile data
-        this.state.tabValue ? this.props.getProfileAction(value) 
+        tabValue ? this.props.getProfileAction(value, sortByValue || null) 
         : this.props.getUserAction(value)
     }
 
     handleNext = () => {
-        const { page, rowPerPage, tabValue } = this.state
+        const { page, rowPerPage, tabValue, sortByValue } = this.state
         // check page
         if (page * rowPerPage >= this.props.total) return null
         this.setState({page : page + 1})
@@ -85,12 +86,12 @@ class Member extends React.Component {
         // console.log('lastId', lastId)
 
         // check tab value
-        tabValue ? this.props.nextProfileAction(lastId, rowPerPage) 
+        tabValue ? this.props.nextProfileAction(lastId, rowPerPage, sortByValue || null) 
         : this.props.nextUserAction(lastId, rowPerPage)
     }
 
     handlePrevious = () => {
-        const { page, rowPerPage, tabValue } = this.state
+        const { page, rowPerPage, tabValue, sortByValue } = this.state
         // check page
         if (page <= 1) return null
         this.setState({page : page - 1})
@@ -101,7 +102,7 @@ class Member extends React.Component {
         // console.log('firstId', firstId)
 
         // check tab value
-        tabValue ? this.props.prevProfileAction(firstId, rowPerPage) 
+        tabValue ? this.props.prevProfileAction(firstId, rowPerPage, sortByValue || null) 
         : this.props.prevUserAction(firstId, rowPerPage)
     }
 
