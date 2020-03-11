@@ -1,7 +1,15 @@
 import Axios from 'axios'
-import { GET_CAR_BRANDS, GET_CAR_TYPES, GET_TOTAL_CAR_BRAND,
-    GET_TOTAL_CAR_TYPE, GET_TOTAL_MOTOR_BRANDS, GET_TOTAL_MOTOR_TYPES, 
-    GET_MOTOR_BRANDS, GET_MOTOR_TYPES
+import { 
+    GET_CAR_BRANDS, 
+    GET_CAR_TYPES, 
+    GET_TOTAL_CAR_BRAND,
+    GET_TOTAL_CAR_TYPE, 
+    GET_TOTAL_MOTOR_BRANDS, 
+    GET_TOTAL_MOTOR_TYPES, 
+    GET_MOTOR_BRANDS, 
+    GET_MOTOR_TYPES,
+    GET_CAR_BRANDS_ALL,
+    GET_MOTOR_BRANDS_ALL
 } from '../helpers/actionTypes'
 import { API_URL_ADMIN } from '../helpers/apiUrl'
 
@@ -242,6 +250,34 @@ export const editCarBrand = (brandId, typeId, brand, limit) => {
             dispacth({
                 type : GET_CAR_TYPES,
                 payload : types.data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        } 
+    }
+}
+
+// get all brand data
+export const getCarBrandAll = () => {
+    return async (dispacth) => {
+        try {
+            const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/brands/all`)
+            dispacth({
+                type : GET_CAR_BRANDS_ALL,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        } 
+    }
+}
+export const getMotorBrandAll = () => {
+    return async (dispacth) => {
+        try {
+            const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/brands/all`)
+            dispacth({
+                type : GET_MOTOR_BRANDS_ALL,
+                payload : data
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)

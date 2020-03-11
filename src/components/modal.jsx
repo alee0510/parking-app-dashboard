@@ -12,14 +12,25 @@ export default function AlertDialog (props) {
             >
                 <DialogTitle id="alert-dialog-title">{"Error"}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {props}
-                    </DialogContentText>
+                    {props.content}
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={props.handleClose} color="primary" autoFocus>
-                    Agree
-                </Button>
+                    {props.cancelButton ? (
+                        <Button
+                            onClick={props.handleCancel} 
+                            color="secondary" 
+                            autoFocus
+                        >
+                            Cancel
+                        </Button>
+                    ) : null}
+                    <Button 
+                        onClick={props.handleClose} 
+                        color="primary" 
+                        autoFocus
+                    >
+                        OK
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>

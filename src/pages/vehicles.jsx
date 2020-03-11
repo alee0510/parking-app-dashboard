@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Select, MenuItem } from '@material-ui/core'
 
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
@@ -26,7 +27,9 @@ import {
     getNextMotorTypes, 
     getPrevMotorTypes,
     getPathAction,
-    editCarBrand
+    editCarBrand,
+    getCarBrandAll,
+    getMotorBrandAll
  } from '../actions'
 
 // import components
@@ -45,7 +48,11 @@ class Vehicles extends React.Component {
         branHoverId : null,
         typeHoverId : null,
         selectedId : null,
-        carBrand : null
+        editBrand : null,
+        selectedTypeId : null,
+        editType : null,
+        addModal : false,
+        editTypeOption : 1
     }
     componentDidMount () {
         this.props.getPathAction('vehicles')
@@ -53,6 +60,7 @@ class Vehicles extends React.Component {
         this.props.getTotalCarBrands()
         this.props.getInitialCarTypes(this.state.typeRowPerPage)
         this.props.getTotalCarTypes()
+        this.props.getCarBrandAll()
         // this.props.getCarTypes()
     }
 
@@ -162,12 +170,16 @@ class Vehicles extends React.Component {
     }
 
     handleConfirmEditBrand = (id) => {
-        this.props.editCarBrand(id, this.props.carBrands[0].id, this.state.carBrand,  this.state.rowPerPage)
-        this.setState({ selectedId : null, carBrand : null})
+        this.props.editCarBrand(id, this.props.carBrands[0].id, this.state.editBrand,  this.state.rowPerPage)
+        this.setState({ selectedId : null, editBrand : null})
+    }
+
+    handleEditType = (id) => {
+        this.setState({ selectedTypeId : id })
     }
 
     tableBrand = () => {
-        const { branHoverId, tabValue, selectedId, carBrand } = this.state
+        const { branHoverId, tabValue, selectedId } = this.state
         return (tabValue ? this.props.motorBrands : this.props.carBrands).map(({id, brand}) => {
             return (
                 <tr key = {id}
@@ -183,8 +195,7 @@ class Vehicles extends React.Component {
                                     id = 'edit-input' 
                                     autoFocus 
                                     style = {{ paddingLeft : 15}}
-                                    // value = {carBrand}
-                                    onChange = { e => this.setState({ carBrand : e.target.value})}
+                                    onChange = { e => this.setState({ editBrand : e.target.value})}
                                 />
                             ) : brand
                         }
@@ -200,7 +211,7 @@ class Vehicles extends React.Component {
                                 </div>
                                 <div id = 'clear-icon' 
                                     style = {{display : branHoverId === id ? 'flex' : 'none'}}
-                                    onClick = { _ => this.setState({ selectedId : null, carBrand : null})}
+                                    onClick = { _ => this.setState({ selectedId : null, editBrand : null})}
                                 >
                                     <ClearIcon/>
                                 </div>
@@ -229,7 +240,7 @@ class Vehicles extends React.Component {
     }
 
     tableType = () => {
-        const { typeHoverId, tabValue } = this.state
+        const { typeHoverId, tabValue, selectedTypeId, editTypeOption } = this.state
         // console.log(this.state.carBrand)
         return (tabValue ? this.props.motorTypes : this.props.carTypes).map(({id, brand, name}) => {
             return (
@@ -238,22 +249,70 @@ class Vehicles extends React.Component {
                 onMouseLeave = { _ => this.setState({typeHoverId : 0})}
                 >
                     <td></td>
-                    <td>{brand}</td>
-                    <td>{name}</td>
                     <td>
-                        <div id = 'check-icon' 
-                            style = {{display : typeHoverId === id ? 'flex' : 'none'}}
-                            // onClick = {_ => this.hanldeEditConfirmation(id)}
-                        >
-                            <EditIcon/>
-                        </div>
-                        <div id = 'clear-icon' 
-                            style = {{display : typeHoverId === id ? 'flex' : 'none'}}
-                            // onClick = { _ => this.setState({ selectedId : null})}
-                        >
-                            <DeleteIcon/>
-                        </div>
+                        {
+                            selectedTypeId == id ? (
+                                <Select
+                                value = {editTypeOption}
+                                onChange = {(e) => this.setState({editTypeOption : e.target.value})}
+                                disableUnderline = {true}
+                            >
+                                {
+                                    this.props.allCarBrands.map(({id, brand}) => (
+                                        <MenuItem key = {id} value={id}>{brand}</MenuItem>
+                                    ))
+                                }
+                            </Select>
+                            ) : brand
+                        }
                     </td>
+                    <td>
+                        {
+                            selectedTypeId === id ? (
+                                <input 
+                                    type = 'text' 
+                                    id = 'edit-input' 
+                                    autoFocus 
+                                    style = {{ paddingLeft : 15}}
+                                    onChange = { e => this.setState({ editType : e.target.value})}
+                                />
+                            ) : name
+                        }
+                    </td>
+                    {
+                        selectedTypeId === id ? (
+                            <td>
+                                <div id = 'check-icon'
+                                    style = {{display : typeHoverId === id ? 'flex' : 'none'}}
+                                    // onClick = { _ => this.handleConfirmEditBrand(id)}
+                                >
+                                    <CheckIcon/>
+                                </div>
+                                <div id = 'clear-icon' 
+                                    style = {{display : typeHoverId === id ? 'flex' : 'none'}}
+                                    onClick = { _ => this.setState({ selectedTypeId : null, editType : null})}
+                                >
+                                    <ClearIcon/>
+                                </div>
+                            </td>
+                        ) 
+                        : (
+                            <td>
+                                <div id = 'edit-icon'
+                                    style = {{display : typeHoverId === id ? 'flex' : 'none'}}
+                                    onClick = { _ => this.handleEditType(id)}
+                                >
+                                    <EditIcon/>
+                                </div>
+                                <div id = 'delete-icon' 
+                                    style = {{display : typeHoverId === id ? 'flex' : 'none'}}
+                                    // onClick = { _ => this.setState({ selectedId : null})}
+                                >
+                                    <DeleteIcon/>
+                                </div>
+                            </td>
+                        )
+                    }
                 </tr>
             )
         })
@@ -289,6 +348,7 @@ class Vehicles extends React.Component {
                             handlePrevious = {this.handleBrandPrev}
                             handleNext = {this.handleBrandNext}
                             addButton = {true}
+                            handleClickAdd = {this.handleAddBrand}
                         />
                     </div>
                     <div className = 'type-table'>
@@ -314,8 +374,17 @@ class Vehicles extends React.Component {
     }
 }
 
-const mapStore = ({ carBrands , carBrandTotal, carTypes, carTypeTotal, 
-    motorBrandTotal, motorBrands, motorTypeTotal, motorTypes }) => {
+const mapStore = ({ 
+    carBrands , 
+    carBrandTotal, 
+    carTypes, 
+    carTypeTotal, 
+    motorBrandTotal, 
+    motorBrands, 
+    motorTypeTotal,
+    motorTypes,
+    allBrands 
+}) => {
     return {
         carBrands : carBrands.carBrands,
         carBrandTotal : carBrandTotal.carBrandTotal,
@@ -324,7 +393,9 @@ const mapStore = ({ carBrands , carBrandTotal, carTypes, carTypeTotal,
         motorBrands : motorBrands.motorBrands,
         motorBrandTotal : motorBrandTotal.motorBrandTotal,
         motorTypes : motorTypes.motorTypes,
-        motorTypeTotal : motorTypeTotal.motorTypeTotal
+        motorTypeTotal : motorTypeTotal.motorTypeTotal,
+        allCarBrands : allBrands.car,
+        allMotorBrands : allBrands.motor
     }
 }
 
@@ -347,7 +418,9 @@ const mapDispatch = () => {
         getNextMotorTypes, 
         getPrevMotorTypes,
         getPathAction,
-        editCarBrand
+        editCarBrand,
+        getCarBrandAll,
+        getMotorBrandAll
     }
 }
 

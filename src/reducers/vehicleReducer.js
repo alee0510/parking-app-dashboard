@@ -1,5 +1,14 @@
-import { GET_CAR_BRANDS, GET_CAR_TYPES, GET_TOTAL_CAR_BRAND, GET_TOTAL_CAR_TYPE, 
-    GET_TOTAL_MOTOR_BRANDS, GET_MOTOR_BRANDS, GET_TOTAL_MOTOR_TYPES, GET_MOTOR_TYPES 
+import { 
+    GET_CAR_BRANDS, 
+    GET_CAR_TYPES, 
+    GET_TOTAL_CAR_BRAND, 
+    GET_TOTAL_CAR_TYPE, 
+    GET_TOTAL_MOTOR_BRANDS, 
+    GET_MOTOR_BRANDS,
+    GET_TOTAL_MOTOR_TYPES, 
+    GET_MOTOR_TYPES,
+    GET_CAR_BRANDS_ALL,
+    GET_MOTOR_BRANDS_ALL 
 } from '../helpers/actionTypes'
 
 // CAR : BRAND AND TYPE
@@ -61,6 +70,16 @@ export const motorTypeReducer = (state = { motorTypes : [] }, action) => {
     switch(action.type) {
         case GET_MOTOR_TYPES :
             return { motorTypes : action.payload }
+        default : return state
+    }
+}
+
+export const allBrands = (state = { car : [], motor : [] }, action) => {
+    switch(action.type) {
+        case GET_CAR_BRANDS_ALL :
+            return { ...state, car : action.payload }
+        case GET_MOTOR_BRANDS_ALL :
+            return { ...state, motor : action.payload }
         default : return state
     }
 }

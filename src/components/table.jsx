@@ -42,9 +42,6 @@ const Table = (props) => {
         add : {
             display : props.addButton ? 'flex' : 'none'
         },
-        // footer : {
-        //     display : props.footer ? 'flex' : 'none'
-        // }
     }
 
     return (
@@ -56,7 +53,7 @@ const Table = (props) => {
                             <th></th>
                             {tableHeader()}
                             <th>
-                                <div style = {style.add} id = 'add-icon'>
+                                <div style = {style.add} id = 'add-icon' onClick = {props.handleClickAdd}>
                                     <AddIcon/>
                                 </div>
                             </th>
@@ -67,9 +64,6 @@ const Table = (props) => {
                     </tbody>
                 </table>
             </div>
-            {/* <div className = 'footer' style = {style.footer}>
-                {props.footer ? props.footer() : null}
-            </div> */}
             {pagination()}
         </div>
     )
