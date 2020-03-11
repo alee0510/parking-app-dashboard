@@ -2,12 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 // import actions creator
-import { getTotalPaymentData, 
+import { 
+    getTotalPaymentData, 
     getInitialPaymentData, 
     getNextPaymentData, 
     getPrevPaymentData,
     getPaymentStatus,
-    getPaymentTypes } from '../actions'
+    getPaymentTypes,
+    getPathAction 
+} from '../actions'
 
 // import component
 import Table from '../components/table'
@@ -22,6 +25,7 @@ class Payment extends React.Component {
     }
 
     componentDidMount () {
+        this.props.getPathAction('payment')
         this.props.getPaymentStatus()
         this.props.getPaymentTypes()
         this.props.getTotalPaymentData()
@@ -89,7 +93,8 @@ const mapDispatch = () => {
         getNextPaymentData,
         getPrevPaymentData,
         getPaymentStatus,
-        getPaymentTypes
+        getPaymentTypes,
+        getPathAction
     }
 }
 

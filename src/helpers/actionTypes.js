@@ -14,6 +14,7 @@ export const GET_USER_PROFILE_ERROR = 'GET_USER_PROFILE_ERROR'
 // DOM action => action toogle from DOM interactions
 export const BURGER = 'BURGER'
 export const AVATAR = 'AVATAR'
+export const BURGER_PATH = 'BURGER_PATH'
 
 // stay login
 export const STAY_LOGIN = 'STAY_LOG_IN'
@@ -69,3 +70,6 @@ export const GET_TRANSACTION_HISTORY_TYPE = 'GET_TRANSACTION_HISTORY_TYPE'
 
 // data sets : PARKING AREA
 export const GET_PARKING_AREA = 'GET_PARKING_AREA'
+
+// data sets : PARTNERS
+export const GET_PARTNERS = 'GET_PARTNERS'

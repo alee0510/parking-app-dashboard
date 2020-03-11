@@ -8,7 +8,8 @@ import ClearIcon from '@material-ui/icons/Clear'
 import CheckIcon from '@material-ui/icons/Check'
 
 // import actions creator
-import { getInitialCarBrands, 
+import { 
+    getInitialCarBrands, 
     getNextCarBrands, 
     getPrevCarBrands,
     getTotalCarBrands, 
@@ -23,7 +24,8 @@ import { getInitialCarBrands,
     getNextMotorBrands, 
     getPrevMotorBrands, 
     getNextMotorTypes, 
-    getPrevMotorTypes
+    getPrevMotorTypes,
+    getPathAction
  } from '../actions'
 
 // import components
@@ -43,6 +45,7 @@ class Vehicles extends React.Component {
         typeHoverId : null
     }
     componentDidMount () {
+        this.props.getPathAction('vehicles')
         this.props.getInitialCarBrands(this.state.rowPerPage)
         this.props.getTotalCarBrands()
         this.props.getInitialCarTypes(this.state.typeRowPerPage)
@@ -296,7 +299,8 @@ const mapDispatch = () => {
         getNextMotorBrands, 
         getPrevMotorBrands, 
         getNextMotorTypes, 
-        getPrevMotorTypes
+        getPrevMotorTypes,
+        getPathAction
     }
 }
 

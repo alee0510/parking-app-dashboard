@@ -1,9 +1,16 @@
-import { BURGER, AVATAR } from '../helpers/actionTypes'
+import { BURGER, AVATAR, BURGER_PATH } from '../helpers/actionTypes'
 
 // create action creators
 export const burgerAction = (data) => {
     return {
         type : BURGER,
+        payload : data
+    }
+}
+
+export const getPathAction = (data) => {
+    return {
+        type : BURGER_PATH,
         payload : data
     }
 }

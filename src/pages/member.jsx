@@ -9,9 +9,17 @@ import ClearIcon from '@material-ui/icons/Clear'
 import CheckIcon from '@material-ui/icons/Check'
 
 // import action
-import { getUserAction, nextUserAction, prevUserAction,
-    getProfileAction, nextProfileAction, prevProfileAction,
-    getUserRoles, editUserRole, getTotalUser
+import { 
+    getUserAction, 
+    nextUserAction, 
+    prevUserAction,
+    getProfileAction, 
+    nextProfileAction, 
+    prevProfileAction,
+    getUserRoles, 
+    editUserRole, 
+    getTotalUser,
+    getPathAction
 } from '../actions'
 
 // import components
@@ -33,6 +41,8 @@ class Member extends React.Component {
     }
 
     componentDidMount () {
+        this.props.getPathAction('member')
+        
         const role = parseInt(localStorage.getItem('role'))
         // get total user
         this.props.getTotalUser()
@@ -262,9 +272,16 @@ const mapStore = ({ account, totalAccount, profile, user, roles }) => {
 
 const mapDispatch = () => {
     return {
-        getUserAction, nextUserAction, prevUserAction,
-        getProfileAction, nextProfileAction, prevProfileAction,
-        getUserRoles, editUserRole, getTotalUser
+        getUserAction, 
+        nextUserAction, 
+        prevUserAction,
+        getProfileAction, 
+        nextProfileAction, 
+        prevProfileAction,
+        getUserRoles, 
+        editUserRole, 
+        getTotalUser,
+        getPathAction
     }
 }
 

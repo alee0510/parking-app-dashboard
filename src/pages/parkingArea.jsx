@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 // import actions creator
-import { getParkng } from '../actions'
+import { getParkng, getPathAction } from '../actions'
 
 // import components
 import Table from '../components/table'
@@ -12,12 +12,8 @@ import '../styles/parkingArea.scss'
 
 
 class ParkingArea extends React.Component {
-    state = {
-        page : 1,
-        rowPerPage : 0
-    }
-
     componentDidMount () {
+        this.props.getPathAction('parking')
         this.props.getParkng()
     }
 
@@ -50,7 +46,6 @@ class ParkingArea extends React.Component {
     }
 
     render () {
-        const { page, rowPerPage} = this.state
         return (
             <div className = 'parking-main-container'>
                 <h1>Parking Area</h1>
@@ -59,14 +54,11 @@ class ParkingArea extends React.Component {
                         className = 'table'
                         headerItems = {['company', 'address', 'city', 'province', 'car', 'motor', 'slot', 'place', 'location']}
                         menuItems = {[0]}
-                        optionValue = {rowPerPage}
-                        // handleOption = { _ => null}
-                        page = {page}
-                        rowPerPage = {rowPerPage}
+                        optionValue = {0}
+                        page = {1}
+                        rowPerPage = {0}
                         totalPage = {1}
                         tableBody = {this.tableParking}
-                        // handlePrevious = {this.handlePrevious}
-                        // handleNext = {this.handleNext}
                     />
                 </div>
             </div>
@@ -82,7 +74,8 @@ const mapStore = ({ parkingReducer }) => {
 
 const mapDispatch = () => {
     return {
-        getParkng
+        getParkng,
+        getPathAction
     }
 }
 

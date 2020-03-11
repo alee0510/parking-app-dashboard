@@ -22,6 +22,8 @@
             height: 50px; width: 100%;
             // margin-top: 20px;
             background-color: $gray20;
+            text-decoration: none;
+            color: $gray220;
             cursor: pointer;
             h1 {
                 margin-left: 15px;
@@ -68,7 +70,7 @@
     }
     // icons style
     #dash-icon, #people-icon, #car-icon,#location-icon,
-    #rating-icon, #history-icon, #payment-icon,
+    #rating-icon, #history-icon, #payment-icon, #partner-icon,
     #exit-icon {
         @include flex (row, center, center);
         height: 50px; width: 50px;

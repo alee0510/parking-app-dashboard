@@ -3,7 +3,13 @@ import { connect } from 'react-redux'
 import StarIcon from '@material-ui/icons/Star'
 
 // import actions creator
-import { getRatingTotal, getInitialRating, getNextRating, getPrevRating } from '../actions'
+import { 
+    getRatingTotal, 
+    getInitialRating, 
+    getNextRating, 
+    getPrevRating,
+    getPathAction 
+} from '../actions'
 
 // import table
 import Table from '../components/table'
@@ -18,6 +24,7 @@ class Rating extends React.Component {
     }
 
     componentDidMount() {
+        this.props.getPathAction('rating')
         this.props.getInitialRating(this.state.rowPerPage)
         this.props.getRatingTotal()
     }
@@ -62,7 +69,7 @@ class Rating extends React.Component {
                 <td>{username}</td>
                 <td>
                     {
-                        new Array(rating).fill(0).map(item => (<StarIcon key = {item} style ={{ color : '#ffb900'}}/>))
+                        new Array(rating).fill(0).map((item, index) => (<StarIcon key = {index} style ={{ color : '#ffb900'}}/>))
                     }
                 </td>
                 <td>{message}</td>
@@ -108,7 +115,11 @@ const mapStore = ({ ratingReducer, totalRating }) => {
 
 const mapDispatch = () => {
     return {
-        getInitialRating, getNextRating, getPrevRating, getRatingTotal
+        getInitialRating, 
+        getNextRating, 
+        getPrevRating, 
+        getRatingTotal,
+        getPathAction
     }
 }
 

@@ -9,7 +9,8 @@ import { getHistoryTotal,
     getOnActiveTotal,
     getInitialOnActive,
     getNextOnActive,
-    getPrevOnActive
+    getPrevOnActive,
+    getPathAction
 } from '../actions'
 
 // import components
@@ -27,8 +28,10 @@ class History extends React.Component {
     }
 
     componentDidMount () {
+        this.props.getPathAction('history')
         this.props.getHistoryTotal()
         this.props.getInitialHistory(this.state.rowPerPage)
+
     }
 
     handleTab = () => {
@@ -166,7 +169,8 @@ export const mapDispatch = () => {
         getOnActiveTotal,
         getInitialOnActive,
         getNextOnActive,
-        getPrevOnActive
+        getPrevOnActive,
+        getPathAction
     }
 }
 
