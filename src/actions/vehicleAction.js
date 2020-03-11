@@ -224,3 +224,27 @@ export const getPrevMotorTypes = (id, limit) => {
     }
 }
 
+// edit brand : CAR & MOTOR
+export const editCarBrand = (brandId, typeId, brand, limit) => {
+    return async (dispacth) => {
+        try {
+            // do request to edit brand name
+            console.log('do edit brand request')
+            await Axios.patch(API_URL_ADMIN + `/vehicle/car/brands/edit/${brandId}`, {brand})
+            
+            // refresh redux data
+            const brands = await Axios.get(API_URL_ADMIN + `/vehicle/car/brands/next/?id=${brandId-1}&limit=${limit}`)
+            const types = await Axios.get(API_URL_ADMIN + `/vehicle/car/types/next/?id=${typeId-1}&limit=${limit}`)
+            dispacth({
+                type : GET_CAR_BRANDS,
+                payload : brands.data
+            })
+            dispacth({
+                type : GET_CAR_TYPES,
+                payload : types.data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        } 
+    }
+}

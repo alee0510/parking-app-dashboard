@@ -170,7 +170,7 @@ export const getUserRoles = () => {
 }
 
 // edit user role
-export const editUserRole = (userId, roleId,  dataId, limit, only = null) => {
+export const editUserRole = (userId, roleId, dataId, limit, only = null) => {
     return async (dispatch) => {
         try {
             // do request to edit user role by id

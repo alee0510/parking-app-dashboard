@@ -30,5 +30,13 @@
             height: 100%; width: 49.5%;
             // background-color: green;
         }
+        input {
+            height: 90%;
+            width: 100%;
+            border: none;
+            &:focus {
+                border-color: $blue10;
+            }
+        }
     }
 }

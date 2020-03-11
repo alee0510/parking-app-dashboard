@@ -25,7 +25,8 @@ import {
     getPrevMotorBrands, 
     getNextMotorTypes, 
     getPrevMotorTypes,
-    getPathAction
+    getPathAction,
+    editCarBrand
  } from '../actions'
 
 // import components
@@ -42,7 +43,9 @@ class Vehicles extends React.Component {
         typePage : 1,
         typeRowPerPage : 10,
         branHoverId : null,
-        typeHoverId : null
+        typeHoverId : null,
+        selectedId : null,
+        carBrand : null
     }
     componentDidMount () {
         this.props.getPathAction('vehicles')
@@ -154,8 +157,17 @@ class Vehicles extends React.Component {
         : this.props.getPrevCarTypes(firstId, typeRowPerPage)
     }
 
+    handleEditBrand = (id) => {
+        this.setState({ selectedId : id })
+    }
+
+    handleConfirmEditBrand = (id) => {
+        this.props.editCarBrand(id, this.props.carBrands[0].id, this.state.carBrand,  this.state.rowPerPage)
+        this.setState({ selectedId : null, carBrand : null})
+    }
+
     tableBrand = () => {
-        const { branHoverId, tabValue } = this.state
+        const { branHoverId, tabValue, selectedId, carBrand } = this.state
         return (tabValue ? this.props.motorBrands : this.props.carBrands).map(({id, brand}) => {
             return (
                 <tr key = {id}
@@ -163,21 +175,54 @@ class Vehicles extends React.Component {
                     onMouseLeave = { _ => this.setState({branHoverId : 0})}
                 >
                     <td></td>
-                    <td>{brand}</td>
                     <td>
-                        <div id = 'check-icon' 
-                            style = {{display : branHoverId === id ? 'flex' : 'none'}}
-                            // onClick = {_ => this.hanldeEditConfirmation(id)}
-                        >
-                            <EditIcon/>
-                        </div>
-                        <div id = 'clear-icon' 
-                            style = {{display : branHoverId === id ? 'flex' : 'none'}}
-                            // onClick = { _ => this.setState({ selectedId : null})}
-                        >
-                            <DeleteIcon/>
-                        </div>
+                        {
+                            selectedId === id ? (
+                                <input 
+                                    type = 'text' 
+                                    id = 'edit-input' 
+                                    autoFocus 
+                                    style = {{ paddingLeft : 15}}
+                                    // value = {carBrand}
+                                    onChange = { e => this.setState({ carBrand : e.target.value})}
+                                />
+                            ) : brand
+                        }
                     </td>
+                    {
+                        selectedId === id ? (
+                            <td>
+                                <div id = 'check-icon'
+                                    style = {{display : branHoverId === id ? 'flex' : 'none'}}
+                                    onClick = { _ => this.handleConfirmEditBrand(id)}
+                                >
+                                    <CheckIcon/>
+                                </div>
+                                <div id = 'clear-icon' 
+                                    style = {{display : branHoverId === id ? 'flex' : 'none'}}
+                                    onClick = { _ => this.setState({ selectedId : null, carBrand : null})}
+                                >
+                                    <ClearIcon/>
+                                </div>
+                            </td>
+                        ) 
+                        : (
+                            <td>
+                                <div id = 'edit-icon'
+                                    style = {{display : branHoverId === id ? 'flex' : 'none'}}
+                                    onClick = { _ => this.handleEditBrand(id)}
+                                >
+                                    <EditIcon/>
+                                </div>
+                                <div id = 'delete-icon' 
+                                    style = {{display : branHoverId === id ? 'flex' : 'none'}}
+                                    // onClick = { _ => this.setState({ selectedId : null})}
+                                >
+                                    <DeleteIcon/>
+                                </div>
+                            </td>
+                        )
+                    }
                 </tr>
             )
         })
@@ -185,6 +230,7 @@ class Vehicles extends React.Component {
 
     tableType = () => {
         const { typeHoverId, tabValue } = this.state
+        // console.log(this.state.carBrand)
         return (tabValue ? this.props.motorTypes : this.props.carTypes).map(({id, brand, name}) => {
             return (
                 <tr key = {id}
@@ -300,7 +346,8 @@ const mapDispatch = () => {
         getPrevMotorBrands, 
         getNextMotorTypes, 
         getPrevMotorTypes,
-        getPathAction
+        getPathAction,
+        editCarBrand
     }
 }
 
