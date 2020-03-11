@@ -257,6 +257,28 @@ export const editCarBrand = (brandId, typeId, brand, limit) => {
     }
 }
 
+export const editCarType = (id, dataId, data, limit) => {
+    console.log(id)
+    console.log(data)
+    console.log(limit)
+    return async (dispacth) => {
+        try {
+            // do request to edit brand name
+            console.log('do edit type request')
+            await Axios.patch(API_URL_ADMIN + `/vehicle/car/types/edit/${id}`, data)
+
+            // refresh redux data
+            const types = await Axios.get(API_URL_ADMIN + `/vehicle/car/types/next/?id=${dataId-1}&limit=${limit}`)
+            dispacth({
+                type : GET_CAR_TYPES,
+                payload : types.data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        } 
+    }
+}
+
 // get all brand data
 export const getCarBrandAll = () => {
     return async (dispacth) => {

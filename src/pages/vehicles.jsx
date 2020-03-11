@@ -28,6 +28,7 @@ import {
     getPrevMotorTypes,
     getPathAction,
     editCarBrand,
+    editCarType,
     getCarBrandAll,
     getMotorBrandAll
  } from '../actions'
@@ -52,7 +53,7 @@ class Vehicles extends React.Component {
         selectedTypeId : null,
         editType : null,
         addModal : false,
-        editTypeOption : 1
+        editTypeOption : 1,
     }
     componentDidMount () {
         this.props.getPathAction('vehicles')
@@ -165,21 +166,35 @@ class Vehicles extends React.Component {
         : this.props.getPrevCarTypes(firstId, typeRowPerPage)
     }
 
-    handleEditBrand = (id) => {
-        this.setState({ selectedId : id })
+    handleEditBrand = (id, brand) => {
+        this.setState({ selectedId : id, editBrand : brand })
     }
 
-    handleConfirmEditBrand = (id) => {
-        this.props.editCarBrand(id, this.props.carBrands[0].id, this.state.editBrand,  this.state.rowPerPage)
+    handleConfirmEditBrand = (id, type) => {
+        // check value
+        if(this.state.editBrand) {
+            this.props.editCarBrand(id, this.props.carBrands[0].id, this.state.editBrand,  this.state.rowPerPage)
+        }
         this.setState({ selectedId : null, editBrand : null})
     }
 
-    handleEditType = (id) => {
-        this.setState({ selectedTypeId : id })
+    handleEditType = (id, type, brand_id) => {
+        this.setState({ selectedTypeId : id, editType : type, editTypeOption : brand_id })
+    }
+
+    handleConfirmEditType = (id) => {
+        if(this.state.editType) {
+            const data = {
+                name : this.state.editType,
+                brand_id : this.state.editTypeOption
+            }
+            this.props.editCarType(id, this.props.carTypes[0].id, data, this.state.typeRowPerPage)
+        }
+        this.setState({ selectedTypeId : null, editType : null })
     }
 
     tableBrand = () => {
-        const { branHoverId, tabValue, selectedId } = this.state
+        const { branHoverId, tabValue, selectedId, editBrand } = this.state
         return (tabValue ? this.props.motorBrands : this.props.carBrands).map(({id, brand}) => {
             return (
                 <tr key = {id}
@@ -193,7 +208,8 @@ class Vehicles extends React.Component {
                                 <input 
                                     type = 'text' 
                                     id = 'edit-input' 
-                                    autoFocus 
+                                    autoFocus
+                                    value = {editBrand} 
                                     style = {{ paddingLeft : 15}}
                                     onChange = { e => this.setState({ editBrand : e.target.value})}
                                 />
@@ -221,7 +237,7 @@ class Vehicles extends React.Component {
                             <td>
                                 <div id = 'edit-icon'
                                     style = {{display : branHoverId === id ? 'flex' : 'none'}}
-                                    onClick = { _ => this.handleEditBrand(id)}
+                                    onClick = { _ => this.handleEditBrand(id, brand)}
                                 >
                                     <EditIcon/>
                                 </div>
@@ -240,9 +256,9 @@ class Vehicles extends React.Component {
     }
 
     tableType = () => {
-        const { typeHoverId, tabValue, selectedTypeId, editTypeOption } = this.state
+        const { typeHoverId, tabValue, selectedTypeId, editTypeOption, editType } = this.state
         // console.log(this.state.carBrand)
-        return (tabValue ? this.props.motorTypes : this.props.carTypes).map(({id, brand, name}) => {
+        return (tabValue ? this.props.motorTypes : this.props.carTypes).map(({id, name, brand, brand_id}) => {
             return (
                 <tr key = {id}
                 onMouseEnter = { _ => this.setState({typeHoverId : id})}
@@ -253,16 +269,16 @@ class Vehicles extends React.Component {
                         {
                             selectedTypeId == id ? (
                                 <Select
-                                value = {editTypeOption}
-                                onChange = {(e) => this.setState({editTypeOption : e.target.value})}
-                                disableUnderline = {true}
-                            >
-                                {
-                                    this.props.allCarBrands.map(({id, brand}) => (
-                                        <MenuItem key = {id} value={id}>{brand}</MenuItem>
-                                    ))
-                                }
-                            </Select>
+                                    value = {editTypeOption}
+                                    onChange = {(e) => this.setState({editTypeOption : e.target.value})}
+                                    disableUnderline = {true}
+                                >
+                                    {
+                                        this.props.allCarBrands.map(({id, brand}) => (
+                                            <MenuItem key = {id} value={id}>{brand}</MenuItem>
+                                        ))
+                                    }
+                                </Select>
                             ) : brand
                         }
                     </td>
@@ -273,6 +289,7 @@ class Vehicles extends React.Component {
                                     type = 'text' 
                                     id = 'edit-input' 
                                     autoFocus 
+                                    value = {editType}
                                     style = {{ paddingLeft : 15}}
                                     onChange = { e => this.setState({ editType : e.target.value})}
                                 />
@@ -284,7 +301,7 @@ class Vehicles extends React.Component {
                             <td>
                                 <div id = 'check-icon'
                                     style = {{display : typeHoverId === id ? 'flex' : 'none'}}
-                                    // onClick = { _ => this.handleConfirmEditBrand(id)}
+                                    onClick = { _ => this.handleConfirmEditType(id)}
                                 >
                                     <CheckIcon/>
                                 </div>
@@ -300,7 +317,7 @@ class Vehicles extends React.Component {
                             <td>
                                 <div id = 'edit-icon'
                                     style = {{display : typeHoverId === id ? 'flex' : 'none'}}
-                                    onClick = { _ => this.handleEditType(id)}
+                                    onClick = { _ => this.handleEditType(id, name, brand_id)}
                                 >
                                     <EditIcon/>
                                 </div>
@@ -419,6 +436,7 @@ const mapDispatch = () => {
         getPrevMotorTypes,
         getPathAction,
         editCarBrand,
+        editCarType,
         getCarBrandAll,
         getMotorBrandAll
     }
