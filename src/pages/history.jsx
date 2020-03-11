@@ -93,8 +93,8 @@ class History extends React.Component {
             <tr key = {id}>
                 <td></td>
                 <td>{username}</td>
-                <td>{enter_date.split('T')[0]}</td>
-                <td>{leave_date.split('T')[0]}</td>
+                <td>{enter_date}</td>
+                <td>{leave_date}</td>
                 <td>{duration}</td>
                 <td>{place_name}</td>
                 <td></td>
@@ -107,7 +107,7 @@ class History extends React.Component {
             <tr key = {id}>
                 <td></td>
                 <td>{username}</td>
-                <td>{enter_date.split('T')[0]}</td>
+                <td>{enter_date}</td>
                 <td>{status === 0 ? 'leave' : 'active'}</td>
                 <td>{place_name}</td>
                 <td></td>

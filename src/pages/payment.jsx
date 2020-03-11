@@ -54,7 +54,7 @@ class Payment extends React.Component {
                 onMouseLeave = { _ => this.setState({hoverId : 0})}
             >
                 <td></td>
-                <td>{date.split('T')[0]}</td>
+                <td>{date}</td>
                 <td>{this.props.types[type-1].type}</td>
                 <td>{amount}</td>
                 <td>{username}</td>
