@@ -13,6 +13,7 @@ import Vehicles from './vehicles'
 import Rating from './rating'
 import History from './history'
 import Payment from './payment'
+import ParkingArea from './parkingArea'
 
 // import style
 import '../styles/dashboard.scss'
@@ -31,6 +32,7 @@ class Dashboard extends React.Component {
                 <Route path={match.path + '/rating'} component = {Rating}/>
                 <Route path={match.path + '/history'} component = {History}/>
                 <Route path={match.path + '/payment'} component = {Payment}/>
+                <Route path={match.path + '/parking'} component = {ParkingArea}/>
             </div>
         )
     }
