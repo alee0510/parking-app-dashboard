@@ -1,7 +1,10 @@
 import { GET_TRANSACTION_HISTORY_TOTAL, 
         GET_TRANSACTION_HISTORY,
         GET_TRANSACTION_HISTORY_STATUS,
-        GET_TRANSACTION_HISTORY_TYPE } from '../helpers/actionTypes'
+        GET_TRANSACTION_HISTORY_TYPE, 
+        TRANSACTION_PROCESS_START,
+        TRANSACTION_PROCESS_END
+    } from '../helpers/actionTypes'
 
 // payment reducer
 export const paymentTotalData = (state = { total : 0}, action) => {
@@ -12,10 +15,14 @@ export const paymentTotalData = (state = { total : 0}, action) => {
     }
 }
 
-export const paymentReducer = (state = { data : [] }, action) => {
+export const paymentReducer = (state = { data : [], loading : false }, action) => {
     switch(action.type) {
         case GET_TRANSACTION_HISTORY :
-            return { data : action.payload }
+            return { ...state, data : action.payload }
+        case TRANSACTION_PROCESS_START :
+            return { ...state, loading : true }
+        case TRANSACTION_PROCESS_END : 
+            return { ...state, loading : false }
         default : return state
     }
 }

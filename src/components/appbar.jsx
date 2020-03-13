@@ -15,6 +15,7 @@ import Search from './search'
 
 // import action
 import { burgerAction, avatarAction } from '../actions'
+import { API_URL } from '../helpers/apiUrl'
 
 class AppBar extends React.Component {
     burgerClick = () => {
@@ -31,6 +32,7 @@ class AppBar extends React.Component {
 
     render () {
         // console.log(window.location.pathname.substr(1))
+        const { username, image } = this.props
         return (
             <div className = 'appbar-main-container'>
                 <div 
@@ -55,7 +57,11 @@ class AppBar extends React.Component {
                             <NotificationsIcon style = {{ height : 22, width : 22}}/>
                         </div>
                         <div id = 'avatar' onClick = {this.avatarClick}>
-                            <Avatar style = {{ height : 35, width : 35}}>U</Avatar>
+                            {
+                                image ? <Avatar src = {API_URL + '/' + image} style = {{ height : 35, width : 35}}/>
+                                :
+                                <Avatar style = {{ height : 35, width : 35}}>{username ? username.charAt(0) : 'U'}</Avatar>
+                            }
                         </div>
                     </div>
                 </div>
@@ -64,10 +70,12 @@ class AppBar extends React.Component {
     }
 }
 
-const mapStore = ({ burgerReducer, avatarReducer }) => {
+const mapStore = ({ burgerReducer, avatarReducer, userProfile, user }) => {
     return {
         burger : burgerReducer.burger,
-        avatar : avatarReducer.avatar
+        avatar : avatarReducer.avatar,
+        image : userProfile.data.image,
+        username : user.data.username
     }
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Select, MenuItem, Typography } from '@material-ui/core'
+import { Select, MenuItem, Typography, CircularProgress } from '@material-ui/core'
 
 // import icons
 import CheckIcon from '@material-ui/icons/Check'
@@ -19,6 +19,7 @@ import {
 
 // import component
 import Table from '../components/table'
+import Modal from '../components/modal'
 
 // import style
 import '../styles/payment.scss'
@@ -29,8 +30,7 @@ class Payment extends React.Component {
         rowPerPage : 10,
         hoverId : null,
         sortBy : 0,
-        selectId : null,
-        typeOption : null
+        confirmId : null
     }
 
     componentDidMount () {
@@ -46,38 +46,9 @@ class Payment extends React.Component {
         this.props.getInitialPaymentData(value, this.state.sortBy || null)
     }
 
-    handleTopUpApprove = (id) => {
-        this.props.topUpApprove(id, this.props.payment[0].id, this.state.rowPerPage, this.state.sortBy)
-    }
-
-    tablePayment = () => {
-        const { hoverId, selectId, typeOption } = this.state
-        return this.props.payment.map(({id, date, type, amount, username, status}) => (
-            <tr 
-                key = {id}
-                onMouseEnter = { _ => this.setState({hoverId : id})}
-                onMouseLeave = { _ => this.setState({hoverId : 0})}
-            >
-                <td></td>
-                <td>{date}</td>
-                <td>{this.props.types[type-1].type}</td>
-                <td>{amount}</td>
-                <td>{username}</td>
-                <td>{this.props.status[status-1].status}</td>
-                {
-                    type == 1 & status == 2 ? (
-                        <td>
-                            <div id = 'check-icon' 
-                                style = {{display : hoverId === id ? 'flex' : 'none'}}
-                                onClick = { _ => this.handleTopUpApprove(id)}
-                            >
-                                <CheckIcon/>
-                            </div>
-                        </td>
-                    ) : <td></td>
-                }
-            </tr>
-        ))
+    handleTopUpApprove = async (id) => {
+        await this.props.topUpApprove(id, this.props.payment[0].id, this.state.rowPerPage, this.state.sortBy)
+        this.setState({ confirmId : null })
     }
 
     handleSortByChange = (value) => {
@@ -132,8 +103,39 @@ class Payment extends React.Component {
         )
     }
 
+    tablePayment = () => {
+        const { hoverId, confirmId } = this.state
+        return this.props.payment.map(({id, date, type, amount, username, status}) => (
+            <tr 
+                key = {id}
+                onMouseEnter = { _ => this.setState({hoverId : id})}
+                onMouseLeave = { _ => this.setState({hoverId : 0})}
+            >
+                <td></td>
+                <td>{date}</td>
+                <td>{this.props.types[type-1].type}</td>
+                <td>{amount}</td>
+                <td>{username}</td>
+                <td>{this.props.status[status-1].status}</td>
+                {
+                    parseInt(type) === 1 & parseInt(status) === 2 ?  
+                        <td>
+                            <div id = 'check-icon' 
+                                style = {{display : hoverId === id ? 'flex' : 'none'}}
+                                onClick = { _ => this.setState({confirmId : id}) }
+                            >
+                                <CheckIcon/>
+                            </div>
+                        </td>
+                     : <td></td>
+                }
+            </tr>
+        ))
+    }
+
     render () {
-        const { page, rowPerPage } = this.state
+        const { page, rowPerPage, confirmId } = this.state
+        console.log('confirm id', this.state.confirmId)
         return (
             <div className = 'payment-main-container'>
                 <div className = 'title'>
@@ -156,6 +158,18 @@ class Payment extends React.Component {
                         addButton = {false}
                         />
                 </div>
+                <Modal
+                    open = {Boolean(confirmId)}
+                    onClose = { _ => this.setState({ confirmId : null })}
+                    title = 'Ayo sure to approve this payment ?'
+                    handleOk = { _ => this.handleTopUpApprove(confirmId)}
+                >
+                    {this.props.loading ? (
+                        <div style ={{display : 'flex', justifyContent : 'center'}}>
+                            <CircularProgress/>
+                        </div>
+                    ) : null}
+                </Modal>
             </div>
         )
     }
@@ -166,7 +180,8 @@ const mapStore = ({ paymentTotalData, paymentReducer, paymentStatus, paymentType
         total : paymentTotalData.total,
         payment : paymentReducer.data,
         status : paymentStatus.data,
-        types : paymentTypes.data
+        types : paymentTypes.data,
+        loading : paymentReducer.loading
     }
 }
 

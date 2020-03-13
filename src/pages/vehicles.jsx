@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Select, MenuItem, Dialog, DialogActions, DialogContent, DialogTitle, Button, DialogContentText } from '@material-ui/core'
+import { Select, MenuItem } from '@material-ui/core'
 
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
@@ -217,26 +217,35 @@ class Vehicles extends React.Component {
     }
     
     handleDeleteBrand = () => {
+        // do request
         this.props.deleteCarBrand(this.state.deleteBrand, this.props.carBrands[0].id, this.state.rowPerPage)
+        this.props.getTotalCarBrands()
+
+        // reset state
         this.setState({ deleteBrand : null })
     }
 
     handleAddType = () => {
         const type = this.refs.newtype.value
-        console.log(type)
-        console.log(this.state.addTypeOption)
+        // console.log(type)
+        // console.log(this.state.addTypeOption)
 
         // check input value
         if(type.length === 0) return this.setState({ addType : false })
 
         // do request
         this.props.addNewCarType({name : type, brand_id : this.state.addTypeOption})
+        this.props.getTotalCarTypes()
 
         this.setState({ addType : false, typePage : 1, typeRowPerPage : 10 })
     }
 
     handleDeleteType = () => {
+        // do request
         this.props.deleteCarType(this.state.deleteType, this.props.carTypes[0].id, this.state.typeRowPerPage)
+        this.props.getTotalCarTypes()
+
+        // reset state
         this.setState({ deleteType : null })
     }
 
@@ -314,7 +323,7 @@ class Vehicles extends React.Component {
                     <td></td>
                     <td>
                         {
-                            selectedTypeId == id ? (
+                            selectedTypeId === id ? (
                                 <Select
                                     value = {editTypeOption}
                                     onChange = {(e) => this.setState({editTypeOption : e.target.value})}

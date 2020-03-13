@@ -52,18 +52,16 @@ class AvatarModal extends React.Component {
             document.removeEventListener('click', this.outsideClick)
         }
         
+        const { open, username, email, image} = this.props 
         return (
             <div className = 'avatar-modal-main-container' ref = 'area' style = {styles.container}>
                 <div className = 'top'>
                     {
-                        this.props.image ? <Avatar style = {styles.avatar} src = {API_URL + this.props.image} alt = 'avatar'/>
-                        : <Avatar style = {styles.avatar}>
-                            {this.props.username ? this.props.username.split('')[0] :  'U'}
-                        </Avatar>
+                        image ? <Avatar style = {styles.avatar} src = {API_URL + '/' + image} alt = 'avatar'/>
+                        : <Avatar style = {styles.avatar}>{username ? username.charAt(0) :  'U'}</Avatar>
                     }
-                    {/* <Avatar style = {styles.avatar}>u</Avatar> */}
-                    <h1>{this.props.username || 'username'}</h1>
-                    <h3>{this.props.email || 'useremail@gmail.com'}</h3>
+                    <h1>{username || 'username'}</h1>
+                    <h3>{email || 'useremail@gmail.com'}</h3>
                 </div>
                 <div className = 'bottom'>
                     <div className = 'item-1'>

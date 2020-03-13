@@ -3,11 +3,8 @@ import {
     Button, 
     Dialog, 
     DialogActions,
-    DialogContent, 
-    DialogContentText, 
-    DialogTitle,
-    Select,
-    MenuItem,
+    DialogContent,
+    DialogTitle
 } from '@material-ui/core'
 
 export default function AlertDialog (props) {
@@ -26,7 +23,6 @@ export default function AlertDialog (props) {
                         <Button
                             onClick={props.handleCancel} 
                             color="secondary" 
-                            autoFocus
                         >
                             Cancel
                         </Button>
@@ -34,7 +30,6 @@ export default function AlertDialog (props) {
                     <Button 
                         onClick={props.handleOk} 
                         color="primary" 
-                        autoFocus
                     >
                         OK
                     </Button>

@@ -2,7 +2,10 @@ import Axios from 'axios'
 import { GET_TRANSACTION_HISTORY, 
         GET_TRANSACTION_HISTORY_TOTAL,
         GET_TRANSACTION_HISTORY_TYPE, 
-        GET_TRANSACTION_HISTORY_STATUS } from '../helpers/actionTypes'
+        GET_TRANSACTION_HISTORY_STATUS,
+        TRANSACTION_PROCESS_START,
+        TRANSACTION_PROCESS_END
+} from '../helpers/actionTypes'
 import { API_PAYMENT } from '../helpers/apiUrl'
 
 // transaction history
@@ -91,6 +94,7 @@ export const topUpApprove = (id, dataId, limit, type) => {
         try {
             // do request approval
             console.log('do request approval')
+            dispatch({ type : TRANSACTION_PROCESS_START })
             const response = await Axios.get(API_PAYMENT + `/approval/${id}`)
             console.log(response)
 
@@ -101,7 +105,9 @@ export const topUpApprove = (id, dataId, limit, type) => {
                 type : GET_TRANSACTION_HISTORY,
                 payload : data
             })
+            dispatch({ type : TRANSACTION_PROCESS_END })
         } catch(err) {
+            dispatch({ type : TRANSACTION_PROCESS_END })
             console.log(err.response ? err.response.data : err)
         }
     }
