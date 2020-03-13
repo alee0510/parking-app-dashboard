@@ -329,3 +329,81 @@ export const addNewCarBrand = (newBrand) => {
         } 
     }
 }
+export const addNewCarType = (newType) => {
+    return async (dispacth) => {
+        try {
+            // request post query to add new car type
+            console.log(newType)
+            console.log('request add type')
+            const res = await Axios.post(API_URL_ADMIN + `/vehicle/car/types/add`, newType)
+            console.log(res)
+
+            // request new data for redux
+            console.log('request get data')
+            const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/types/?limit=${10}`)
+            dispacth({
+                type : GET_CAR_TYPES,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        } 
+    }
+}
+
+// delete data : BRAND adn Type
+export const deleteCarBrand = (id, dataId, limit) => {
+    return async (dispacth) => {
+        try {
+            // request post query to delete car brand
+            await Axios.delete(API_URL_ADMIN + `/vehicle/car/brands/delete/${id}`)
+        
+            // request new data for redux
+            console.log('request get data')
+            const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/brands/next/?id=${dataId-1}&limit=${limit}`)
+
+            // add protection if data its last data in cloumn pagination
+            if (data.length === 0) {
+                const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/brands/next/?id=${dataId-limit-1}&limit=${limit}`)
+                dispacth({
+                    type : GET_CAR_BRANDS,
+                    payload : data
+                })
+                return
+            }
+            dispacth({
+                type : GET_CAR_BRANDS,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        }  
+    }
+}
+export const deleteCarType = (id, dataId, limit) => {
+    return async (dispacth) => {
+        try {
+            // request post query to delete car brand
+            await Axios.delete(API_URL_ADMIN + `/vehicle/car/types/delete/${id}`)
+        
+            // request new data for redux
+            console.log('request get data')
+            const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/types/next/?id=${dataId-1}&limit=${limit}`)
+            if (data.length === 0) {
+                const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/types/next/?id=${dataId-limit-1}&limit=${limit}`)
+                dispacth({
+                    type : GET_CAR_TYPES,
+                    payload : data
+                })
+                return
+            }
+            dispacth({
+                type : GET_CAR_TYPES,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        }  
+    }
+
+}

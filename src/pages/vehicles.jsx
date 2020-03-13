@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Select, MenuItem, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@material-ui/core'
+import { Select, MenuItem, Dialog, DialogActions, DialogContent, DialogTitle, Button, DialogContentText } from '@material-ui/core'
 
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
@@ -31,13 +31,15 @@ import {
     editCarType,
     getCarBrandAll,
     getMotorBrandAll,
-    addNewCarBrand
+    addNewCarBrand,
+    deleteCarBrand,
+    addNewCarType,
+    deleteCarType
  } from '../actions'
 
 // import components
 import TabMenu from '../components/tabs'
 import Table from '../components/table'
-import Modal from '../components/modal'
 
 // import style
 import '../styles/vehicle.scss'
@@ -56,6 +58,10 @@ class Vehicles extends React.Component {
         editType : null,
         addBrand : false,
         editTypeOption : 1,
+        deleteBrand : null,
+        addType : false,
+        addTypeOption : 1,
+        deleteType : null
     }
     componentDidMount () {
         this.props.getPathAction('vehicles')
@@ -205,7 +211,31 @@ class Vehicles extends React.Component {
         this.props.addNewCarBrand({brand : brand.toUpperCase()})
 
         // reset
-        this.setState({ addBrand : false, page : 1, rowPerPage : 10, typePage : 1, typeRowPerPage : 10})
+        this.setState({ addBrand : false, page : 1, rowPerPage : 10})
+    }
+    
+    handleDeleteBrand = () => {
+        this.props.deleteCarBrand(this.state.deleteBrand, this.props.carBrands[0].id, this.state.rowPerPage)
+        this.setState({ deleteBrand : null })
+    }
+
+    handleAddType = () => {
+        const type = this.refs.newtype.value
+        console.log(type)
+        console.log(this.state.addTypeOption)
+
+        // check input value
+        if(type.length === 0) return this.setState({ addType : false })
+
+        // do request
+        this.props.addNewCarType({name : type, brand_id : this.state.addTypeOption})
+
+        this.setState({ addType : false, typePage : 1, typeRowPerPage : 10 })
+    }
+
+    handleDeleteType = () => {
+        this.props.deleteCarType(this.state.deleteType, this.props.carTypes[0].id, this.state.typeRowPerPage)
+        this.setState({ deleteType : null })
     }
 
     tableBrand = () => {
@@ -216,7 +246,7 @@ class Vehicles extends React.Component {
                     onMouseEnter = { _ => this.setState({branHoverId : id})}
                     onMouseLeave = { _ => this.setState({branHoverId : 0})}
                 >
-                    <td>{id}</td>
+                    <td></td>
                     <td>
                         {
                             selectedId === id ? (
@@ -258,7 +288,7 @@ class Vehicles extends React.Component {
                                 </div>
                                 <div id = 'delete-icon' 
                                     style = {{display : branHoverId === id ? 'flex' : 'none'}}
-                                    // onClick = { _ => this.setState({ selectedId : null})}
+                                    onClick = { _ => this.setState({ deleteBrand : id })}
                                 >
                                     <DeleteIcon/>
                                 </div>
@@ -338,7 +368,7 @@ class Vehicles extends React.Component {
                                 </div>
                                 <div id = 'delete-icon' 
                                     style = {{display : typeHoverId === id ? 'flex' : 'none'}}
-                                    // onClick = { _ => this.setState({ selectedId : null})}
+                                    onClick = { _ => this.setState({ deleteType : id})}
                                 >
                                     <DeleteIcon/>
                                 </div>
@@ -351,7 +381,18 @@ class Vehicles extends React.Component {
     }
 
     render () {
-        const { tabValue, page, rowPerPage, typePage, typeRowPerPage, addBrand } = this.state
+        const { 
+            tabValue, 
+            page, 
+            rowPerPage, 
+            typePage, 
+            typeRowPerPage, 
+            addBrand, 
+            deleteBrand,
+            addType,
+            addTypeOption,
+            deleteType 
+        } = this.state
         // console.log(this.props.carBrands)
         return (
             <div className = 'vehicles-main-container'>
@@ -398,6 +439,7 @@ class Vehicles extends React.Component {
                             handlePrevious = {this.handleTypePrev}
                             handleNext = {this.handleTypeNext}
                             addButton = {true}
+                            handleClickAdd = { _ => this.setState({ addType : true })}
                         />
                     </div>
                 </div>
@@ -429,6 +471,79 @@ class Vehicles extends React.Component {
                         <Button 
                             onClick={this.handleAddBrand} 
                             color="primary" 
+                        >
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog
+                    open={addType}
+                    onClose={ _ => this.setState({ addType : false })}
+                >
+                    <DialogTitle id="alert-dialog-title">Add new type</DialogTitle>
+                    <DialogContent id = 'add-brand-modal'>
+                        <Select
+                            value = {addTypeOption}
+                            onChange = {(e) => this.setState({addTypeOption : e.target.value})}
+                            disableUnderline = {true}
+                            style = {{ width : 200, marginRight : 20}}
+                        >
+                            {
+                                this.props.allCarBrands.map(({id, brand}) => (
+                                    <MenuItem key = {id} value={id}>{brand}</MenuItem>
+                                ))
+                            }
+                        </Select>
+                        <input
+                            type = 'text' 
+                            placeholder = 'add your new car type'
+                            ref = 'newtype'
+                            autoFocus
+                            style = {{
+                                height : 40,
+                                padding : 10,
+                            }}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={ _ => this.setState({ addType : false })} 
+                            color="secondary" 
+                        >
+                            Cancel
+                        </Button>
+                        <Button 
+                            onClick={this.handleAddType} 
+                            color="primary" 
+                        >
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                {/* MODAL FOR DELETE */}
+                <Dialog
+                    open = { Boolean(deleteBrand) }
+                    onClose = { _ => this.setState({deleteBrand : null})}
+                >
+                    <DialogTitle>Delete confirmation</DialogTitle>
+                    <DialogActions>
+                        <Button
+                            onClick = {this.handleDeleteBrand}
+                            color = 'primary'
+                        >
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog
+                    open = { Boolean(deleteType) }
+                    onClose = { _ => this.setState({deleteBrand : null})}
+                >
+                    <DialogTitle>Delete confirmation</DialogTitle>
+                    <DialogActions>
+                        <Button
+                            onClick = {this.handleDeleteType}
+                            color = 'primary'
                         >
                             OK
                         </Button>
@@ -487,7 +602,10 @@ const mapDispatch = () => {
         editCarType,
         getCarBrandAll,
         getMotorBrandAll,
-        addNewCarBrand
+        addNewCarBrand,
+        deleteCarBrand,
+        addNewCarType,
+        deleteCarType
     }
 }
 
