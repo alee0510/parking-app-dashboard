@@ -1,0 +1,69 @@
+// import variable
+@import './variables.scss';
+
+// styling setting page
+.setting-main-container {
+    position: relative;
+    top: 50px;
+    left: 50px;
+    height: calc(100vh - 50px); 
+    width: calc(100% - 50px);
+    padding: 2% 50px;
+    // background-color: yellow;
+    .setting-sub-container {
+        @include center;
+        height: 75%; width: 60%;
+        padding: 2%;
+        background-color: $gray20;
+        @include depth-4;
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .tab-menu {
+            @include flex (row, space-between, center);
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .account, .profile {
+            width: 100%;
+            // background-color: tomato;
+            .content {
+                // background-color: pink;
+                padding: 0px 8px;
+                h1 {
+                    font-size: 16px;
+                    text-transform: capitalize;
+                    font-weight: 600;
+                    padding: 0px;
+                    margin: 10px 0px;
+                }
+                #content-box {
+                    @include flex(row, '', center);
+                    height: 40px; width: 40%;
+                    background-color: $gray10;
+                    border-radius: 5px;
+                    overflow: hidden;
+                    @include depth-2;
+                    #icon {
+                        @include flex(row, center, center);
+                        height: 100%; width: 50px;
+                        color: $gray150;
+                        cursor: pointer;
+                        // background-color: red;
+                    }
+                    input {
+                        height: 100%;width: 100%;
+                        padding: 10px;
+                        border: none;
+                        background-color: white;
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

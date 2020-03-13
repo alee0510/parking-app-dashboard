@@ -1,7 +1,14 @@
 import Axios from 'axios' 
 import { API_URL_USER } from '../helpers/apiUrl'
-import { LOG_IN, LOG_OUT, STAY_LOGIN, LOG_IN_ERROR, 
-    CLEAR_LOGIN_ERROR, GET_USER_PROFILE, GET_PROFILE_ERROR } from '../helpers/actionTypes'
+import { 
+    LOG_IN, 
+    LOG_OUT, 
+    STAY_LOGIN, 
+    LOG_IN_ERROR, 
+    CLEAR_LOGIN_ERROR, 
+    GET_USER_PROFILE, 
+    GET_PROFILE_ERROR 
+} from '../helpers/actionTypes'
 
 export const loginAction = (body) => {
     return async (dispatch) => {

@@ -10,6 +10,7 @@ export const GET_USER_ACCOUNT = 'GET_USER_ACCOUNT'
 export const GET_USER_ACCOUNT_ERROR = 'GET_USER_ACCOUNT_ERROR'
 export const GET_USER_PROFILE = 'GET_USER_PROFILE'
 export const GET_USER_PROFILE_ERROR = 'GET_USER_PROFILE_ERROR'
+export const GET_COMPANY_PROFILE = 'GET_COMPANY_PROFILE'
 
 // DOM action => action toogle from DOM interactions
 export const BURGER = 'BURGER'

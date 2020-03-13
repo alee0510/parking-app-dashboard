@@ -256,11 +256,7 @@ export const editCarBrand = (id, brandId, typeId, brand, limit) => {
         } 
     }
 }
-
 export const editCarType = (id, dataId, data, limit) => {
-    console.log(id)
-    console.log(data)
-    console.log(limit)
     return async (dispacth) => {
         try {
             // do request to edit brand name
@@ -271,6 +267,47 @@ export const editCarType = (id, dataId, data, limit) => {
             const types = await Axios.get(API_URL_ADMIN + `/vehicle/car/types/next/?id=${dataId-1}&limit=${limit}`)
             dispacth({
                 type : GET_CAR_TYPES,
+                payload : types.data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        } 
+    }
+}
+export const editMotorBrand = (id, brandId, typeId, brand, limit) => {
+    return async (dispacth) => {
+        try {
+            // do request to edit brand name
+            console.log('do edit brand request')
+            await Axios.patch(API_URL_ADMIN + `/vehicle/motor/brands/edit/${id}`, {brand})
+            
+            // refresh redux data
+            const brands = await Axios.get(API_URL_ADMIN + `/vehicle/motor/brands/next/?id=${brandId-1}&limit=${limit}`)
+            const types = await Axios.get(API_URL_ADMIN + `/vehicle/motor/types/next/?id=${typeId-1}&limit=${limit}`)
+            dispacth({
+                type : GET_MOTOR_BRANDS,
+                payload : brands.data
+            })
+            dispacth({
+                type : GET_MOTOR_TYPES,
+                payload : types.data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        } 
+    }
+}
+export const editMotorType = (id, dataId, data, limit) => {
+    return async (dispacth) => {
+        try {
+            // do request to edit brand name
+            console.log('do edit type request')
+            await Axios.patch(API_URL_ADMIN + `/vehicle/motor/types/edit/${id}`, data)
+
+            // refresh redux data
+            const types = await Axios.get(API_URL_ADMIN + `/vehicle/motor/types/next/?id=${dataId-1}&limit=${limit}`)
+            dispacth({
+                type : GET_MOTOR_TYPES,
                 payload : types.data
             })
         } catch (err) {
@@ -307,7 +344,7 @@ export const getMotorBrandAll = () => {
     }
 }
 
-// add CAR data : BRAND and TYPE
+// add data : BRAND and TYPE
 export const addNewCarBrand = (newBrand) => {
     return async (dispacth) => {
         try {
@@ -350,6 +387,44 @@ export const addNewCarType = (newType) => {
         } 
     }
 }
+export const addNewMotorBrand = (newBrand) => {
+    return async (dispacth) => {
+        try {
+            // do post request query to add nex motor brand
+            console.log('do request post')
+            const response = await Axios.post(API_URL_ADMIN + `/vehicle/motor/brands/add`, newBrand)
+            console.log(response)
+
+            // refresh redux
+            const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/brands/?limit=${10}`)
+            dispacth({
+                type : GET_MOTOR_BRANDS,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        } 
+    }
+}
+export const addNewMotorType = (newType) => {
+    return async (dispacth) => {
+        try {
+            // do post request query to add nex motor brand
+            console.log('do request post')
+            const response = await Axios.post(API_URL_ADMIN + `/vehicle/motor/types/add`, newType)
+            console.log(response)
+
+            // refresh redux
+            const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/types/?limit=${10}`)
+            dispacth({
+                type : GET_MOTOR_TYPES,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        } 
+    }
+}
 
 // delete data : BRAND adn Type
 export const deleteCarBrand = (id, dataId, limit) => {
@@ -364,7 +439,7 @@ export const deleteCarBrand = (id, dataId, limit) => {
 
             // add protection if data its last data in cloumn pagination
             if (data.length === 0) {
-                const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/brands/next/?id=${dataId-limit-1}&limit=${limit}`)
+                const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/brands/prev/?id=${dataId}&limit=${limit}`)
                 dispacth({
                     type : GET_CAR_BRANDS,
                     payload : data
@@ -390,7 +465,7 @@ export const deleteCarType = (id, dataId, limit) => {
             console.log('request get data')
             const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/types/next/?id=${dataId-1}&limit=${limit}`)
             if (data.length === 0) {
-                const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/types/next/?id=${dataId-limit-1}&limit=${limit}`)
+                const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/types/prev/?id=${dataId}&limit=${limit}`)
                 dispacth({
                     type : GET_CAR_TYPES,
                     payload : data
@@ -406,4 +481,60 @@ export const deleteCarType = (id, dataId, limit) => {
         }  
     }
 
+}
+export const deleteMotorBrand = (id, dataId, limit) => {
+    return async (dispacth) => {
+        try {
+            // request post query to delete motor brand
+            await Axios.delete(API_URL_ADMIN + `/vehicle/motor/brands/delete/${id}`)
+        
+            // request new data for redux
+            console.log('request get data')
+            const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/brands/next/?id=${dataId-1}&limit=${limit}`)
+
+            // add protection if data its last data in cloumn pagination
+            if (data.length === 0) {
+                const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/brands/prev/?id=${dataId}&limit=${limit}`)
+                dispacth({
+                    type : GET_MOTOR_BRANDS,
+                    payload : data
+                })
+                return
+            }
+            dispacth({
+                type : GET_MOTOR_BRANDS,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        }  
+    }
+}
+export const deleteMotorType = (id, dataId, limit) => {
+    return async (dispacth) => {
+        try {
+            // request post query to delete motor type
+            await Axios.delete(API_URL_ADMIN + `/vehicle/motor/types/delete/${id}`)
+        
+            // request new data for redux
+            console.log('request get data')
+            const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/types/next/?id=${dataId-1}&limit=${limit}`)
+
+            // add protection if data its last data in cloumn pagination
+            if (data.length === 0) {
+                const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/types/prev/?id=${dataId}&limit=${limit}`)
+                dispacth({
+                    type : GET_MOTOR_TYPES,
+                    payload : data
+                })
+                return
+            }
+            dispacth({
+                type : GET_MOTOR_TYPES,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        }  
+    }
 }

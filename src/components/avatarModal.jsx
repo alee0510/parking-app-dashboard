@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Avatar } from '@material-ui/core'
 
@@ -64,18 +65,18 @@ class AvatarModal extends React.Component {
                     <h3>{email || 'useremail@gmail.com'}</h3>
                 </div>
                 <div className = 'bottom'>
-                    <div className = 'item-1'>
+                    <Link to = 'setting' className = 'item-1'>
                         <div id = 'people-icon'>
                             <AccountBoxIcon style = {styles.icons}/>
                         </div>
                         <h3>My account</h3>
-                    </div>
-                    <div className = 'item-2'>
+                    </Link>
+                    <Link to = 'setting' className = 'item-2'>
                         <div id = 'face-icon'>
                             <FaceIcon style = {styles.icons}/>
                         </div>
                         <h3>My profile</h3>
-                    </div>
+                    </Link>
                     <div className = 'item-3' onClick = {this.handleSignOut}>
                         <div id = 'exit-icon'>
                             <ExitToAppIcon style = {styles.icons}/>

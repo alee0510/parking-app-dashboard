@@ -29,12 +29,18 @@ import {
     getPathAction,
     editCarBrand,
     editCarType,
+    editMotorBrand,
+    editMotorType,
     getCarBrandAll,
     getMotorBrandAll,
     addNewCarBrand,
+    addNewMotorBrand,
     deleteCarBrand,
+    deleteMotorBrand,
     addNewCarType,
-    deleteCarType
+    addNewMotorType,
+    deleteCarType,
+    deleteMotorType
  } from '../actions'
 
 // import components
@@ -71,7 +77,7 @@ class Vehicles extends React.Component {
         this.props.getInitialCarTypes(this.state.typeRowPerPage)
         this.props.getTotalCarTypes()
         this.props.getCarBrandAll()
-        // this.props.getCarTypes()
+        this.props.getMotorBrandAll()
     }
 
     handleTab = () => {
@@ -81,7 +87,10 @@ class Vehicles extends React.Component {
             rowPerPage : 10, 
             typeRowPerPage : 10, 
             page : 1, 
-            typePage : 1 },
+            typePage : 1,
+            selectedId : null,
+            selectedTypeId : null
+        },
             () => {
                 if (this.state.tabValue) { // tabValue === 1
                     this.props.getTotalMotorBrands()
@@ -177,80 +186,97 @@ class Vehicles extends React.Component {
     }
 
     handleEditBrand = (id, brand) => {
-        this.setState({ selectedId : id, editBrand : brand })
+        this.setState({ selectedId : id, editBrand : brand , selectedTypeId : null })
     }
 
     handleConfirmEditBrand = (id, type) => {
-        const { editBrand, rowPerPage } = this.state
-        const { carTypes, carBrands } = this.props
+        const { editBrand, rowPerPage, tabValue } = this.state
+        const { carTypes, carBrands, motorTypes, motorBrands } = this.props
+
         // check value
         if(editBrand) {
-            this.props.editCarBrand(id, carBrands[0].id, carTypes[0].id, editBrand, rowPerPage)
+            tabValue ? 
+            this.props.editMotorBrand(id, motorBrands[0].id, motorTypes[0].id, editBrand, rowPerPage)
+            : this.props.editCarBrand(id, carBrands[0].id, carTypes[0].id, editBrand, rowPerPage)
         }
         this.setState({ selectedId : null, editBrand : null})
     }
 
     handleEditType = (id, type, brand_id) => {
-        this.setState({ selectedTypeId : id, editType : type, editTypeOption : brand_id })
+        this.setState({ selectedTypeId : id, editType : type, editTypeOption : brand_id, selectedId : null })
     }
 
     handleConfirmEditType = (id) => {
-        const { editType, editTypeOption, typeRowPerPage } = this.state
-        const { carTypes } = this.props
+        const { editType, editTypeOption, typeRowPerPage, tabValue } = this.state
+        const { carTypes, motorTypes } = this.props
         if(editType) {
             const data = {
                 name : editType,
                 brand_id : editTypeOption
             }
-            this.props.editCarType(id, carTypes[0].id, data, typeRowPerPage)
+            tabValue ? this.props.editMotorType(id, motorTypes[0].id, data, typeRowPerPage)
+            : this.props.editCarType(id, carTypes[0].id, data, typeRowPerPage)
         }
         this.setState({ selectedTypeId : null, editType : null })
     }
 
     handleAddBrand = () => {
-        const brand = this.refs.newbrand.value
+        const { tabValue } = this.state
+        const brand = this.refs.newbrand.value.toUpperCase()
+
         // check input value
         if (brand.length === 0) return this.setState({ addBrand : false })
         console.log(brand.toUpperCase())
 
         // do request
-        this.props.addNewCarBrand({brand : brand.toUpperCase()})
-        this.props.getTotalCarBrands()
+        tabValue ? this.props.addNewMotorBrand({brand})
+        : this.props.addNewCarBrand({brand})
+
+        tabValue ? this.props.getTotalMotorBrands() : this.props.getTotalCarBrands()
 
         // reset
         this.setState({ addBrand : false, page : 1, rowPerPage : 10})
     }
     
     handleDeleteBrand = () => {
-        const { deleteBrand, rowPerPage } = this.state
-        const { carBrands } = this.props
+        const { deleteBrand, rowPerPage, tabValue } = this.state
+        const { carBrands, motorBrands } = this.props
+
         // do request
-        this.props.deleteCarBrand(deleteBrand, carBrands[0].id, rowPerPage)
-        this.props.getTotalCarBrands()
+        tabValue ? this.props.deleteMotorBrand(deleteBrand, motorBrands[0].id, rowPerPage)
+        : this.props.deleteCarBrand(deleteBrand, carBrands[0].id, rowPerPage)
+
+        tabValue ? this.props.getTotalMotorBrands() : this.props.getTotalCarBrands()
 
         // reset state
         this.setState({ deleteBrand : null })
     }
 
     handleAddType = () => {
+        const { addTypeOption, tabValue } = this.state
         const type = this.refs.newtype.value
-        const { addTypeOption } = this.state
+
         // check input value
         if(type.length === 0) return this.setState({ addType : false })
 
         // do request
-        this.props.addNewCarType({name : type, brand_id : addTypeOption})
-        this.props.getTotalCarTypes()
+        tabValue ? this.props.addNewMotorType({name : type, brand_id : addTypeOption})
+        : this.props.addNewCarType({name : type, brand_id : addTypeOption})
+
+        tabValue ? this.props.getTotalMotorTypes() : this.props.getTotalCarTypes()
 
         this.setState({ addType : false, typePage : 1, typeRowPerPage : 10 })
     }
 
     handleDeleteType = () => {
-        const { deleteType, typeRowPerPage } = this.state
-        const { carTypes } = this.props
+        const { deleteType, typeRowPerPage, tabValue } = this.state
+        const { carTypes, motorTypes } = this.props
+
         // do request
-        this.props.deleteCarType(deleteType, carTypes[0].id, typeRowPerPage)
-        this.props.getTotalCarTypes()
+        tabValue ? this.props.deleteMotorType(deleteType, motorTypes[0].id, typeRowPerPage)
+        : this.props.deleteCarType(deleteType, carTypes[0].id, typeRowPerPage)
+        
+        tabValue ? this.props.getTotalMotorTypes() : this.props.getTotalCarTypes()
 
         // reset state
         this.setState({ deleteType : null })
@@ -321,7 +347,7 @@ class Vehicles extends React.Component {
 
     tableType = () => {
         const { typeHoverId, tabValue, selectedTypeId, editTypeOption, editType } = this.state
-        const { motorTypes, carTypes } = this.props
+        const { motorTypes, carTypes, allCarBrands, allMotorBrands } = this.props
         return (tabValue ? motorTypes : carTypes).map(({id, name, brand, brand_id}) => {
             return (
                 <tr key = {id}
@@ -338,7 +364,7 @@ class Vehicles extends React.Component {
                                     disableUnderline = {true}
                                 >
                                     {
-                                        this.props.allCarBrands.map(({id, brand}) => (
+                                        (tabValue ? allMotorBrands : allCarBrands).map(({id, brand}) => (
                                             <MenuItem key = {id} value={id}>{brand}</MenuItem>
                                         ))
                                     }
@@ -412,7 +438,7 @@ class Vehicles extends React.Component {
             addTypeOption,
             deleteType 
         } = this.state
-        const { motorBrandTotal, carBrandTotal, motorTypeTotal, carTypeTotal} = this.props
+        const { motorBrandTotal, carBrandTotal, motorTypeTotal, carTypeTotal, allCarBrands, allMotorBrands } = this.props
         const brandPageTotal = tabValue ? Math.ceil(motorBrandTotal/rowPerPage) : Math.ceil(carBrandTotal/rowPerPage)
         const typePageTotal = tabValue ? Math.ceil(motorTypeTotal/typeRowPerPage) : Math.ceil(carTypeTotal/typeRowPerPage)
 
@@ -474,7 +500,7 @@ class Vehicles extends React.Component {
                 >
                     <input
                         type = 'text' 
-                        placeholder = 'add your new car brand'
+                        placeholder = 'add your new brand'
                         ref = 'newbrand'
                         autoFocus
                         style = {{ height : 50, padding : 10}}
@@ -495,14 +521,14 @@ class Vehicles extends React.Component {
                         style = {{ width : 200, marginRight : 20}}
                     >
                     {
-                        this.props.allCarBrands.map(({id, brand}) => (
+                        (tabValue ? allMotorBrands : allCarBrands).map(({id, brand}) => (
                             <MenuItem key = {id} value={id}>{brand}</MenuItem>
                         ))
                     }
                     </Select>
                     <input
                         type = 'text' 
-                        placeholder = 'add your new car type'
+                        placeholder = 'add your new type'
                         ref = 'newtype'
                         autoFocus
                         style = {{ height : 40, padding : 10 }}
@@ -572,12 +598,18 @@ const mapDispatch = () => {
         getPathAction,
         editCarBrand,
         editCarType,
+        editMotorBrand,
+        editMotorType,
         getCarBrandAll,
         getMotorBrandAll,
         addNewCarBrand,
+        addNewMotorBrand,
         deleteCarBrand,
+        deleteMotorBrand,
         addNewCarType,
-        deleteCarType
+        addNewMotorType,
+        deleteCarType,
+        deleteMotorType
     }
 }
 
