@@ -59,14 +59,15 @@ class History extends React.Component {
 
     handleNext = () => {
         const { page, rowPerPage, tabValue } = this.state
+        const { onActiveTotal, historyTotal, onActive, history } = this.props
         // check page
-        const totalPage = tabValue ? this.props.onActiveTotal : this.props.historyTotal
+        const totalPage = tabValue ? onActiveTotal : historyTotal
         if (page * rowPerPage >= totalPage) return null
         this.setState({page : page + 1})
 
         // get last id and do query
-        const lastId = tabValue ? this.props.onActive[rowPerPage - 1].id 
-        : this.props.history[rowPerPage - 1].id
+        const lastId = tabValue ? onActive[rowPerPage - 1].id 
+        : history[rowPerPage - 1].id
 
         // do request by check tab value
         tabValue ? this.props.getNextOnActive(lastId, rowPerPage) 
@@ -75,13 +76,13 @@ class History extends React.Component {
 
     hanldePrev = () => {
         const { page, rowPerPage, tabValue } = this.state
+        const { onActive, history} = this.props
         // check page
         if (page <= 1) return null
         this.setState({page : page - 1})
 
         // get first id and do query
-        const firstId = tabValue ? this.props.onActive[0].id 
-        : this.props.history[0].id
+        const firstId = tabValue ? onActive[0].id : history[0].id
 
         // do request by check tab value
         tabValue ? this.props.getPrevOnActive(firstId, rowPerPage) 
@@ -117,6 +118,7 @@ class History extends React.Component {
 
     render () {
         const { tabValue, page, rowPerPage } = this.state
+        const { onActiveTotal, historyTotal } = this.props
         return (
             <div className = 'history-main-container'>
                 <h1>History</h1>
@@ -138,8 +140,8 @@ class History extends React.Component {
                         handleOption = {this.handleOption}
                         page = {page}
                         rowPerPage = {rowPerPage}
-                        totalPage = {tabValue ? Math.ceil(this.props.onActiveTotal / rowPerPage) 
-                            : Math.ceil(this.props.historyTotal / rowPerPage)}
+                        totalPage = {tabValue ? Math.ceil(onActiveTotal / rowPerPage) 
+                            : Math.ceil(historyTotal / rowPerPage)}
                         tableBody = {tabValue ? this.tableOnActive : this.tableHistory}
                         handlePrevious = {this.hanldePrev}
                         handleNext = {this.handleNext}

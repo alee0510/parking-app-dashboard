@@ -104,7 +104,7 @@ class Payment extends React.Component {
     }
 
     tablePayment = () => {
-        const { hoverId, confirmId } = this.state
+        const { hoverId } = this.state
         return this.props.payment.map(({id, date, type, amount, username, status}) => (
             <tr 
                 key = {id}
