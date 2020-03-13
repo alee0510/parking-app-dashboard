@@ -15,3 +15,25 @@ export const getPartner = () => {
         }
     }
 }
+
+export const deletePartner = (id) => {
+    return async (dispatch) => {
+        try {
+            // request delete
+            console.log('request delete')
+            const response = await Axios.delete(API_PARTNER + `/delete/${id}`)
+            console.log(response)
+            
+            // refresh redux
+            console.log('refresh data')
+            const { data } = await Axios.get(API_PARTNER + '/data')
+            dispatch({
+                type : GET_PARTNERS,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        }
+    }
+
+}

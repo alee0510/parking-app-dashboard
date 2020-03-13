@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Dialog, DialogTitle, DialogActions, Button } from '@material-ui/core'
 
 // import icons
 import DeleteIcon from '@material-ui/icons/Delete'
 
 // import actions creator
-import { getPartner, getPathAction } from '../actions'
+import { getPartner, getPathAction, deletePartner } from '../actions'
 
 // import components
 import Table from '../components/table'
@@ -15,12 +16,18 @@ import '../styles/partner.scss'
 
 class Partner extends React.Component {
     state = {
-        hoverId : null
+        hoverId : null,
+        deleteId : null
     }
 
     componentDidMount () {
         this.props.getPathAction('partner')
         this.props.getPartner()
+    }
+
+    handleDelete = () => {
+        this.props.deletePartner(this.state.deleteId)
+        this.setState({ deleteId : null })
     }
 
     tablePartner = () => {
@@ -39,6 +46,7 @@ class Partner extends React.Component {
                 <td>
                     <div id = 'delete-icon' 
                         style = {{display : hoverId === id ? 'flex' : 'none'}}
+                        onClick = { _ => this.setState({ deleteId : id })}
                     >
                         <DeleteIcon/>
                     </div>
@@ -48,6 +56,7 @@ class Partner extends React.Component {
     }
     
     render () {
+        const { deleteId } = this.state
         return (
             <div className = 'partner-main-container'>
                 <h1>Partners</h1>
@@ -63,6 +72,20 @@ class Partner extends React.Component {
                         tableBody = {this.tablePartner}
                     />
                 </div>
+                <Dialog
+                    open = { Boolean(deleteId) }
+                    onClose = { _ => this.setState({deleteId : null})}
+                >
+                    <DialogTitle>Delete confirmation</DialogTitle>
+                    <DialogActions>
+                        <Button
+                            onClick = {this.handleDelete}
+                            color = 'primary'
+                        >
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         )
     }
@@ -77,7 +100,8 @@ const mapStore = ({ partnerReducer }) => {
 const mapDispatch = () => {
     return {
         getPartner,
-        getPathAction
+        getPathAction,
+        deletePartner
     }
 }
 
