@@ -116,14 +116,14 @@ class Vehicles extends React.Component {
 
     handleBrandNext = () => {
         const { page, rowPerPage, tabValue } = this.state
+        const { motorBrandTotal, carBrandTotal, motorBrands, carBrands} = this.props
         // check page
-        const totalPage = tabValue ? this.props.motorBrandTotal : this.props.carBrandTotal
+        const totalPage = tabValue ? motorBrandTotal : carBrandTotal
         if (page * rowPerPage >= totalPage) return null
         this.setState({page : page + 1})
 
         // get last id and do query
-        const lastId = tabValue ? this.props.motorBrands[rowPerPage - 1].id 
-        : this.props.carBrands[rowPerPage - 1].id
+        const lastId = tabValue ? motorBrands[rowPerPage - 1].id : carBrands[rowPerPage - 1].id
 
         // do request by check tab value
         tabValue ? this.props.getNextMotorBrands(lastId, rowPerPage) 
@@ -132,14 +132,14 @@ class Vehicles extends React.Component {
 
     handleTypeNext = () => {
         const { typePage, typeRowPerPage, tabValue } = this.state
+        const { motorTypeTotal, carTypeTotal, motorTypes, carTypes } = this.props
         // check page
-        const totalPage = tabValue ? this.props.motorTypeTotal : this.props.carTypeTotal
+        const totalPage = tabValue ? motorTypeTotal : carTypeTotal
         if (typePage * typeRowPerPage >= totalPage) return null
         this.setState({typePage : typePage + 1})
 
         // get last id and do query
-        const lastId = tabValue ? this.props.motorTypes[typeRowPerPage -1].id 
-        : this.props.carTypes[typeRowPerPage - 1].id
+        const lastId = tabValue ? motorTypes[typeRowPerPage -1].id : carTypes[typeRowPerPage - 1].id
 
         // do request by check tab value
         tabValue ? this.props.getNextMotorTypes(lastId, typeRowPerPage) 
@@ -148,13 +148,13 @@ class Vehicles extends React.Component {
 
     handleBrandPrev = () => {
         const { page, rowPerPage, tabValue } = this.state
+        const { motorBrands, carBrands } = this.props
         // check page
         if (page <= 1) return null
         this.setState({page : page - 1})
 
         // get first id and do query
-        const firstId = tabValue ? this.props.motorBrands[0].id 
-        : this.props.carBrands[0].id
+        const firstId = tabValue ? motorBrands[0].id : carBrands[0].id
 
         // do request by check tab value
         tabValue ? this.props.getPrevMotorBrands(firstId, rowPerPage) 
@@ -163,12 +163,13 @@ class Vehicles extends React.Component {
 
     handleTypePrev = () => {
         const { typePage, typeRowPerPage, tabValue } = this.state
+        const { motorTypes, carTypes } = this.props
         // check page
         if (typePage <= 1) return null
         this.setState({typePage : typePage - 1})
 
         // get first id and do query
-        const firstId = tabValue ? this.props.motorTypes[0].id : this.props.carTypes[0].id
+        const firstId = tabValue ? motorTypes[0].id : carTypes[0].id
 
         // do request by check tab value
         tabValue ? this.props.getPrevMotorTypes(firstId, typeRowPerPage) 
@@ -180,9 +181,11 @@ class Vehicles extends React.Component {
     }
 
     handleConfirmEditBrand = (id, type) => {
+        const { editBrand, rowPerPage } = this.state
+        const { carTypes, carBrands } = this.props
         // check value
-        if(this.state.editBrand) {
-            this.props.editCarBrand(id, this.props.carBrands[0].id, this.props.carTypes[0].id, this.state.editBrand,  this.state.rowPerPage)
+        if(editBrand) {
+            this.props.editCarBrand(id, carBrands[0].id, carTypes[0].id, editBrand, rowPerPage)
         }
         this.setState({ selectedId : null, editBrand : null})
     }
@@ -192,12 +195,14 @@ class Vehicles extends React.Component {
     }
 
     handleConfirmEditType = (id) => {
-        if(this.state.editType) {
+        const { editType, editTypeOption, typeRowPerPage } = this.state
+        const { carTypes } = this.props
+        if(editType) {
             const data = {
-                name : this.state.editType,
-                brand_id : this.state.editTypeOption
+                name : editType,
+                brand_id : editTypeOption
             }
-            this.props.editCarType(id, this.props.carTypes[0].id, data, this.state.typeRowPerPage)
+            this.props.editCarType(id, carTypes[0].id, data, typeRowPerPage)
         }
         this.setState({ selectedTypeId : null, editType : null })
     }
@@ -217,8 +222,10 @@ class Vehicles extends React.Component {
     }
     
     handleDeleteBrand = () => {
+        const { deleteBrand, rowPerPage } = this.state
+        const { carBrands } = this.props
         // do request
-        this.props.deleteCarBrand(this.state.deleteBrand, this.props.carBrands[0].id, this.state.rowPerPage)
+        this.props.deleteCarBrand(deleteBrand, carBrands[0].id, rowPerPage)
         this.props.getTotalCarBrands()
 
         // reset state
@@ -227,22 +234,22 @@ class Vehicles extends React.Component {
 
     handleAddType = () => {
         const type = this.refs.newtype.value
-        // console.log(type)
-        // console.log(this.state.addTypeOption)
-
+        const { addTypeOption } = this.state
         // check input value
         if(type.length === 0) return this.setState({ addType : false })
 
         // do request
-        this.props.addNewCarType({name : type, brand_id : this.state.addTypeOption})
+        this.props.addNewCarType({name : type, brand_id : addTypeOption})
         this.props.getTotalCarTypes()
 
         this.setState({ addType : false, typePage : 1, typeRowPerPage : 10 })
     }
 
     handleDeleteType = () => {
+        const { deleteType, typeRowPerPage } = this.state
+        const { carTypes } = this.props
         // do request
-        this.props.deleteCarType(this.state.deleteType, this.props.carTypes[0].id, this.state.typeRowPerPage)
+        this.props.deleteCarType(deleteType, carTypes[0].id, typeRowPerPage)
         this.props.getTotalCarTypes()
 
         // reset state
@@ -251,7 +258,8 @@ class Vehicles extends React.Component {
 
     tableBrand = () => {
         const { branHoverId, tabValue, selectedId, editBrand } = this.state
-        return (tabValue ? this.props.motorBrands : this.props.carBrands).map(({id, brand}) => {
+        const { motorBrands, carBrands } = this.props
+        return (tabValue ? motorBrands : carBrands).map(({id, brand}) => {
             return (
                 <tr key = {id}
                     onMouseEnter = { _ => this.setState({branHoverId : id})}
@@ -313,8 +321,8 @@ class Vehicles extends React.Component {
 
     tableType = () => {
         const { typeHoverId, tabValue, selectedTypeId, editTypeOption, editType } = this.state
-        // console.log(this.state.carBrand)
-        return (tabValue ? this.props.motorTypes : this.props.carTypes).map(({id, name, brand, brand_id}) => {
+        const { motorTypes, carTypes } = this.props
+        return (tabValue ? motorTypes : carTypes).map(({id, name, brand, brand_id}) => {
             return (
                 <tr key = {id}
                 onMouseEnter = { _ => this.setState({typeHoverId : id})}
@@ -404,7 +412,10 @@ class Vehicles extends React.Component {
             addTypeOption,
             deleteType 
         } = this.state
-        // console.log(this.props.carBrands)
+        const { motorBrandTotal, carBrandTotal, motorTypeTotal, carTypeTotal} = this.props
+        const brandPageTotal = tabValue ? Math.ceil(motorBrandTotal/rowPerPage) : Math.ceil(carBrandTotal/rowPerPage)
+        const typePageTotal = tabValue ? Math.ceil(motorTypeTotal/typeRowPerPage) : Math.ceil(carTypeTotal/typeRowPerPage)
+
         return (
             <div className = 'vehicles-main-container'>
                 <h1>Vehicles</h1>
@@ -426,8 +437,7 @@ class Vehicles extends React.Component {
                             handleOption = {this.handleBrandOption}
                             page = {page}
                             rowPerPage = {rowPerPage}
-                            totalPage = {tabValue ? Math.ceil(this.props.motorBrandTotal / rowPerPage) 
-                                : Math.ceil(this.props.carBrandTotal / rowPerPage)}
+                            totalPage = {brandPageTotal}
                             tableBody = {this.tableBrand}
                             handlePrevious = {this.handleBrandPrev}
                             handleNext = {this.handleBrandNext}
@@ -444,8 +454,7 @@ class Vehicles extends React.Component {
                             handleOption = {this.handleTypeOption}
                             page = {typePage}
                             rowPerPage = {typeRowPerPage}
-                            totalPage = {tabValue ? Math.ceil(this.props.motorTypeTotal / typeRowPerPage) : 
-                                Math.ceil(this.props.carTypeTotal/typeRowPerPage)}
+                            totalPage = {typePageTotal}
                             tableBody = {this.tableType}
                             handlePrevious = {this.handleTypePrev}
                             handleNext = {this.handleTypeNext}

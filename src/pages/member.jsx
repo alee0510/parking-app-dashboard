@@ -76,13 +76,13 @@ class Member extends React.Component {
 
     handleNext = () => {
         const { page, rowPerPage, tabValue, sortByValue } = this.state
+        const { total, profile, account } = this.props
         // check page
-        if (page * rowPerPage >= this.props.total) return null
+        if (page * rowPerPage >= total) return null
         this.setState({page : page + 1})
 
         // get last id and do query
-        const lastId = tabValue ? this.props.profile[rowPerPage - 1].id 
-        : this.props.account[rowPerPage - 1].id
+        const lastId = tabValue ? profile[rowPerPage - 1].id : account[rowPerPage - 1].id
         // console.log('lastId', lastId)
 
         // check tab value
@@ -92,13 +92,13 @@ class Member extends React.Component {
 
     handlePrevious = () => {
         const { page, rowPerPage, tabValue, sortByValue } = this.state
+        const { profile, account } = this.props
         // check page
         if (page <= 1) return null
         this.setState({page : page - 1})
 
         // get first id and do query
-        const firstId = tabValue ? this.props.profile[0].id 
-        : this.props.account[0].id
+        const firstId = tabValue ? profile[0].id : account[0].id
         // console.log('firstId', firstId)
 
         // check tab value
