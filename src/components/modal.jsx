@@ -1,6 +1,13 @@
 import React from 'react'
-import { Button, Dialog, DialogActions,
-    DialogContent, DialogContentText, DialogTitle 
+import { 
+    Button, 
+    Dialog, 
+    DialogActions,
+    DialogContent, 
+    DialogContentText, 
+    DialogTitle,
+    Select,
+    MenuItem,
 } from '@material-ui/core'
 
 export default function AlertDialog (props) {
@@ -8,11 +15,11 @@ export default function AlertDialog (props) {
         <div>
             <Dialog
                 open={props.open}
-                onClose={handleClose}
+                onClose={props.handleClose}
             >
-                <DialogTitle id="alert-dialog-title">{"Error"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Add New Brand"}</DialogTitle>
                 <DialogContent>
-                    {props.content}
+                    <input></input>
                 </DialogContent>
                 <DialogActions>
                     {props.cancelButton ? (
@@ -25,7 +32,7 @@ export default function AlertDialog (props) {
                         </Button>
                     ) : null}
                     <Button 
-                        onClick={props.handleClose} 
+                        onClick={props.handleOk} 
                         color="primary" 
                         autoFocus
                     >

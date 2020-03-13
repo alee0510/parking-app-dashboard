@@ -233,12 +233,12 @@ export const getPrevMotorTypes = (id, limit) => {
 }
 
 // edit brand : CAR & MOTOR
-export const editCarBrand = (brandId, typeId, brand, limit) => {
+export const editCarBrand = (id, brandId, typeId, brand, limit) => {
     return async (dispacth) => {
         try {
             // do request to edit brand name
             console.log('do edit brand request')
-            await Axios.patch(API_URL_ADMIN + `/vehicle/car/brands/edit/${brandId}`, {brand})
+            await Axios.patch(API_URL_ADMIN + `/vehicle/car/brands/edit/${id}`, {brand})
             
             // refresh redux data
             const brands = await Axios.get(API_URL_ADMIN + `/vehicle/car/brands/next/?id=${brandId-1}&limit=${limit}`)
@@ -299,6 +299,29 @@ export const getMotorBrandAll = () => {
             const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/motor/brands/all`)
             dispacth({
                 type : GET_MOTOR_BRANDS_ALL,
+                payload : data
+            })
+        } catch (err) {
+            console.log(err.response ? err.response.data : err)
+        } 
+    }
+}
+
+// add CAR data : BRAND and TYPE
+export const addNewCarBrand = (newBrand) => {
+    return async (dispacth) => {
+        try {
+            // request post query to add new car brand
+            console.log(newBrand)
+            console.log('request add brand')
+            const res = await Axios.post(API_URL_ADMIN + `/vehicle/car/brands/add`, newBrand)
+            console.log(res)
+
+            // request new data for redux
+            console.log('request get data')
+            const { data } = await Axios.get(API_URL_ADMIN + `/vehicle/car/brands/?limit=${10}`)
+            dispacth({
+                type : GET_CAR_BRANDS,
                 payload : data
             })
         } catch (err) {

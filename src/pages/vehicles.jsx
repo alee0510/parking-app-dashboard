@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Select, MenuItem } from '@material-ui/core'
+import { Select, MenuItem, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@material-ui/core'
 
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
@@ -30,12 +30,14 @@ import {
     editCarBrand,
     editCarType,
     getCarBrandAll,
-    getMotorBrandAll
+    getMotorBrandAll,
+    addNewCarBrand
  } from '../actions'
 
 // import components
 import TabMenu from '../components/tabs'
 import Table from '../components/table'
+import Modal from '../components/modal'
 
 // import style
 import '../styles/vehicle.scss'
@@ -52,7 +54,7 @@ class Vehicles extends React.Component {
         editBrand : null,
         selectedTypeId : null,
         editType : null,
-        addModal : false,
+        addBrand : false,
         editTypeOption : 1,
     }
     componentDidMount () {
@@ -173,7 +175,7 @@ class Vehicles extends React.Component {
     handleConfirmEditBrand = (id, type) => {
         // check value
         if(this.state.editBrand) {
-            this.props.editCarBrand(id, this.props.carBrands[0].id, this.state.editBrand,  this.state.rowPerPage)
+            this.props.editCarBrand(id, this.props.carBrands[0].id, this.props.carTypes[0].id, this.state.editBrand,  this.state.rowPerPage)
         }
         this.setState({ selectedId : null, editBrand : null})
     }
@@ -193,6 +195,19 @@ class Vehicles extends React.Component {
         this.setState({ selectedTypeId : null, editType : null })
     }
 
+    handleAddBrand = () => {
+        const brand = this.refs.newbrand.value
+        // check input value
+        if (brand.length === 0) return this.setState({ addBrand : false })
+        console.log(brand.toUpperCase())
+
+        // do request
+        this.props.addNewCarBrand({brand : brand.toUpperCase()})
+
+        // reset
+        this.setState({ addBrand : false, page : 1, rowPerPage : 10, typePage : 1, typeRowPerPage : 10})
+    }
+
     tableBrand = () => {
         const { branHoverId, tabValue, selectedId, editBrand } = this.state
         return (tabValue ? this.props.motorBrands : this.props.carBrands).map(({id, brand}) => {
@@ -201,7 +216,7 @@ class Vehicles extends React.Component {
                     onMouseEnter = { _ => this.setState({branHoverId : id})}
                     onMouseLeave = { _ => this.setState({branHoverId : 0})}
                 >
-                    <td></td>
+                    <td>{id}</td>
                     <td>
                         {
                             selectedId === id ? (
@@ -336,7 +351,7 @@ class Vehicles extends React.Component {
     }
 
     render () {
-        const { tabValue, page, rowPerPage, typePage, typeRowPerPage } = this.state
+        const { tabValue, page, rowPerPage, typePage, typeRowPerPage, addBrand } = this.state
         // console.log(this.props.carBrands)
         return (
             <div className = 'vehicles-main-container'>
@@ -365,7 +380,7 @@ class Vehicles extends React.Component {
                             handlePrevious = {this.handleBrandPrev}
                             handleNext = {this.handleBrandNext}
                             addButton = {true}
-                            handleClickAdd = {this.handleAddBrand}
+                            handleClickAdd = { _ => this.setState({ addBrand : true })}
                         />
                     </div>
                     <div className = 'type-table'>
@@ -386,6 +401,39 @@ class Vehicles extends React.Component {
                         />
                     </div>
                 </div>
+                {/* MODAL FOR ADD NEW BRAND OR TYPE*/}
+                <Dialog
+                    open={addBrand}
+                    onClose={ _ => this.setState({ addBrand : false })}
+                >
+                    <DialogTitle id="alert-dialog-title">Add new brand</DialogTitle>
+                    <DialogContent id = 'add-brand-modal'>
+                        <input
+                            type = 'text' 
+                            placeholder = 'add your new car brand'
+                            ref = 'newbrand'
+                            autoFocus
+                            style = {{
+                                height : 50,
+                                padding : 10,
+                            }}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={ _ => this.setState({ addBrand : false })} 
+                            color="secondary" 
+                        >
+                            Cancel
+                        </Button>
+                        <Button 
+                            onClick={this.handleAddBrand} 
+                            color="primary" 
+                        >
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         )
     }
@@ -438,7 +486,8 @@ const mapDispatch = () => {
         editCarBrand,
         editCarType,
         getCarBrandAll,
-        getMotorBrandAll
+        getMotorBrandAll,
+        addNewCarBrand
     }
 }
 
