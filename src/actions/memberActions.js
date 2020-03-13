@@ -26,12 +26,12 @@ export const getTotalUser = (role = null) => {
 }
 
 // get user account
-const role = parseInt(localStorage.getItem('role'))
-export const getUserAction = (limit, only = null) => {
+const userRole = parseInt(localStorage.getItem('role'))
+export const getUserAction = (limit, role = null) => {
     return async (dispatch) => {
         try {
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
-            const query = role === 1 ? `?limit=${limit}&only=${only}` : `?limit=${limit}&only=${3}`
+            const query = userRole === 1 ? `?limit=${limit}&role=${role}` : `?limit=${limit}&role=${3}`
             console.log(query)
 
             // do request
@@ -48,12 +48,12 @@ export const getUserAction = (limit, only = null) => {
     }
 }
 
-export const nextUserAction = (id, limit, only = null) => {
+export const nextUserAction = (id, limit, role = null) => {
     return async (dispatch) => {
         try {
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
-            const query = role === 1 ? `?id=${id}&limit=${limit}&only=${only}` 
-            : `?id=${id}&limit=${limit}&only=${3}`
+            const query = userRole === 1 ? `?id=${id}&limit=${limit}&role=${role}` 
+            : `?id=${id}&limit=${limit}&role=${3}`
             console.log(query)
 
             // do request
@@ -69,12 +69,12 @@ export const nextUserAction = (id, limit, only = null) => {
     }
 }
 
-export const prevUserAction = (id, limit, only = null) => {
+export const prevUserAction = (id, limit, role = null) => {
     return async (dispatch) => {
         try {
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
-            const query = role === 1 ? `?id=${id}&limit=${limit}&only=${only}` 
-            : `?id=${id}&limit=${limit}&only=${3}`
+            const query = userRole === 1 ? `?id=${id}&limit=${limit}&role=${role}` 
+            : `?id=${id}&limit=${limit}&role=${3}`
             console.log(query)
 
             // do request
@@ -91,12 +91,12 @@ export const prevUserAction = (id, limit, only = null) => {
 }
 
 // get user profile
-export const getProfileAction = (limit, only = null) => {
+export const getProfileAction = (limit, role = null) => {
     return async (dispatch) => {
         try {
             console.log(limit)
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
-            const query = role === 1 ? `?limit=${limit}&only=${only}` : `?limit=${limit}&only=${3}`
+            const query = userRole === 1 ? `?limit=${limit}&role=${role}` : `?limit=${limit}&role=${3}`
             console.log(query)
             
             // do request
@@ -112,12 +112,12 @@ export const getProfileAction = (limit, only = null) => {
     }
 }
 
-export const nextProfileAction = (id, limit, only = null) => {
+export const nextProfileAction = (id, limit, role = null) => {
     return async (dispatch) => {
         try {
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
-            const query = role === 1 ? `?id=${id}&limit=${limit}&only=${only}` 
-            : `?id=${id}&limit=${limit}&only=${3}`
+            const query = userRole === 1 ? `?id=${id}&limit=${limit}&role=${role}` 
+            : `?id=${id}&limit=${limit}&role=${3}`
             console.log(query)
             
             // do request
@@ -133,12 +133,12 @@ export const nextProfileAction = (id, limit, only = null) => {
     }
 }
 
-export const prevProfileAction = (id, limit, only = null) => {
+export const prevProfileAction = (id, limit, role = null) => {
     return async (dispatch) => {
         try {
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
-            const query = role === 1 ? `?id=${id}&limit=${limit}&only=${only}` 
-            : `?id=${id}&limit=${limit}&only=${3}`
+            const query = userRole === 1 ? `?id=${id}&limit=${limit}&role=${role}` 
+            : `?id=${id}&limit=${limit}&role=${3}`
             console.log(query)
 
             // do request
@@ -170,7 +170,7 @@ export const getUserRoles = () => {
 }
 
 // edit user role
-export const editUserRole = (userId, roleId, dataId, limit, only = null) => {
+export const editUserRole = (userId, roleId, dataId, limit, role = null) => {
     return async (dispatch) => {
         try {
             // do request to edit user role by id
@@ -178,7 +178,7 @@ export const editUserRole = (userId, roleId, dataId, limit, only = null) => {
             await Axios.patch(API_URL_ADMIN + `/edit/roles/${userId}`, { role : roleId })
             
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
-            const query = `?id=${dataId + 1}&limit=${limit}&only=${only}`
+            const query = `?id=${dataId + 1}&limit=${limit}&role=${role}`
             console.log(query)
             
             // get profile data
