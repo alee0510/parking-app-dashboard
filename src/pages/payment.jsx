@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { Select, MenuItem, Typography } from '@material-ui/core'
 
 // import icons
-import EditIcon from '@material-ui/icons/Edit'
-import ClearIcon from '@material-ui/icons/Clear'
 import CheckIcon from '@material-ui/icons/Check'
 
 // import actions creator
@@ -15,7 +13,8 @@ import {
     getPrevPaymentData,
     getPaymentStatus,
     getPaymentTypes,
-    getPathAction 
+    getPathAction,
+    topUpApprove 
 } from '../actions'
 
 // import component
@@ -29,7 +28,9 @@ class Payment extends React.Component {
         page : 1,
         rowPerPage : 10,
         hoverId : null,
-        sortBy : 0
+        sortBy : 0,
+        selectId : null,
+        typeOption : null
     }
 
     componentDidMount () {
@@ -45,8 +46,12 @@ class Payment extends React.Component {
         this.props.getInitialPaymentData(value, this.state.sortBy || null)
     }
 
+    handleTopUpApprove = (id) => {
+        this.props.topUpApprove(id, this.props.payment[0].id, this.state.rowPerPage, this.state.sortBy)
+    }
+
     tablePayment = () => {
-        const { hoverId } = this.state
+        const { hoverId, selectId, typeOption } = this.state
         return this.props.payment.map(({id, date, type, amount, username, status}) => (
             <tr 
                 key = {id}
@@ -59,13 +64,18 @@ class Payment extends React.Component {
                 <td>{amount}</td>
                 <td>{username}</td>
                 <td>{this.props.status[status-1].status}</td>
-                <td>
-                <div id = 'delete-icon' 
-                        style = {{display : hoverId === id & parseInt(type) === 1 ? 'flex' : 'none'}}
-                    >
-                        <EditIcon/>
-                    </div>
-                </td>
+                {
+                    type == 1 & status == 2 ? (
+                        <td>
+                            <div id = 'check-icon' 
+                                style = {{display : hoverId === id ? 'flex' : 'none'}}
+                                onClick = { _ => this.handleTopUpApprove(id)}
+                            >
+                                <CheckIcon/>
+                            </div>
+                        </td>
+                    ) : <td></td>
+                }
             </tr>
         ))
     }
@@ -168,7 +178,8 @@ const mapDispatch = () => {
         getPrevPaymentData,
         getPaymentStatus,
         getPaymentTypes,
-        getPathAction
+        getPathAction,
+        topUpApprove
     }
 }
 

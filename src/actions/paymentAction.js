@@ -84,3 +84,26 @@ export const getPaymentTypes = () => {
         }
     }
 }
+
+// top-up approval
+export const topUpApprove = (id, dataId, limit, type) => {
+    return async (dispatch) => {
+        try {
+            // do request approval
+            console.log('do request approval')
+            const response = await Axios.get(API_PAYMENT + `/approval/${id}`)
+            console.log(response)
+
+            // refresh redux data
+            console.log('do refresh data')
+            const { data } = await Axios.get(API_PAYMENT + `/data/next/?id=${dataId+1}&limit=${limit}&type=${type}`)
+            dispatch({
+                type : GET_TRANSACTION_HISTORY,
+                payload : data
+            })
+        } catch(err) {
+            console.log(err.response ? err.response.data : err)
+        }
+    }
+
+}

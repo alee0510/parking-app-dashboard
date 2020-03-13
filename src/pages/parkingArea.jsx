@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import ClearIcon from '@material-ui/icons/Clear'
-import CheckIcon from '@material-ui/icons/Check'
+// import ClearIcon from '@material-ui/icons/Clear'
+// import CheckIcon from '@material-ui/icons/Check'
 
 // import actions creator
 import { getParkng, getPathAction } from '../actions'
