@@ -40,6 +40,7 @@ import {
 // import components
 import TabMenu from '../components/tabs'
 import Table from '../components/table'
+import Modal from '../components/modal'
 
 // import style
 import '../styles/vehicle.scss'
@@ -209,6 +210,7 @@ class Vehicles extends React.Component {
 
         // do request
         this.props.addNewCarBrand({brand : brand.toUpperCase()})
+        this.props.getTotalCarBrands()
 
         // reset
         this.setState({ addBrand : false, page : 1, rowPerPage : 10})
@@ -444,111 +446,63 @@ class Vehicles extends React.Component {
                     </div>
                 </div>
                 {/* MODAL FOR ADD NEW BRAND OR TYPE*/}
-                <Dialog
-                    open={addBrand}
-                    onClose={ _ => this.setState({ addBrand : false })}
+                <Modal 
+                    open = {addBrand}
+                    onClose = { _ => this.setState({ addBrand : false })}
+                    title = 'Add new brand'
+                    handleOk = {this.handleAddBrand}
+                    cancelButton = {true}
+                    handleCancel = { _ => this.setState({ addBrand : false })}
                 >
-                    <DialogTitle id="alert-dialog-title">Add new brand</DialogTitle>
-                    <DialogContent id = 'add-brand-modal'>
-                        <input
-                            type = 'text' 
-                            placeholder = 'add your new car brand'
-                            ref = 'newbrand'
-                            autoFocus
-                            style = {{
-                                height : 50,
-                                padding : 10,
-                            }}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button
-                            onClick={ _ => this.setState({ addBrand : false })} 
-                            color="secondary" 
-                        >
-                            Cancel
-                        </Button>
-                        <Button 
-                            onClick={this.handleAddBrand} 
-                            color="primary" 
-                        >
-                            OK
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-                <Dialog
-                    open={addType}
-                    onClose={ _ => this.setState({ addType : false })}
+                    <input
+                        type = 'text' 
+                        placeholder = 'add your new car brand'
+                        ref = 'newbrand'
+                        autoFocus
+                        style = {{ height : 50, padding : 10}}
+                    />
+                </Modal>
+                <Modal
+                    open = {addType}
+                    onClose = { _ => this.setState({ addType : false})}
+                    title = 'Add new type'
+                    handleOk = {this.handleAddType}
+                    cancelButton = {true}
+                    handleCancel = { _ => this.setState({ addType : false})}
                 >
-                    <DialogTitle id="alert-dialog-title">Add new type</DialogTitle>
-                    <DialogContent id = 'add-brand-modal'>
-                        <Select
-                            value = {addTypeOption}
-                            onChange = {(e) => this.setState({addTypeOption : e.target.value})}
-                            disableUnderline = {true}
-                            style = {{ width : 200, marginRight : 20}}
-                        >
-                            {
-                                this.props.allCarBrands.map(({id, brand}) => (
-                                    <MenuItem key = {id} value={id}>{brand}</MenuItem>
-                                ))
-                            }
-                        </Select>
-                        <input
-                            type = 'text' 
-                            placeholder = 'add your new car type'
-                            ref = 'newtype'
-                            autoFocus
-                            style = {{
-                                height : 40,
-                                padding : 10,
-                            }}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button
-                            onClick={ _ => this.setState({ addType : false })} 
-                            color="secondary" 
-                        >
-                            Cancel
-                        </Button>
-                        <Button 
-                            onClick={this.handleAddType} 
-                            color="primary" 
-                        >
-                            OK
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                    <Select
+                        value = {addTypeOption}
+                        onChange = {(e) => this.setState({addTypeOption : e.target.value})}
+                        disableUnderline = {true}
+                        style = {{ width : 200, marginRight : 20}}
+                    >
+                    {
+                        this.props.allCarBrands.map(({id, brand}) => (
+                            <MenuItem key = {id} value={id}>{brand}</MenuItem>
+                        ))
+                    }
+                    </Select>
+                    <input
+                        type = 'text' 
+                        placeholder = 'add your new car type'
+                        ref = 'newtype'
+                        autoFocus
+                        style = {{ height : 40, padding : 10 }}
+                    />
+                </Modal>
                 {/* MODAL FOR DELETE */}
-                <Dialog
-                    open = { Boolean(deleteBrand) }
+                <Modal
+                    open = {Boolean(deleteBrand)}
                     onClose = { _ => this.setState({deleteBrand : null})}
-                >
-                    <DialogTitle>Delete confirmation</DialogTitle>
-                    <DialogActions>
-                        <Button
-                            onClick = {this.handleDeleteBrand}
-                            color = 'primary'
-                        >
-                            OK
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-                <Dialog
-                    open = { Boolean(deleteType) }
-                    onClose = { _ => this.setState({deleteBrand : null})}
-                >
-                    <DialogTitle>Delete confirmation</DialogTitle>
-                    <DialogActions>
-                        <Button
-                            onClick = {this.handleDeleteType}
-                            color = 'primary'
-                        >
-                            OK
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                    title = 'Delete confirmation ?'
+                    handleOk = {this.handleDeleteBrand}
+                />
+                <Modal
+                    open = {Boolean(deleteType)}
+                    onClose = { _ => this.setState({deleteType : null})}
+                    title = 'Delete confirmation ?'
+                    handleOk = {this.handleDeleteType}
+                />
             </div>
         )
     }

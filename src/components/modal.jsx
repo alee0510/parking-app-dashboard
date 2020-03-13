@@ -14,12 +14,12 @@ export default function AlertDialog (props) {
     return (
         <div>
             <Dialog
-                open={props.open}
-                onClose={props.handleClose}
+                open = {props.open}
+                onClose = {props.onClose}
             >
-                <DialogTitle id="alert-dialog-title">{"Add New Brand"}</DialogTitle>
+                <DialogTitle >{props.title}</DialogTitle>
                 <DialogContent>
-                    <input></input>
+                    {props.children}
                 </DialogContent>
                 <DialogActions>
                     {props.cancelButton ? (
