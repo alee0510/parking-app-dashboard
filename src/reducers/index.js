@@ -3,12 +3,15 @@ import { combineReducers } from 'redux'
 
 // import reducers
 import { burgerReducer, avatarReducer } from './componentReducers'
-import { getTotalUserReducer, 
+import { 
+        getTotalUserReducer, 
         getUserReducer, 
         getProfileReducer, 
-        getUserRoleReducer } from './memberReducers'
+        getUserRoleReducer 
+} from './memberReducers'
 import { userReducer, userProfileReducer } from './userReducer'
-import { carBrandReducrer, 
+import { 
+        carBrandReducrer, 
         carTypeReducer, 
         carBrandTotal, 
         carTypeTotal,
@@ -16,16 +19,21 @@ import { carBrandReducrer,
         motorBrandReducer, 
         motorTypeTotal, 
         motorTypeReducer,
-        allBrands } from './vehicleReducer'
+        allBrands 
+} from './vehicleReducer'
 import { totalRating, ratingReducer } from './ratingReducer'
-import { historyTotal, 
+import { 
+        historyTotal, 
         historyReducer, 
         onActiveTotal, 
-        onActiveReducer } from './historyReducer'
-import { paymentTotalData, 
+        onActiveReducer 
+} from './historyReducer'
+import { 
+        paymentTotalData, 
         paymentReducer,
         paymentStatus,
-        paymentTypes } from './paymentReducer'
+        paymentTypes 
+} from './paymentReducer'
 import { parkingReducer } from './parkingAreaReducer'
 import { partnerReducer } from './partnerReducer'
 

@@ -29,17 +29,12 @@ export const GET_ROLES = 'GET_ROLES'
 
 // data sets : USER Accounts and Profiles
 export const GET_USER = 'GET_USER'
-export const NEXT_USER = 'NEXT_USER'
-export const PREV_USER = 'PREV_USER'
-export const GET_USER_ERROR = 'GET_USER_ERROR'
-// user profile
+export const GET_USER_START = 'GET_USER_START'
+export const GET_USER_END = 'GET_USER_END'
 export const GET_PROFILE = 'GET_PROFILE'
-export const NEXT_PROFILE = 'NEXT_PROFILE'
-export const PREV_PROFILE = 'PREV_PROFILE'
-export const GET_PROFILE_ERROR = 'GET_PROFILE_ERORR'
-// edit role
-export const EDIT_ROLE = 'EDIT_ROLE'
-export const EDIT_ROLE_ERROR = 'EDIT_ROLE_ERROR'
+export const GET_PROFILE_START = 'GET_PROFILE_START'
+export const GET_PROFILE_END = 'GET_PROFILE_END'
+export const GET_PROFILE_ERROR = 'GET_PROFILE_ERROR'
 
 // data sets : VEHICLE
 export const GET_TOTAL_CAR_BRAND = 'GET_TOTAL_CAR_BRAND'

@@ -26,11 +26,8 @@
                 }
                 &:last-child {
                     display: flex;
-                    // padding: 0px 0px !important;
-                    justify-content: center;
-                    max-width: 100px;
-                    width: 50px;
-                    // background-color: red;
+                    justify-content: space-evenly;
+                    width: 80px;
                 }
             }
             tr th {

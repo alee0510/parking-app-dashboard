@@ -1,7 +1,11 @@
 import { 
     TOTAL_USER, 
     GET_USER, 
+    GET_USER_START,
+    GET_USER_END,
     GET_PROFILE,
+    GET_PROFILE_START,
+    GET_PROFILE_END,
     GET_ROLES,
 } from '../helpers/actionTypes'
 
@@ -13,18 +17,26 @@ export const getTotalUserReducer = (state = { userTotal : 0}, action) => {
     }
 }
 
-export const getUserReducer = (state = { user : [] }, action) => {
+export const getUserReducer = (state = { user : [], loading : false }, action) => {
     switch(action.type) {
         case GET_USER :
-            return { user : action.payload }
+            return { ...state, user : action.payload }
+        case GET_USER_START : 
+            return { ...state, loading : true }
+        case GET_USER_END :
+            return { ...state, loading : false }
         default : return state
     }
 }
 
-export const getProfileReducer = (state = { profile : [] }, action) => {
+export const getProfileReducer = (state = { profile : [], loading : false }, action) => {
     switch(action.type) {
         case GET_PROFILE :
             return { profile : action.payload }
+        case GET_PROFILE_START :
+            return { ...state, loading : true }
+        case GET_PROFILE_END :
+            return { ...state, loading : false }
         default : return state
     }
 }

@@ -2,9 +2,12 @@ import Axios from 'axios'
 import { 
     TOTAL_USER, 
     GET_USER, 
+    GET_USER_START,
+    GET_USER_END,
     GET_PROFILE,
-    GET_ROLES, 
-    EDIT_ROLE,
+    GET_PROFILE_START,
+    GET_PROFILE_END,
+    GET_ROLES,
 } from '../helpers/actionTypes'
 import { API_URL_ADMIN } from '../helpers/apiUrl'
 
@@ -14,7 +17,6 @@ export const getTotalUser = (role = null) => {
         try {
             // define query
             const query = role ? `?role=${role}` : ``
-            console.log(query)
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/total/${query}`)
             dispatch({
                 type : TOTAL_USER,
@@ -32,9 +34,10 @@ const userRole = parseInt(localStorage.getItem('role'))
 export const getUserAction = (limit, role = null) => {
     return async (dispatch) => {
         try {
+            dispatch({ type : GET_USER_START })
+            
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
             const query = userRole === 1 ? `?limit=${limit}&role=${role}` : `?limit=${limit}&role=${3}`
-            console.log(query)
 
             // do request
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/${query}`)
@@ -42,7 +45,9 @@ export const getUserAction = (limit, role = null) => {
                 type : GET_USER,
                 payload : data
             })
+            dispatch({ type : GET_USER_END })
         } catch (err) {
+            dispatch({ type : GET_USER_END })
             console.log(err.response ? err.response.data : err)
         }
     }
@@ -51,10 +56,11 @@ export const getUserAction = (limit, role = null) => {
 export const nextUserAction = (id, limit, role = null) => {
     return async (dispatch) => {
         try {
+            dispatch({ type : GET_USER_START })
+
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
             const query = userRole === 1 ? `?id=${id}&limit=${limit}&role=${role}` 
             : `?id=${id}&limit=${limit}&role=${3}`
-            console.log(query)
 
             // do request
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/next/${query}`)
@@ -62,7 +68,9 @@ export const nextUserAction = (id, limit, role = null) => {
                 type : GET_USER,
                 payload : data
             })
+            dispatch({ type : GET_USER_END })
         } catch (err) {
+            dispatch({ type : GET_USER_END })
             console.log(err.response ? err.response.data : err)
         }
     }
@@ -71,10 +79,11 @@ export const nextUserAction = (id, limit, role = null) => {
 export const prevUserAction = (id, limit, role = null) => {
     return async (dispatch) => {
         try {
+            dispatch({ type : GET_USER_START })
+
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
             const query = userRole === 1 ? `?id=${id}&limit=${limit}&role=${role}` 
             : `?id=${id}&limit=${limit}&role=${3}`
-            console.log(query)
 
             // do request
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/prev/${query}`)
@@ -82,7 +91,9 @@ export const prevUserAction = (id, limit, role = null) => {
                 type : GET_USER,
                 payload : data.reverse()
             })
+            dispatch({ type : GET_USER_END })
         } catch (err) {
+            dispatch({ type : GET_USER_END })
             console.log(err.response ? err.response.data : err)
         }
     }
@@ -92,10 +103,10 @@ export const prevUserAction = (id, limit, role = null) => {
 export const getProfileAction = (limit, role = null) => {
     return async (dispatch) => {
         try {
-            console.log(limit)
+            dispatch({ type : GET_PROFILE_START })
+
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
             const query = userRole === 1 ? `?limit=${limit}&role=${role}` : `?limit=${limit}&role=${3}`
-            console.log(query)
             
             // do request
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/profile/${query}`)
@@ -103,7 +114,9 @@ export const getProfileAction = (limit, role = null) => {
                 type : GET_PROFILE,
                 payload : data
             })
+            dispatch({ type : GET_PROFILE_END })
         } catch (err) {
+            dispatch({ type : GET_PROFILE_END })
             console.log(err.response ? err.response.data : err)
         }
     }
@@ -112,10 +125,11 @@ export const getProfileAction = (limit, role = null) => {
 export const nextProfileAction = (id, limit, role = null) => {
     return async (dispatch) => {
         try {
+            dispatch({ type : GET_PROFILE_START })
+
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
             const query = userRole === 1 ? `?id=${id}&limit=${limit}&role=${role}` 
             : `?id=${id}&limit=${limit}&role=${3}`
-            console.log(query)
             
             // do request
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/profile/next/${query}`)
@@ -123,7 +137,9 @@ export const nextProfileAction = (id, limit, role = null) => {
                 type : GET_PROFILE,
                 payload : data
             })
+            dispatch({ type : GET_PROFILE_END })
         } catch (err) {
+            dispatch({ type : GET_PROFILE_END })
             console.log(err.response ? err.response.data : err)
         }
     }
@@ -132,10 +148,11 @@ export const nextProfileAction = (id, limit, role = null) => {
 export const prevProfileAction = (id, limit, role = null) => {
     return async (dispatch) => {
         try {
+            dispatch({ type : GET_PROFILE_START })
+
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
             const query = userRole === 1 ? `?id=${id}&limit=${limit}&role=${role}` 
             : `?id=${id}&limit=${limit}&role=${3}`
-            console.log(query)
 
             // do request
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/profile/prev/${query}`)
@@ -143,7 +160,9 @@ export const prevProfileAction = (id, limit, role = null) => {
                 type : GET_PROFILE,
                 payload : data.reverse()
             })
+            dispatch({ type : GET_PROFILE_END })
         } catch (err) {
+            dispatch({ type : GET_PROFILE_END })
             console.log(err.response ? err.response.data : err)
         }
     }
@@ -169,15 +188,12 @@ export const editUserRole = (userId, roleId, dataId, limit, role = null) => {
     return async (dispatch) => {
         try {
             // do request to edit user role by id
-            console.log('do request')
             await Axios.patch(API_URL_ADMIN + `/edit/roles/${userId}`, { role : roleId })
             
             // do authorization by role id, 1 = superadmin, 2 = admin, & 3 = user
             const query = `?id=${dataId + 1}&limit=${limit}&role=${role}`
-            console.log(query)
             
             // get profile data
-            console.log('get request')
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/next/${query}`)            
             dispatch({
                 type : GET_USER,

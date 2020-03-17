@@ -42,8 +42,8 @@ class Member extends React.Component {
 
     componentDidMount () {
         this.props.getPathAction('member')
-        
         const role = parseInt(localStorage.getItem('role'))
+
         // get total user
         this.props.getTotalUser()
 
@@ -57,10 +57,15 @@ class Member extends React.Component {
 
     handleTab = () => {
         const { tabValue, rowPerPage } = this.state
-        this.setState({tabValue : tabValue ? 0 : 1, rowPerPage : 10, page : 1, sortByValue : 0}, 
+        this.setState({
+            tabValue : tabValue ? 0 : 1, 
+            rowPerPage : 10, 
+            page : 1, 
+            sortByValue : 0 }, 
             () => {
                 this.props.getTotalUser()
-                this.state.tabValue === 1 ? this.props.getProfileAction(rowPerPage) : this.props.getUserAction(rowPerPage)
+                this.state.tabValue === 1 ? this.props.getProfileAction(rowPerPage) 
+                : this.props.getUserAction(rowPerPage)
             }
         )
     }
@@ -163,6 +168,7 @@ class Member extends React.Component {
 
     tableAccount = () => {
         const { hoverId, selectedId } = this.state
+        // const { accountLoad } = this.props
         return this.props.account.map(({id, username, email, role, status}) => {
             return (
                 <tr key = {id}
@@ -243,8 +249,8 @@ class Member extends React.Component {
                 <div  className = 'table'>
                     <Table
                         className = 'table'
-                        headerItems = {tabValue ? ['username', 'name', 'birthdate', 'phone', 'address'] 
-                        : ['username', 'email', 'role', 'status']}
+                        headerItems = { tabValue ? ['username', 'name', 'birthdate', 'phone', 'address'] 
+                        : ['username', 'email', 'role', 'status'] }
                         menuItems = {[10, 15, 20, 25, 30]}
                         optionValue = {rowPerPage}
                         handleOption = {this.handleOption}
@@ -261,13 +267,14 @@ class Member extends React.Component {
     }
 }
 
-const mapStore = ({ account, totalAccount, profile, user, roles }) => {
+const mapStore = ({ account, totalAccount, profile, roles }) => {
     return {
         account : account.user,
-        total : totalAccount.userTotal,
+        accountLoad : account.loading,
         profile : profile.profile,
-        id : parseInt(user.data.id),
-        roles : roles.roles
+        profileLoading : profile.loading,
+        total : totalAccount.userTotal,
+        roles : roles.roles,
     }
 }
 
