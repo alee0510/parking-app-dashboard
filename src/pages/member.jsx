@@ -185,7 +185,7 @@ class Member extends React.Component {
                     </td>
                     <td>{status === 0 ? 'not-active' : 'active'}</td>
                     {
-                        id === selectedId ? (
+                        id === selectedId ?
                             <td>
                                 <div id = 'check-icon' 
                                     style = {{display : hoverId === id ? 'flex' : 'none'}}
@@ -200,7 +200,7 @@ class Member extends React.Component {
                                     <ClearIcon/>
                                 </div>
                             </td>
-                        ) : (
+                            :
                             <td>
                                 <div id = 'edit-icon' 
                                     style = {{display : hoverId === id ? 'flex' : 'none'}}
@@ -214,7 +214,6 @@ class Member extends React.Component {
                                     <DeleteIcon/>
                                 </div>
                             </td>
-                        )
                     }
                 </tr>
             )

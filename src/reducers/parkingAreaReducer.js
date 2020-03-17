@@ -1,4 +1,4 @@
-import { GET_PARKING_AREA } from '../helpers/actionTypes'
+import { GET_PARKING_AREA, ON_EDIT_INIT, ON_EDIT_INPUT } from '../helpers/actionTypes'
 
 export const parkingReducer = (state = { data : [] }, action) => {
     switch(action.type) {

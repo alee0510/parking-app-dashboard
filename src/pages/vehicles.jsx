@@ -307,7 +307,7 @@ class Vehicles extends React.Component {
                         }
                     </td>
                     {
-                        selectedId === id ? (
+                        selectedId === id ?
                             <td>
                                 <div id = 'check-icon'
                                     style = {{display : branHoverId === id ? 'flex' : 'none'}}
@@ -322,8 +322,7 @@ class Vehicles extends React.Component {
                                     <ClearIcon/>
                                 </div>
                             </td>
-                        ) 
-                        : (
+                        :
                             <td>
                                 <div id = 'edit-icon'
                                     style = {{display : branHoverId === id ? 'flex' : 'none'}}
@@ -338,7 +337,6 @@ class Vehicles extends React.Component {
                                     <DeleteIcon/>
                                 </div>
                             </td>
-                        )
                     }
                 </tr>
             )
@@ -374,7 +372,7 @@ class Vehicles extends React.Component {
                     </td>
                     <td>
                         {
-                            selectedTypeId === id ? (
+                            selectedTypeId === id ?
                                 <input 
                                     type = 'text' 
                                     id = 'edit-input' 
@@ -383,11 +381,11 @@ class Vehicles extends React.Component {
                                     style = {{ paddingLeft : 15}}
                                     onChange = { e => this.setState({ editType : e.target.value})}
                                 />
-                            ) : name
+                            : name
                         }
                     </td>
                     {
-                        selectedTypeId === id ? (
+                        selectedTypeId === id ?
                             <td>
                                 <div id = 'check-icon'
                                     style = {{display : typeHoverId === id ? 'flex' : 'none'}}
@@ -402,8 +400,7 @@ class Vehicles extends React.Component {
                                     <ClearIcon/>
                                 </div>
                             </td>
-                        ) 
-                        : (
+                        :
                             <td>
                                 <div id = 'edit-icon'
                                     style = {{display : typeHoverId === id ? 'flex' : 'none'}}
@@ -418,7 +415,6 @@ class Vehicles extends React.Component {
                                     <DeleteIcon/>
                                 </div>
                             </td>
-                        )
                     }
                 </tr>
             )

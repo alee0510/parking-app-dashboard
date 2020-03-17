@@ -15,7 +15,7 @@ export default function AlertDialog (props) {
                 onClose = {props.onClose}
             >
                 <DialogTitle >{props.title}</DialogTitle>
-                <DialogContent>
+                <DialogContent style = {props.style}>
                     {props.children}
                 </DialogContent>
                 <DialogActions>
