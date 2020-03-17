@@ -1,8 +1,10 @@
 import Axios from 'axios'
-import { TOTAL_USER, GET_USER, NEXT_USER, 
-    PREV_USER, GET_PROFILE, NEXT_PROFILE, 
-    PREV_PROFILE, GET_ROLES, GET_USER_ERROR,
-    GET_PROFILE_ERROR, EDIT_ROLE, EDIT_ROLE_ERROR 
+import { 
+    TOTAL_USER, 
+    GET_USER, 
+    GET_PROFILE,
+    GET_ROLES, 
+    EDIT_ROLE,
 } from '../helpers/actionTypes'
 import { API_URL_ADMIN } from '../helpers/apiUrl'
 
@@ -40,10 +42,8 @@ export const getUserAction = (limit, role = null) => {
                 type : GET_USER,
                 payload : data
             })
-
         } catch (err) {
             console.log(err.response ? err.response.data : err)
-            dispatch({ type : GET_USER_ERROR })
         }
     }
 }
@@ -59,12 +59,11 @@ export const nextUserAction = (id, limit, role = null) => {
             // do request
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/next/${query}`)
             dispatch({
-                type : NEXT_USER,
+                type : GET_USER,
                 payload : data
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
-            dispatch({ type : GET_USER_ERROR })
         }
     }
 }
@@ -80,12 +79,11 @@ export const prevUserAction = (id, limit, role = null) => {
             // do request
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/prev/${query}`)
             dispatch({
-                type : PREV_USER,
-                payload : data
+                type : GET_USER,
+                payload : data.reverse()
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
-            dispatch({ type : GET_USER_ERROR })
         }
     }
 }
@@ -107,7 +105,6 @@ export const getProfileAction = (limit, role = null) => {
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
-            dispatch({ type : GET_PROFILE_ERROR })
         }
     }
 }
@@ -123,12 +120,11 @@ export const nextProfileAction = (id, limit, role = null) => {
             // do request
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/profile/next/${query}`)
             dispatch({
-                type : NEXT_PROFILE,
+                type : GET_PROFILE,
                 payload : data
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
-            dispatch({ type : GET_PROFILE_ERROR })
         }
     }
 }
@@ -144,12 +140,11 @@ export const prevProfileAction = (id, limit, role = null) => {
             // do request
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/profile/prev/${query}`)
             dispatch({
-                type : PREV_PROFILE,
-                payload : data
+                type : GET_PROFILE,
+                payload : data.reverse()
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
-            dispatch({ type : GET_PROFILE_ERROR })
         }
     }
 }
@@ -185,12 +180,11 @@ export const editUserRole = (userId, roleId, dataId, limit, role = null) => {
             console.log('get request')
             const { data } = await Axios.get(API_URL_ADMIN + `/get/users/next/${query}`)            
             dispatch({
-                type : EDIT_ROLE,
+                type : GET_USER,
                 payload : data
             })
         } catch (err) {
             console.log(err.response ? err.response.data : err)
-            dispatch({ type : EDIT_ROLE_ERROR })
         }
     }
 }

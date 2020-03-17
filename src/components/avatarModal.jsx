@@ -37,8 +37,8 @@ class AvatarModal extends React.Component {
                 display : this.props.open ? 'block' : 'none'
             },
             avatar : {
-                width : 50,
-                height : 50
+                width : 80,
+                height : 80
             },
             icons : {
                 width : 20,

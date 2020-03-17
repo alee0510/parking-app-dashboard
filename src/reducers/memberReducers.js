@@ -1,6 +1,8 @@
-import { TOTAL_USER, GET_USER, NEXT_USER, PREV_USER, 
-    GET_PROFILE, NEXT_PROFILE, PREV_PROFILE, GET_ROLES, 
-    GET_USER_ERROR, GET_PROFILE_ERROR, EDIT_ROLE, EDIT_ROLE_ERROR 
+import { 
+    TOTAL_USER, 
+    GET_USER, 
+    GET_PROFILE,
+    GET_ROLES,
 } from '../helpers/actionTypes'
 
 export const getTotalUserReducer = (state = { userTotal : 0}, action) => {
@@ -15,16 +17,6 @@ export const getUserReducer = (state = { user : [] }, action) => {
     switch(action.type) {
         case GET_USER :
             return { user : action.payload }
-        case NEXT_USER :
-            return { user : action.payload }
-        case PREV_USER :
-            return { user : action.payload.reverse() }
-        case GET_USER_ERROR : 
-            return { user : [] }
-        case EDIT_ROLE :
-            return { user : action.payload }
-        case EDIT_ROLE_ERROR : 
-            return { ...state }
         default : return state
     }
 }
@@ -33,12 +25,6 @@ export const getProfileReducer = (state = { profile : [] }, action) => {
     switch(action.type) {
         case GET_PROFILE :
             return { profile : action.payload }
-        case NEXT_PROFILE :
-            return { profile : action.payload }
-        case PREV_PROFILE :
-            return { profile : action.payload.reverse() }
-        case GET_PROFILE_ERROR :
-            return { profile : [] }
         default : return state
     }
 }

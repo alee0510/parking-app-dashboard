@@ -48,15 +48,12 @@ class ParkingArea extends React.Component {
             >
                 <td></td>
                 <td>{company}</td>
-                <td>{address}</td>
                 <td>{city}</td>
-                {/* <td>{province}</td> */}
                 <td>{car_cost}</td>
                 <td>{motor_cost}</td>
                 <td>{car_slot}</td>
                 <td>{motor_slot}</td>
                 <td>{place_name}</td>
-                {/* <td>{geo_location}</td> */}
                 <td>
                     <div id = 'edit-icon' 
                         style = {{display : hoverId === id ? 'flex' : 'none'}}
@@ -81,7 +78,7 @@ class ParkingArea extends React.Component {
                 <div className = 'parking-table-container'>
                     <Table
                         className = 'table'
-                        headerItems = {['company', 'address', 'city', 'car (rp)', 'motor (rp)', 'car slot', 'motor slot', 'place']}
+                        headerItems = {['company', 'city', 'car (rp)', 'motor (rp)', 'car slot', 'motor slot', 'place']}
                         menuItems = {[0]}
                         optionValue = {0}
                         page = {1}
