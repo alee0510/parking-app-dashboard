@@ -1,3 +1,6 @@
+export const HOME_URL = 'http://localhost:3000/background'
+
+// APIs url
 export const API_URL = 'http://localhost:5000'
 export const API_URL_ADMIN = 'http://localhost:5000/api/admin'
 export const API_URL_USER = 'http://localhost:5000/api/user'

@@ -7,8 +7,9 @@
     top: 0px;
     height: 100%; width: 35%;
     padding: 50px;
-    background-color: rgba($color: $gray10, $alpha: 0.6);
+    background-color: rgba($color: $gray10, $alpha: 0.65);
     backdrop-filter: blur(10px);
+    z-index: 5;
     @include depth-6;
     @include animation-time(300ms);
     .button-close {
@@ -36,7 +37,7 @@
         .form-input-username, .form-input-password {
             display: flex;
             height: 50px; width: 100%;
-            background-color: rgba($color: $gray10, $alpha: 0.7);
+            background-color: rgba($color: $gray10, $alpha: 0.9);
             margin-bottom: 10px;
             border-radius: 5px;
             @include depth-4;

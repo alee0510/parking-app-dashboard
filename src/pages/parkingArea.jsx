@@ -41,6 +41,7 @@ class ParkingArea extends React.Component {
         carSlot : '',
         motorSlot : '',
         placeName : '',
+        imageHover : false
     }
 
     componentDidMount () {
@@ -100,10 +101,11 @@ class ParkingArea extends React.Component {
     }
 
     onChooseImage = (e) => {
-        // this.setState({image : e.target.files[0]})
         const data = new FormData()
         data.append('IMG', e.target.files[0])
-        this.props.uploadParkingImage(this.state.edit, data)
+
+        // do upload request
+        this.props.uploadParkingImage(this.state.data, data)
     }
 
     onButtonDelete = () => {
@@ -154,6 +156,22 @@ class ParkingArea extends React.Component {
         ))
     }
 
+    renderButtonUpload = () => (
+        <IconButton 
+        variant="contained" 
+        component="label"
+        className ='upload-button-choose'
+        >
+            <input type = "file" 
+                accept = "image/*" 
+                style = {{ display: "none" }} 
+                name = "IMG"
+                onChange = {e => this.onChooseImage(e)}
+            />
+            <CameraAltIcon fontSize = 'large'/>
+        </IconButton>
+    )
+
     render () {
         const { 
             edit,
@@ -167,7 +185,8 @@ class ParkingArea extends React.Component {
             motorCost, 
             carSlot, 
             motorSlot, 
-            placeName 
+            placeName,
+            imageHover 
         } = this.state
         const styles = {
             input : {
@@ -189,9 +208,17 @@ class ParkingArea extends React.Component {
                 display : 'flex',
                 justifyContent : 'center',
                 alignItems : 'center'
+            },
+            imageContainer : {
+                height : '100%', 
+                width : '100%', 
+                cursor : 'pointer', 
+                display : 'flex',
+                justifyContent : 'center', 
+                alignItems : 'center',
             }
         }
-        // console.log(this.state.image)
+        console.log(imageHover)
         return (
             <div className = 'parking-main-container'>
                 <h1>Parking Area</h1>
@@ -272,33 +299,22 @@ class ParkingArea extends React.Component {
                         <form encType="multipart/form-data" method = 'POST' style = {styles.upload}>
                             {
                                 image ?
-                                <div style = {{height : '100%', width : 'auto', cursor : 'pointer'}}>
-                                    <img src = {API_URL + '/' + image} alt = 'area=img' width = '300px'/>
-                                    <input type = "file" 
-                                        accept = "image/*" 
-                                        style = {{ display: "none" }} 
-                                        name = "IMG"
-                                        onChange = {e => this.onChooseImage(e)}
-                                    />
+                                <div 
+                                    style = {styles.imageContainer}
+                                    onMouseEnter = { _ => this.setState({ imageHover : true })}
+                                    onMouseLeave = { _ => this.setState({ imageHover : false })}
+                                >
+                                    {
+                                        imageHover ? 
+                                        this.renderButtonUpload() 
+                                        : <img src = {API_URL + '/' + image} alt = 'area=img' width = '300px'/>
+                                    }
                                 </div>
                                 :
                                 this.props.loading ?
                                 <CircularProgress variant="determinate" value = {this.props.progress}/>
                                 :
-                                <IconButton 
-                                    variant="contained" 
-                                    component="label"
-                                    className ='upload-button-choose'
-                                >
-                                    <input type = "file" 
-                                        accept = "image/*" 
-                                        style = {{ display: "none" }} 
-                                        name = "IMG"
-                                        onChange = {e => this.onChooseImage(e)}
-                                    />
-                                    <CameraAltIcon fontSize = 'large'/>
-                                </IconButton>
-
+                                this.renderButtonUpload()
                             }
                         </form>
                     </div>

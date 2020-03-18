@@ -6,6 +6,7 @@
     @include flex (row, space-between, center);
     height: 120px; width: 100%;
     padding: 20px 40px;
+    z-index: 3;
     // background-color: yellow;
     position: sticky;
     .logo {
@@ -19,11 +20,23 @@
     }
     .action-button {
         @include flex (row, space-evenly, center);
-        height: 80px; width: 250px;
+        height: 80px; width: 300px;
         // background-color: pink;
         #divider {
             height: 40%; width: 2px;
             background-color: $gray10;
+            margin: 0px 10px;
+        }
+        #sign-in {
+            @include flex(row, center, center);
+            background-color: red;
+            height: 45px;
+            width: 50%;
+            border-radius: 50px;
+            cursor: pointer;
+            &:active {
+                transform: scale(0.9);
+            }
         }
         h1 {
             cursor: pointer;
@@ -31,10 +44,6 @@
             font-weight: 600;
             color: $gray10;
             @include animation-time (150ms);
-            &:hover {
-                font-size: 17px;
-                color: $error;
-            }
         }
     }
 }
