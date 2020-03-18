@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { IconButton } from '@material-ui/core'
+import { IconButton, CircularProgress } from '@material-ui/core'
+import { API_URL } from '../helpers/apiUrl'
 
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
@@ -8,7 +9,14 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import CameraAltIcon from '@material-ui/icons/CameraAlt'
 
 // import actions creator
-import { getParkng, getPathAction, editParking } from '../actions'
+import { 
+    getParkng, 
+    getPathAction, 
+    editParking, 
+    uploadParkingImage, 
+    deleteParking,
+    addParking 
+} from '../actions'
 
 // import components
 import Table from '../components/table'
@@ -22,13 +30,14 @@ class ParkingArea extends React.Component {
     state = {
         hoverId : null,
         edit : null,
-        add : null,
+        add : false,
+        deleteId : null,
         image : null,
         address : '',
         city : '',
         province : '',
-        carCost : null,
-        motorCost : null,
+        carCost : '',
+        motorCost : '',
         carSlot : '',
         motorSlot : '',
         placeName : '',
@@ -57,23 +66,51 @@ class ParkingArea extends React.Component {
 
     onButtonCancel = () => {
         this.setState({ 
-            edit : false,
-            image : '',
+            edit : null,
+            add : false,
+            image : null,
             address : '',
             city : '',
             province : '',
-            carCost : null,
-            motorCost : null,
-            carSlot : null,
-            motorSlot :null,
+            carCost : '',
+            motorCost : '',
+            carSlot : '',
+            motorSlot : '',
             placeName : ''
         })
     }
 
     onEditConfirm = () => {
-        this.setState({edit : true})
+        const data = {
+            address : this.state.address,
+            city : this.state.city,
+            province : this.state.province,
+            car_cost : this.state.carCost,
+            motor_cost : this.state.motorCost,
+            car_slot : this.state.carSlot,
+            motor_slot : this.state.motorSlot,
+            place_name : this.state.placeName
+        }
+        if (this.state.edit) {
+            this.props.editParking(this.state.edit, data)
+        } else {
+            this.props.addParking(data)
+        }
+        this.onButtonCancel()
     }
 
+    onChooseImage = (e) => {
+        // this.setState({image : e.target.files[0]})
+        const data = new FormData()
+        data.append('IMG', e.target.files[0])
+        this.props.uploadParkingImage(this.state.edit, data)
+    }
+
+    onButtonDelete = () => {
+        this.props.deleteParking(this.state.deleteId)
+        this.setState({ deleteId : null })
+    }
+    
     tableParking = () => {
         const { hoverId } = this.state
         return this.props.parking.map(({
@@ -108,6 +145,7 @@ class ParkingArea extends React.Component {
                     </div>
                     <div id = 'delete-icon' 
                         style = {{display : hoverId === id ? 'flex' : 'none'}}
+                        onClick = { _ => this.setState({ deleteId : id })}
                     >
                         <DeleteIcon/>
                     </div>
@@ -118,7 +156,9 @@ class ParkingArea extends React.Component {
 
     render () {
         const { 
-            edit, 
+            edit,
+            add,
+            deleteId, 
             image, 
             address, 
             city, 
@@ -129,11 +169,10 @@ class ParkingArea extends React.Component {
             motorSlot, 
             placeName 
         } = this.state
-        const { parking } = this.props
         const styles = {
             input : {
                 height : 40,
-                width : '100%',
+                width : 300,
                 padding : 10,
                 marginBottom : 15,
             },
@@ -152,7 +191,7 @@ class ParkingArea extends React.Component {
                 alignItems : 'center'
             }
         }
-
+        // console.log(this.state.image)
         return (
             <div className = 'parking-main-container'>
                 <h1>Parking Area</h1>
@@ -167,81 +206,111 @@ class ParkingArea extends React.Component {
                         totalPage = {1}
                         tableBody = {this.tableParking}
                         addButton = {true}
-                        handleClickAdd = {this.handleAddButton}
+                        handleClickAdd = { _ => this.setState({ add : true})}
                     />
                 </div>
                 <Modal 
-                    open = {Boolean(edit)} //editIndex === 0 ? true : Boolean(editIndex)
+                    open = {Boolean(edit) || add} //editIndex === 0 ? true : Boolean(editIndex)
                     onClose = { _ => this.onButtonCancel()}
                     title = 'Edit Parking Area'
-                    handleOk = {this.handleAddBrand}
+                    handleOk = {this.onEditConfirm}
                     cancelButton = {true}
                     handleCancel = { _ => this.onButtonCancel()}
-                    style = {{ display : 'flex', flexDirection : 'row', width : '100%'}}
+                    style = {{ display : 'flex', flexDirection : 'row'}}
                 >
-                    <form style = {{marginRight : 15}}>
+                    <div style = {{marginRight : 15}}>
                         <h1 style = {styles.title}>addres</h1>
-                        <input
-                            type = 'text' 
+                        <input type = 'text' autoFocus
                             value = {address}
-                            autoFocus
                             style = {styles.input}
+                            onChange = { e => this.setState({ address : e.target.value })}
                         />
                         <h1 style = {styles.title}>city</h1>
-                        <input
-                            type = 'text' 
+                        <input type = 'text' 
                             value = {city}
                             style = {styles.input}
+                            onChange = { e => this.setState({ city : e.target.value })}
                         />
                         <h1 style = {styles.title}>province</h1>
-                        <input
-                            type = 'text' 
+                        <input type = 'text' 
                             value = {province}
                             style = {styles.input}
+                            onChange = { e => this.setState({ province : e.target.value })}
                         />
                         <h1 style = {styles.title}>car cost (per-10 minutes)</h1>
-                        <input
-                            type = 'number' 
+                        <input type = 'number' 
                             value = {carCost}
                             style = {styles.input}
+                            onChange = { e => this.setState({ carCost : e.target.value })}
                         />
                         <h1 style = {styles.title}>motor cost (per-10 minute)</h1>
-                        <input
-                            type = 'number' 
+                        <input type = 'number' 
                             value = {motorCost}
                             style = {styles.input}
+                            onChange = { e => this.setState({ motorCost : e.target.value })}
                         />
-                    </form>
-                    <form>
+                    </div>
+                    <div>
                         <h1 style = {styles.title}>car slot</h1>
-                        <input
-                            type = 'number' 
+                        <input type = 'number' 
                             value = {carSlot}
                             style = {styles.input}
+                            onChange = { e => this.setState({ carSlot : e.target.value })}
                         />
                         <h1 style = {styles.title}>motor slot</h1>
-                        <input
-                            type = 'number' 
+                        <input type = 'number' 
                             value = {motorSlot}
                             style = {styles.input}
+                            onChange = { e => this.setState({ motorSlot : e.target.value })}
                         />
                         <h1 style = {styles.title}>place name</h1>
-                        <input
-                            type = 'text' 
+                        <input type = 'text' 
                             value = {placeName}
                             style = {styles.input}
+                            onChange = { e => this.setState({ placeName : e.target.value })}
                         />
-                        <div style = {styles.upload}>
+                        <form encType="multipart/form-data" method = 'POST' style = {styles.upload}>
                             {
-                                image ? 
-                                <image src = {image} alt = 'area-img'/> 
+                                image ?
+                                <div style = {{height : '100%', width : 'auto', cursor : 'pointer'}}>
+                                    <img src = {API_URL + '/' + image} alt = 'area=img' width = '300px'/>
+                                    <input type = "file" 
+                                        accept = "image/*" 
+                                        style = {{ display: "none" }} 
+                                        name = "IMG"
+                                        onChange = {e => this.onChooseImage(e)}
+                                    />
+                                </div>
                                 :
-                                <IconButton>
-                                    <CameraAltIcon fontSize="large" />
+                                this.props.loading ?
+                                <CircularProgress variant="determinate" value = {this.props.progress}/>
+                                :
+                                <IconButton 
+                                    variant="contained" 
+                                    component="label"
+                                    className ='upload-button-choose'
+                                >
+                                    <input type = "file" 
+                                        accept = "image/*" 
+                                        style = {{ display: "none" }} 
+                                        name = "IMG"
+                                        onChange = {e => this.onChooseImage(e)}
+                                    />
+                                    <CameraAltIcon fontSize = 'large'/>
                                 </IconButton>
+
                             }
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                </Modal>
+                {/* MOADAL FOR DELETE CONFIRMATION */}
+                <Modal
+                    open = {Boolean(deleteId)}
+                    onClose = { _ => this.setState({deleteId : null})}
+                    title = 'Delete confirmation ?'
+                    handleOk = {this.onButtonDelete}
+                >
+                    {this.props.loading ? <CircularProgress/> : null}
                 </Modal>
             </div>
         )
@@ -250,14 +319,20 @@ class ParkingArea extends React.Component {
 
 const mapStore = ({ parkingReducer }) => {
     return {
-        parking : parkingReducer.data
+        parking : parkingReducer.data,
+        loading : parkingReducer.uploading,
+        progress : parkingReducer.progress
     }
 }
 
 const mapDispatch = () => {
     return {
         getParkng,
-        getPathAction
+        getPathAction,
+        editParking,
+        uploadParkingImage,
+        deleteParking,
+        addParking
     }
 }
 

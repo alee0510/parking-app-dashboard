@@ -13,6 +13,7 @@ export default function AlertDialog (props) {
             <Dialog
                 open = {props.open}
                 onClose = {props.onClose}
+                maxWidth = 'md'
             >
                 <DialogTitle >{props.title}</DialogTitle>
                 <DialogContent style = {props.style}>

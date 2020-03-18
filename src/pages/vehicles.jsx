@@ -499,7 +499,7 @@ class Vehicles extends React.Component {
                         placeholder = 'add your new brand'
                         ref = 'newbrand'
                         autoFocus
-                        style = {{ height : 50, padding : 10}}
+                        style = {{ height : 40, padding : 10}}
                     />
                 </Modal>
                 <Modal
@@ -530,7 +530,7 @@ class Vehicles extends React.Component {
                         style = {{ height : 40, padding : 10 }}
                     />
                 </Modal>
-                {/* MODAL FOR DELETE */}
+                {/* MOADAL FOR DELETE CONFIRMATION */}
                 <Modal
                     open = {Boolean(deleteBrand)}
                     onClose = { _ => this.setState({deleteBrand : null})}
