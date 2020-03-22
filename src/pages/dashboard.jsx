@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 
 // import components
 import AppBar from '../components/appbar'
@@ -23,6 +23,9 @@ import '../styles/dashboard.scss'
 class Dashboard extends React.Component {
     render () {
         const { match } = this.props
+        if(localStorage.getItem('token')) {
+            return <Redirect to = '/member'/>
+        }
         return (
             <div className = 'dashboard-main-container'>
                 <AppBar/>

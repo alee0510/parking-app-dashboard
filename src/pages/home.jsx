@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Slider from "react-slick"
 import { HOME_URL } from '../helpers/apiUrl'
 
@@ -8,6 +9,7 @@ import LoginSlider from '../components/loginSlider'
 
 // import styling
 import '../styles/home.scss'
+import { Redirect } from 'react-router-dom'
 
 class Home extends React.Component {
     state = {
@@ -41,6 +43,10 @@ class Home extends React.Component {
         }
         const { loginSlider } = this.state
 
+        if(this.props.data.id) {
+            return <Redirect to = '/dashboard'/>
+        }
+
         return (
             <div className = 'home-main-container'>
                 <Header handleSignIn = {this.handleLoginSlider}/>
@@ -55,4 +61,10 @@ class Home extends React.Component {
     }
 }
 
-export default Home
+const mapStore = ({ user }) => {
+    return {
+        data : user.data
+    }
+}
+
+export default connect(mapStore)(Home)

@@ -29,6 +29,11 @@ class AvatarModal extends React.Component {
         this.props.logOutAction()
         this.props.avatarAction(false)
         localStorage.clear()
+        document.removeEventListener('click', this.outsideClick)
+    }
+
+    onClickModalMenu = () => {
+        document.removeEventListener('click', this.outsideClick)
     }
 
     render () {
@@ -65,13 +70,13 @@ class AvatarModal extends React.Component {
                     <h3>{email || 'useremail@gmail.com'}</h3>
                 </div>
                 <div className = 'bottom'>
-                    <Link to = 'setting' className = 'item-1'>
+                    <Link to = 'setting' className = 'item-1' onClick = {this.onClickModalMenu}>
                         <div id = 'people-icon'>
                             <AccountBoxIcon style = {styles.icons}/>
                         </div>
                         <h3>My account</h3>
                     </Link>
-                    <Link to = 'setting' className = 'item-2'>
+                    <Link to = 'setting' className = 'item-2' onClick = {this.onClickModalMenu}>
                         <div id = 'face-icon'>
                             <FaceIcon style = {styles.icons}/>
                         </div>
