@@ -21,7 +21,7 @@ class Home extends React.Component {
     }
 
     renderCarousel = () => {
-        const data = ['image_edit_02.jpg', 'image_edit_01.jpg', 'image_edit_03.jpg', 'image_edit_04.jpg', 'image_edit_05.jpg']
+        const data = ['background-car', 'background-car-2', 'background-car-3', 'background-car-4', 'background-car-6']
         return data.map(item => (
             <div style = {{width : '100%', height : '100%'}}>
                 <img src = {HOME_URL + '/' + item} style ={{width : '100%', objectFit : 'cover'}}/>
