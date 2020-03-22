@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 
 // import components
@@ -24,8 +25,8 @@ class Dashboard extends React.Component {
     render () {
         const { match } = this.props
 
-        if(localStorage.getItem('token')) {
-            return <Redirect to = '/member'/>
+        if(!this.props.username) {
+            return <Redirect to = '/'/>
         }
 
         return (
@@ -33,6 +34,7 @@ class Dashboard extends React.Component {
                 <AppBar/>
                 <Drawer/>
                 <AvatarModal/>
+                {/* SUPERADMIN */}
                 <Route path={match.path + '/feed'} component = {Chart}/>
                 <Route path={match.path + '/member'} component = {Member}/>
                 <Route path={match.path + '/vehicles'} component = {Vehicles}/>
@@ -47,4 +49,11 @@ class Dashboard extends React.Component {
     }
 }
 
-export default Dashboard
+const mapStore = ({ user }) => {
+    return {
+        username : user.data.username,
+        role : user.data.role
+    }
+}
+
+export default connect(mapStore)(Dashboard)
