@@ -21,6 +21,9 @@ import Setting from './setting'
 // import style
 import '../styles/dashboard.scss'
 
+// import private route
+import { PrivateRoute } from '../privateRoute'
+
 class Dashboard extends React.Component {
     render () {
         const { match } = this.props
@@ -34,15 +37,14 @@ class Dashboard extends React.Component {
                 <AppBar/>
                 <Drawer/>
                 <AvatarModal/>
-                {/* SUPERADMIN */}
                 <Route path={match.path + '/feed'} component = {Chart}/>
                 <Route path={match.path + '/member'} component = {Member}/>
                 <Route path={match.path + '/vehicles'} component = {Vehicles}/>
                 <Route path={match.path + '/rating'} component = {Rating}/>
                 <Route path={match.path + '/history'} component = {History}/>
-                <Route path={match.path + '/payment'} component = {Payment}/>
+                <PrivateRoute path={match.path + '/payment'} component = {Payment}/>
                 <Route path={match.path + '/parking'} component = {ParkingArea}/>
-                <Route path={match.path + '/partner'} component = {Partner}/>
+                <PrivateRoute path={match.path + '/partner'} component = {Partner}/>
                 <Route path={match.path + '/setting'} component = {Setting}/>
             </div>
         )

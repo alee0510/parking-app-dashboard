@@ -83,24 +83,32 @@ class Drawer extends React.Component {
                         </div>
                         <h1 style = {styles.text}>Members</h1>
                     </Link>
-                    <Link to = 'vehicles' id = 'item-1' style = {styles.items}>
-                        <div id = 'car-icon'>
-                            <DriveEtaIcon style = {{color : pathname === 'vehicles' ? '#4f6bed' : '#11100f'}}/>
-                        </div>
-                        <h1 style = {styles.text}>Vehicles</h1>
-                    </Link>
+                    {
+                        this.props.role === 1 ?
+                        <Link to = 'vehicles' id = 'item-1' style = {styles.items}>
+                            <div id = 'car-icon'>
+                                <DriveEtaIcon style = {{color : pathname === 'vehicles' ? '#4f6bed' : '#11100f'}}/>
+                            </div>
+                            <h1 style = {styles.text}>Vehicles</h1>
+                        </Link>
+                        : null
+                    }
                     <Link to = 'parking' id = 'item-1' style = {styles.items}>
                         <div id = 'location-icon'>
                             <LocationOnIcon style = {{color : pathname === 'parking' ? '#4f6bed' : '#11100f'}}/>
                         </div>
                         <h1 style = {styles.text}>Parking Area</h1>
                     </Link>
-                    <Link to = 'partner' id = 'item-1' style = {styles.items}>
-                        <div id = 'partner-icon'>
-                            <WorkIcon style = {{color : pathname === 'partner' ? '#4f6bed' : '#11100f'}}/>
-                        </div>
-                        <h1 style = {styles.text}>Partners</h1>
-                    </Link>
+                    {
+                        this.props.role === 1 ?
+                        <Link to = 'partner' id = 'item-1' style = {styles.items}>
+                            <div id = 'partner-icon'>
+                                <WorkIcon style = {{color : pathname === 'partner' ? '#4f6bed' : '#11100f'}}/>
+                            </div>
+                            <h1 style = {styles.text}>Partners</h1>
+                        </Link>
+                        : null
+                    }
                     <Link to = 'rating' id = 'item-1' style = {styles.items}>
                         <div id = 'rating-icon'>
                             <GradeIcon style = {{color : pathname === 'rating' ? '#4f6bed' : '#11100f'}}/>
@@ -113,12 +121,16 @@ class Drawer extends React.Component {
                         </div>
                         <h1 style = {styles.text}>History</h1>
                     </Link>
-                    <Link to = 'payment' id = 'item-1' style = {styles.items}>
-                        <div id = 'payment-icon'>
-                            <ReceiptIcon style = {{color : pathname === 'payment' ? '#4f6bed' : '#11100f'}}/>
-                        </div>
-                        <h1 style = {styles.text}>Payment</h1>
-                    </Link>
+                    {
+                        this.props.role === 1 ?
+                        <Link to = 'payment' id = 'item-1' style = {styles.items}>
+                            <div id = 'payment-icon'>
+                                <ReceiptIcon style = {{color : pathname === 'payment' ? '#4f6bed' : '#11100f'}}/>
+                            </div>
+                            <h1 style = {styles.text}>Payment</h1>
+                        </Link>
+                        :null
+                    }
                 </div>
                 <div className = 'bottom' style = {styles.bottom}>
                     <div id = 'last-item' onClick = {this.handleExit}>
@@ -133,10 +145,11 @@ class Drawer extends React.Component {
     }
 }
 
-const mapStore = ({ burgerReducer }) => {
+const mapStore = ({ burgerReducer, user }) => {
     return {
         open : burgerReducer.burger,
-        pathname : burgerReducer.path
+        pathname : burgerReducer.path,
+        role : user.data.role
     }
 }
 

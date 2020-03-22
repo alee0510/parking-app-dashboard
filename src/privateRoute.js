@@ -10,7 +10,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
     if (username) {
         return (
             <Route {...rest} render = {(props) => {
-                if (role === 'admin') {
+                if (role === 1) {
                     return <Component {...props}/>
                 }                    
                 return <Redirect to = '/'/>
