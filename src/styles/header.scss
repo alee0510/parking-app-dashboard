@@ -24,12 +24,12 @@
         // background-color: pink;
         #divider {
             height: 40%; width: 2px;
-            background-color: $gray10;
+            background-color: $error;
             margin: 0px 10px;
         }
         #sign-in {
             @include flex(row, center, center);
-            background-color: red;
+            background-color: $error;
             height: 45px;
             width: 50%;
             border-radius: 50px;

@@ -21,10 +21,10 @@ class Home extends React.Component {
     }
 
     renderCarousel = () => {
-        const data = ['background-car', 'background-car-2', 'background-car-3', 'background-car-4', 'background-car-6']
+        const data = ['background-car.jpg', 'background-car-2.jpg', 'background-car-3.jpg', 'background-car-4.jpg', 'background-car-6.jpg']
         return data.map(item => (
             <div style = {{width : '100%', height : '100%'}}>
-                <img src = {HOME_URL + '/' + item} style ={{width : '100%', objectFit : 'cover'}}/>
+                <img src = {HOME_URL + '/' + item} style ={{width : '100%', objectFit : 'cover'}} alt = 'bg-img'/>
             </div>
         ))
 
@@ -43,7 +43,7 @@ class Home extends React.Component {
         }
         const { loginSlider } = this.state
 
-        if(this.props.data.id) {
+        if(this.props.data.length !== 0) {
             return <Redirect to = '/dashboard'/>
         }
 

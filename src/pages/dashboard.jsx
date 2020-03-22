@@ -23,9 +23,11 @@ import '../styles/dashboard.scss'
 class Dashboard extends React.Component {
     render () {
         const { match } = this.props
+
         if(localStorage.getItem('token')) {
             return <Redirect to = '/member'/>
         }
+
         return (
             <div className = 'dashboard-main-container'>
                 <AppBar/>

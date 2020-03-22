@@ -29,6 +29,7 @@ export const loginAction = (body) => {
             localStorage.setItem('role', data.role)
             localStorage.setItem('token', headers['auth-token'])
             localStorage.setItem('company_id', data.company_id)
+            
         } catch (err) {
             console.log(err.response ? err.response.data : err)
             dispatch({
