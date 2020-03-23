@@ -91,7 +91,7 @@ class Company extends React.Component {
                                         <BusinessIcon style = {{ fontSize : 28}}/>
                                 </div>
                                 <input 
-                                    value = {edit || data.length === 0 ? ? name : data.company}
+                                    value = {edit || data.length === 0 ? name : data.company}
                                     type = 'text' 
                                     placeholder = 'company name' 
                                     disabled = {data.length === 0 ? false : !edit}
@@ -107,7 +107,7 @@ class Company extends React.Component {
                                         <MailIcon style = {{ fontSize : 28}}/>
                                 </div>
                                 <input
-                                    value = {edit || data.length === 0 ? ? email : data.email} 
+                                    value = {edit || data.length === 0 ? email : data.email} 
                                     type = 'text' 
                                     placeholder = 'company email' 
                                     disabled = {data.length === 0 ? false : !edit}

@@ -28,9 +28,9 @@ class Dashboard extends React.Component {
     render () {
         const { match } = this.props
 
-        // if(!this.props.username) {
-        //     return <Redirect to = '/'/>
-        // }
+        if(!this.props.username) {
+            return <Redirect to = '/'/>
+        }
 
         return (
             <div className = 'dashboard-main-container'>
