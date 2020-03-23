@@ -113,7 +113,7 @@ class Payment extends React.Component {
             >
                 <td></td>
                 <td>{date}</td>
-                <td>{this.props.types[type-1].type}</td>
+                <td>{type ? this.props.types[type-1].type : null}</td>
                 <td>{amount}</td>
                 <td>{username}</td>
                 <td>{this.props.status[status-1].status}</td>
