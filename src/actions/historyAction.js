@@ -2,7 +2,7 @@ import Axios from 'axios'
 import { GET_HISTORY, GET_HISTORY_TOTAL, GET_ON_ACTIVE_TOTAL, GET_ON_ACTIVE } from '../helpers/actionTypes'
 import { API_HISTORY } from '../helpers/apiUrl'
 
-const company_id = localStorage.getItem('company_id')
+const company_id = parseInt(localStorage.getItem('company_id'))
 // history data
 export const getHistoryTotal = () => {
     return async (dispatch) => {

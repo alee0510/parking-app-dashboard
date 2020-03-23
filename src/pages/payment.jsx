@@ -136,6 +136,7 @@ class Payment extends React.Component {
     render () {
         const { page, rowPerPage, confirmId } = this.state
         console.log('confirm id', this.state.confirmId)
+        console.log(this.props.types)
         return (
             <div className = 'payment-main-container'>
                 <div className = 'title'>
