@@ -7,10 +7,12 @@ import {
     PARKING_END
 } from '../helpers/actionTypes'
 
+const company_id = parseInt(localStorage.getItem('company_id'))
 export const getParkng = () => {
     return async (dispatch) => {
         try {
-            const { data } = await Axios.get(API_PARKING + '/area/data')
+            const query = company_id !== 1 ? `/?company=${company_id}` : ''
+            const { data } = await Axios.get(API_PARKING + '/area/data' + query)
             dispatch({
                 type : GET_PARKING_AREA,
                 payload : data

@@ -2,9 +2,11 @@ import Axios from 'axios'
 import { GET_RATING_TOTAL, GET_RATING } from '../helpers/actionTypes'
 import { API_RATING } from '../helpers/apiUrl'
 
-export const getRatingTotal = (company = null) => {
+const company_id = parseInt(localStorage.getItem('company_id'))
+export const getRatingTotal = () => {
     return async (dispatch) => {
         try {
+            const company = company_id === 1 ? null : company_id
             const { data } = await Axios.get(API_RATING + `/total/?company=${company}`)
             console.log('rating total')
             // console.log(data)
@@ -18,9 +20,10 @@ export const getRatingTotal = (company = null) => {
     }
 }
 
-export const getInitialRating = (limit, company = null) => {
+export const getInitialRating = (limit) => {
     return async (dispatch) => {
         try {
+            const company = company_id === 1 ? null : company_id
             const { data } = await Axios.get(API_RATING + `/data/?limit=${limit}&company=${company}`)
             // console.log(data)
             dispatch({
@@ -32,9 +35,10 @@ export const getInitialRating = (limit, company = null) => {
         }
     }
 }
-export const getNextRating = (id, limit, company = null) => {
+export const getNextRating = (id, limit) => {
     return async (dispatch) => {
         try {
+            const company = company_id === 1 ? null : company_id
             const { data } = await Axios.get(API_RATING + `/data/next/?id=${id}&limit=${limit}&company=${company}`)
             // console.log(data)
             dispatch({
@@ -46,9 +50,10 @@ export const getNextRating = (id, limit, company = null) => {
         }
     }
 }
-export const getPrevRating = (id, limit, company = null) => {
+export const getPrevRating = (id, limit) => {
     return async (dispatch) => {
         try {
+            const company = company_id === 1 ? null : company_id
             const { data } = await Axios.get(API_RATING + `/data/prev/?id=${id}&limit=${limit}&company=${company}`)
             // console.log(data)
             dispatch({

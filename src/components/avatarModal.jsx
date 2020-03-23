@@ -32,10 +32,6 @@ class AvatarModal extends React.Component {
         document.removeEventListener('click', this.outsideClick)
     }
 
-    onClickModalMenu = () => {
-        document.removeEventListener('click', this.outsideClick)
-    }
-
     render () {
         const styles = {
             container : {

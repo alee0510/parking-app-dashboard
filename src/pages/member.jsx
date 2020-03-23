@@ -49,14 +49,14 @@ class Member extends React.Component {
 
         // get initialize data
         role === 1 ? this.props.getUserAction(this.state.rowPerPage) 
-        : this.props.getProfileAction(this.state.rowPerPage, 3)
+        : this.props.getUserAction(this.state.rowPerPage, 3)
         
         // get user role
         this.props.getUserRoles()
     }
 
     handleTab = () => {
-        const { tabValue, rowPerPage } = this.state
+        const { tabValue } = this.state
         this.setState({
             tabValue : tabValue ? 0 : 1, 
             rowPerPage : 10, 
@@ -64,8 +64,8 @@ class Member extends React.Component {
             sortByValue : 0 }, 
             () => {
                 this.props.getTotalUser()
-                this.state.tabValue === 1 ? this.props.getProfileAction(rowPerPage) 
-                : this.props.getUserAction(rowPerPage)
+                this.state.tabValue === 1 ? this.props.getProfileAction(this.state.rowPerPage) 
+                : this.props.getUserAction(this.state.rowPerPage)
             }
         )
     }
