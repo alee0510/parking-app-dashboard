@@ -77,3 +77,6 @@ export const PARKING_END = 'PARKING_END'
 
 // data sets : PARTNERS
 export const GET_PARTNERS = 'GET_PARTNERS'
+
+// data sets : COMPANY
+export const GET_COMPANY = 'GET_COMPANY'

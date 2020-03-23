@@ -7,7 +7,7 @@
     top: 0px;
     height: 100%; width: 35%;
     padding: 50px;
-    background-color: rgba($color: $gray10, $alpha: 0.65);
+    background-color: rgba($color: $gray10, $alpha: 0.4);
     backdrop-filter: blur(10px);
     z-index: 5;
     @include depth-6;

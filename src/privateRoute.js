@@ -17,6 +17,6 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
             }}/>
         )
     } else {
-        return <Redirect to = '/NotFound'/>
+        return null
     }
 }

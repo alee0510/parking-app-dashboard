@@ -16,7 +16,7 @@ import History from './history'
 import Payment from './payment'
 import ParkingArea from './parkingArea'
 import Partner from './partner'
-import Setting from './setting'
+import Company from './company'
 
 // import style
 import '../styles/dashboard.scss'
@@ -28,9 +28,9 @@ class Dashboard extends React.Component {
     render () {
         const { match } = this.props
 
-        if(!this.props.username) {
-            return <Redirect to = '/'/>
-        }
+        // if(!this.props.username) {
+        //     return <Redirect to = '/'/>
+        // }
 
         return (
             <div className = 'dashboard-main-container'>
@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
                 <PrivateRoute path={match.path + '/payment'} component = {Payment}/>
                 <Route path={match.path + '/parking'} component = {ParkingArea}/>
                 <PrivateRoute path={match.path + '/partner'} component = {Partner}/>
-                <Route path={match.path + '/setting'} component = {Setting}/>
+                <Route path={match.path + '/company'} component = {Company}/>
             </div>
         )
     }

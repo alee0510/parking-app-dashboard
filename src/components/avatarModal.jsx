@@ -5,9 +5,8 @@ import { connect } from 'react-redux'
 import { Avatar } from '@material-ui/core'
 
 // import icons
-import AccountBoxIcon from '@material-ui/icons/AccountBox'
-import FaceIcon from '@material-ui/icons/Face';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import BusinessIcon from '@material-ui/icons/Business'
 
 // import action
 import { avatarAction, logOutAction } from '../actions'
@@ -66,17 +65,11 @@ class AvatarModal extends React.Component {
                     <h3>{email || 'useremail@gmail.com'}</h3>
                 </div>
                 <div className = 'bottom'>
-                    <Link to = 'setting' className = 'item-1' onClick = {this.onClickModalMenu}>
-                        <div id = 'people-icon'>
-                            <AccountBoxIcon style = {styles.icons}/>
+                    <Link to = 'company' className = 'item-1' onClick = {this.onClickModalMenu}>
+                        <div id = 'busnises-icon'>
+                            <BusinessIcon style = {styles.icons}/>
                         </div>
-                        <h3>My account</h3>
-                    </Link>
-                    <Link to = 'setting' className = 'item-2' onClick = {this.onClickModalMenu}>
-                        <div id = 'face-icon'>
-                            <FaceIcon style = {styles.icons}/>
-                        </div>
-                        <h3>My profile</h3>
+                        <h3>Company</h3>
                     </Link>
                     <div className = 'item-3' onClick = {this.handleSignOut}>
                         <div id = 'exit-icon'>

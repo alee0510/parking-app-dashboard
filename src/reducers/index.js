@@ -36,6 +36,7 @@ import {
 } from './paymentReducer'
 import { parkingReducer } from './parkingAreaReducer'
 import { partnerReducer } from './partnerReducer'
+import { companyReducer } from './companyReducer'
 
 // combine all reducer
 const allReducers = combineReducers({
@@ -67,7 +68,8 @@ const allReducers = combineReducers({
     paymentTypes,
     parkingReducer,
     partnerReducer,
-    allBrands
+    allBrands,
+    company : companyReducer
 })
 
 // export all reducers

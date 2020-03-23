@@ -33,6 +33,7 @@ class AppBar extends React.Component {
     render () {
         // console.log(window.location.pathname.substr(1))
         const { username, image } = this.props
+        console.log('username', username)
         return (
             <div className = 'appbar-main-container'>
                 <div 

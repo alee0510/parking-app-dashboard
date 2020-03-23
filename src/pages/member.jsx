@@ -170,6 +170,7 @@ class Member extends React.Component {
         const { hoverId, selectedId } = this.state
         // const { accountLoad } = this.props
         return this.props.account.map(({id, username, email, role, status}) => {
+            const userRole = parseInt(localStorage.getItem('role'))
             return (
                 <tr key = {id}
                     onMouseEnter = { _ => this.setState({hoverId : id})}
@@ -185,7 +186,7 @@ class Member extends React.Component {
                     </td>
                     <td>{status === 0 ? 'not-active' : 'active'}</td>
                     {
-                        id === selectedId ?
+                        userRole === 1 ? id === selectedId ?
                             <td>
                                 <div id = 'check-icon' 
                                     style = {{display : hoverId === id ? 'flex' : 'none'}}
@@ -214,6 +215,8 @@ class Member extends React.Component {
                                     <DeleteIcon/>
                                 </div>
                             </td>
+                            :
+                            <td></td>
                     }
                 </tr>
             )

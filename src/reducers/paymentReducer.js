@@ -1,10 +1,11 @@
-import { GET_TRANSACTION_HISTORY_TOTAL, 
-        GET_TRANSACTION_HISTORY,
-        GET_TRANSACTION_HISTORY_STATUS,
-        GET_TRANSACTION_HISTORY_TYPE, 
-        TRANSACTION_PROCESS_START,
-        TRANSACTION_PROCESS_END
-    } from '../helpers/actionTypes'
+import { 
+    GET_TRANSACTION_HISTORY_TOTAL, 
+    GET_TRANSACTION_HISTORY,
+    GET_TRANSACTION_HISTORY_STATUS,
+    GET_TRANSACTION_HISTORY_TYPE, 
+    TRANSACTION_PROCESS_START,
+    TRANSACTION_PROCESS_END
+} from '../helpers/actionTypes'
 
 // payment reducer
 export const paymentTotalData = (state = { total : 0}, action) => {
