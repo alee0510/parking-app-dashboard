@@ -7,6 +7,7 @@ import { stayLogin } from './actions'
 import Dashboard from './pages/dashboard'
 import Home from './pages/home'
 import SignUp from './pages/signup'
+import NotFound from './noFound'
 
 class Main extends React.Component {
     componentDidMount () {
@@ -20,6 +21,7 @@ class Main extends React.Component {
                     <Route path = '/' component = {Home} exact/>
                     <Route path = '/signup' component = {SignUp}/>
                     <Route path = '/dashboard' component = {Dashboard}/>
+                    <Route path = '*' component = {NotFound}/>
                 </Switch>
             </div>
         )

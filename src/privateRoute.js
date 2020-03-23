@@ -13,10 +13,10 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
                 if (role === 1) {
                     return <Component {...props}/>
                 }                    
-                return <Redirect to = '/'/>
+                return <Redirect to = '/NotFound'/>
             }}/>
         )
     } else {
-        return <Redirect to = '/'/>
+        return <Redirect to = '/NotFound'/>
     }
 }

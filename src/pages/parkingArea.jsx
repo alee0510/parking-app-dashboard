@@ -105,7 +105,7 @@ class ParkingArea extends React.Component {
         data.append('IMG', e.target.files[0])
 
         // do upload request
-        this.props.uploadParkingImage(this.state.data, data)
+        this.props.uploadParkingImage(this.state.edit, data)
     }
 
     onButtonDelete = () => {

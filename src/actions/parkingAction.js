@@ -30,7 +30,8 @@ export const editParking = (id, inputData) => {
             await Axios.patch(API_PARKING + `/area/edit/${id}`, inputData)
 
             // refresh redux data
-            const { data } = await Axios.get(API_PARKING + '/area/data')
+            const query = company_id !== 1 ? `/?company=${company_id}` : ''
+            const { data } = await Axios.get(API_PARKING + '/area/data' + query)
             dispatch({
                 type : GET_PARKING_AREA,
                 payload : data
@@ -58,11 +59,13 @@ export const uploadParkingImage = (id, inputData) => {
                 }
             }
             console.log('on proccess')
+            console.log(id)
             await Axios.patch(API_PARKING + `/area/upload/${id}`, inputData, option)
 
             // refresh redux data
             console.log('refresh data')
-            const { data } = await Axios.get(API_PARKING + '/area/data')
+            const query = company_id !== 1 ? `/?company=${company_id}` : ''
+            const { data } = await Axios.get(API_PARKING + '/area/data' + query)
             dispatch({
                 type : GET_PARKING_AREA,
                 payload : data
@@ -83,7 +86,8 @@ export const deleteParking = (id) => {
             await Axios.delete(API_PARKING + `/area/delete/${id}`)
 
             // refresh redux data
-            const { data } = await Axios.get(API_PARKING + '/area/data')
+            const query = company_id !== 1 ? `/?company=${company_id}` : ''
+            const { data } = await Axios.get(API_PARKING + '/area/data' + query)
             dispatch({
                 type : GET_PARKING_AREA,
                 payload : data
@@ -106,7 +110,8 @@ export const addParking = (inputData) => {
             await Axios.post(API_PARKING + `/area/add`, inputData)
 
             // refresh redux data
-            const { data } = await Axios.get(API_PARKING + '/area/data')
+            const query = company_id !== 1 ? `/?company=${company_id}` : ''
+            const { data } = await Axios.get(API_PARKING + '/area/data' + query)
             dispatch({
                 type : GET_PARKING_AREA,
                 payload : data
