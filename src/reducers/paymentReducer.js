@@ -1,44 +1,34 @@
-import { 
-    GET_TRANSACTION_HISTORY_TOTAL, 
-    GET_TRANSACTION_HISTORY,
-    GET_TRANSACTION_HISTORY_STATUS,
-    GET_TRANSACTION_HISTORY_TYPE, 
-    TRANSACTION_PROCESS_START,
-    TRANSACTION_PROCESS_END
-} from '../helpers/actionTypes'
+import {
+    GET_PAYMENT,
+    GET_PAYMENT_TOTAL,
+    GET_PAYMENT_TYPE,
+    GET_PAYMENT_STATUS,
+    GET_PAYMENT_START,
+    GET_PAYMENT_END
+} from '../actions'
 
-// payment reducer
-export const paymentTotalData = (state = { total : 0}, action) => {
-    switch(action.type) {
-        case GET_TRANSACTION_HISTORY_TOTAL :
-            return { total : action.payload }
-        default : return state
-    }
+const INITIAL_STATE = {
+    total : 0,
+    data : [],
+    type : [],
+    status : [],
+    loading : false
 }
 
-export const paymentReducer = (state = { data : [], loading : false }, action) => {
+export const paymentReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
-        case GET_TRANSACTION_HISTORY :
+        case GET_PAYMENT :
             return { ...state, data : action.payload }
-        case TRANSACTION_PROCESS_START :
+        case GET_PAYMENT_TOTAL : 
+            return { ...state, total : action.payload }
+        case GET_PAYMENT_TYPE :
+            return { ...state, type : action.payload }
+        case GET_PAYMENT_STATUS :
+            return { ...state, status : action.payload }
+        case GET_PAYMENT_START :
             return { ...state, loading : true }
-        case TRANSACTION_PROCESS_END : 
+        case GET_PAYMENT_END :
             return { ...state, loading : false }
-        default : return state
-    }
-}
-
-export const paymentStatus = (state = { data : [] }, action) => {
-    switch(action.type) {
-        case GET_TRANSACTION_HISTORY_STATUS :
-            return { data : action.payload }
-        default : return state
-    }
-}
-export const paymentTypes = (state = { data : [] }, action) => {
-    switch(action.type) {
-        case GET_TRANSACTION_HISTORY_TYPE :
-            return { data : action.payload }
         default : return state
     }
 }

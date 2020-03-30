@@ -9,11 +9,9 @@
     height: calc(100vh - 50px); 
     width: calc(100% - 50px);
     padding: 2% 50px;
-    // background-color: yellow;
     .title {
         @include flex (row, space-between, center);
         width: 100%;
-        // background-color: pink;
         h1 {
             font-size: 28px;
             font-weight: 600;

@@ -1,25 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Select, MenuItem, Typography, CircularProgress } from '@material-ui/core'
+import { Select, MenuItem, Typography } from '@material-ui/core'
 
 // import icons
 import CheckIcon from '@material-ui/icons/Check'
+import ClearIcon from '@material-ui/icons/Clear'
 
 // import actions creator
 import { 
-    getTotalPaymentData, 
-    getInitialPaymentData, 
-    getNextPaymentData, 
-    getPrevPaymentData,
-    getPaymentStatus,
-    getPaymentTypes,
-    getPathAction,
-    topUpApprove 
+    getPathAction, 
+    getTotalPayment, 
+    getPayment, 
+    getPaymentType, 
+    getPaymentStatus, 
+    topUpApproval, 
+    topUpReject
 } from '../actions'
 
 // import component
 import Table from '../components/table'
 import Modal from '../components/modal'
+import Loading from '../components/loading'
 
 // import style
 import '../styles/payment.scss'
@@ -29,36 +30,44 @@ class Payment extends React.Component {
         page : 1,
         rowPerPage : 10,
         hoverId : null,
-        sortBy : 0,
-        confirmId : null
+        filterBy : 0,
+        confirmId : null,
+        rejectId : null
     }
 
     componentDidMount () {
         this.props.getPathAction('payment')
+        
+        this.props.getPaymentType()
         this.props.getPaymentStatus()
-        this.props.getPaymentTypes()
-        this.props.getTotalPaymentData()
-        this.props.getInitialPaymentData(this.state.rowPerPage)
+        this.props.getTotalPayment()
+        this.props.getPayment(this.state.rowPerPage)
     }
 
     handleOption = (value) => {
         this.setState({ rowPerPage : value, page : 1})
-        this.props.getInitialPaymentData(value, this.state.sortBy || null)
+        this.props.getPayment(value)
     }
 
-    handleTopUpApprove = async (id) => {
-        await this.props.topUpApprove(id, this.props.payment[0].id, this.state.rowPerPage, this.state.sortBy)
-        this.setState({ confirmId : null })
+    onButtonOk = () => {
+        const { confirmId, rejectId, rowPerPage, filterBy } = this.state
+        const { payment } = this.props
+        if(confirmId) {
+            this.props.topUpApproval(confirmId, payment[0].id, rowPerPage, filterBy)
+            return this.setState({confirmId : null})
+        }
+        this.props.topUpReject(rejectId, payment[0].id, rowPerPage, filterBy)
+        this.setState({rejectId : null})
     }
 
-    handleSortByChange = (value) => {
-        this.setState({ sortBy : value, page : 1, rowPerPage : 10 })
-        this.props.getInitialPaymentData(this.state.rowPerPage, value)
-        this.props.getTotalPaymentData(value)
+    onButtonFilter = (value) => {
+        this.setState({ filterBy : value, page : 1, rowPerPage : 10 })
+        this.props.getPayment(this.state.rowPerPage, null, null, value)
+        this.props.getTotalPayment(value)
     }
 
-    handleNext = () => {
-        const { page, rowPerPage, sortBy } = this.state
+    onButtonNext = () => {
+        const { page, rowPerPage } = this.state
 
         // check page
         if (page * rowPerPage >= this.props.total) return null
@@ -67,11 +76,11 @@ class Payment extends React.Component {
         // get last id
         const lastId = this.props.payment[rowPerPage - 1].id
 
-        this.props.getNextPaymentData(lastId, rowPerPage, sortBy || null)
+        this.props.getPayment(rowPerPage, lastId)
     }
 
-    handlePrev = () => {
-        const { page, rowPerPage, sortBy } = this.state
+    onButtonPrev = () => {
+        const { page, rowPerPage } = this.state
 
         // check page
         if (page <= 1) return null
@@ -80,20 +89,20 @@ class Payment extends React.Component {
         // get first id
         const firstId = this.props.payment[0].id
 
-        this.props.getPrevPaymentData(firstId, rowPerPage, sortBy || null)
+        this.props.getPayment(rowPerPage, null, firstId)
     }
 
-    renderSortBy = () => {
+    renderFilterBy = () => {
         return (
             <div className = 'sort-by'>
                 <Typography 
                     style = {{fontSize : 16, fontWeight : 400, marginRight : 15}}
                 >
-                    Sort by
+                    Filter by
                 </Typography>
                 <Select 
-                    value = {this.state.sortBy} 
-                    onChange = {(e) => this.handleSortByChange(e.target.value)}
+                    value = {this.state.filterBy} 
+                    onChange = {(e) => this.onButtonFilter(e.target.value)}
                     disableUnderline = {true}
                 >
                     <MenuItem value = {0}>All</MenuItem>
@@ -113,10 +122,10 @@ class Payment extends React.Component {
             >
                 <td></td>
                 <td>{date}</td>
-                <td>{type ? this.props.types[type-1].type : null}</td>
+                <td>{this.props.types ? this.props.types[type-1].type : null}</td>
                 <td>{amount}</td>
                 <td>{username}</td>
-                <td>{this.props.status[status-1].status}</td>
+                <td>{this.props.status ? this.props.status[status-1].status : null}</td>
                 {
                     parseInt(type) === 1 & parseInt(status) === 2 ?  
                         <td>
@@ -126,6 +135,12 @@ class Payment extends React.Component {
                             >
                                 <CheckIcon/>
                             </div>
+                            <div id = 'clear-icon' 
+                                style = {{display : hoverId === id ? 'flex' : 'none'}}
+                                onClick = { _ => this.setState({rejectId : id}) }
+                            >
+                                <ClearIcon/>
+                            </div>
                         </td>
                      : <td></td>
                 }
@@ -134,14 +149,12 @@ class Payment extends React.Component {
     }
 
     render () {
-        const { page, rowPerPage, confirmId } = this.state
-        console.log('confirm id', this.state.confirmId)
-        console.log(this.props.types)
+        const { page, rowPerPage, confirmId, rejectId } = this.state
         return (
             <div className = 'payment-main-container'>
                 <div className = 'title'>
                     <h1>Payment</h1>
-                    {this.renderSortBy()}
+                    {this.renderFilterBy()}
                 </div>
                 <div className = 'payment-table-container'>
                     <Table
@@ -154,48 +167,42 @@ class Payment extends React.Component {
                         rowPerPage = {rowPerPage}
                         totalPage = {Math.ceil(this.props.total / rowPerPage)}
                         tableBody = {this.tablePayment}
-                        handlePrevious = {this.handlePrev}
-                        handleNext = {this.handleNext}
+                        handlePrevious = {this.onButtonPrev}
+                        handleNext = {this.onButtonNext}
                         addButton = {false}
                         />
                 </div>
                 <Modal
-                    open = {Boolean(confirmId)}
-                    onClose = { _ => this.setState({ confirmId : null })}
-                    title = 'Ayo sure to approve this payment ?'
-                    handleOk = { _ => this.handleTopUpApprove(confirmId)}
-                >
-                    {this.props.loading ? (
-                        <div style ={{display : 'flex', justifyContent : 'center'}}>
-                            <CircularProgress/>
-                        </div>
-                    ) : null}
-                </Modal>
+                    open = {Boolean(confirmId || rejectId)}
+                    onClose = { _ => this.setState({ confirmId : null, rejectId : null })}
+                    title = {confirmId ? 'Ayo sure to approve this payment ?' : 'Ayo sure to reject this payment ?'}
+                    handleOk = { _ => this.onButtonOk()}
+                />
+                <Loading open = {this.props.loading}/>
             </div>
         )
     }
 }
 
-const mapStore = ({ paymentTotalData, paymentReducer, paymentStatus, paymentTypes }) => {
+const mapStore = ({ payment }) => {
     return {
-        total : paymentTotalData.total,
-        payment : paymentReducer.data,
-        status : paymentStatus.data,
-        types : paymentTypes.data,
-        loading : paymentReducer.loading
+        total : payment.total,
+        payment : payment.data,
+        types : payment.type,
+        status : payment.status,
+        loading : payment.loading
     }
 }
 
 const mapDispatch = () => {
     return {
-        getTotalPaymentData,
-        getInitialPaymentData,
-        getNextPaymentData,
-        getPrevPaymentData,
-        getPaymentStatus,
-        getPaymentTypes,
-        getPathAction,
-        topUpApprove
+        getPathAction, 
+        getTotalPayment, 
+        getPayment, 
+        getPaymentType, 
+        getPaymentStatus, 
+        topUpApproval, 
+        topUpReject
     }
 }
 
