@@ -10,8 +10,8 @@ import CameraAltIcon from '@material-ui/icons/CameraAlt'
 
 // import actions creator
 import { 
+    getPathAction,
     getParkng, 
-    getPathAction, 
     editParking, 
     uploadParkingImage, 
     deleteParking,
@@ -21,6 +21,7 @@ import {
 // import components
 import Table from '../components/table'
 import Modal from '../components/modal'
+import Loading from '../components/loading'
 
 // import styles
 import '../styles/parkingArea.scss'
@@ -50,7 +51,7 @@ class ParkingArea extends React.Component {
     }
 
     onButtonEdit = (id, index) => {
-        const data = this.props.parking[index]
+        const data = this.props.area[index]
         this.setState({ 
             edit : id,
             image : data.image,
@@ -115,7 +116,7 @@ class ParkingArea extends React.Component {
     
     tableParking = () => {
         const { hoverId } = this.state
-        return this.props.parking.map(({
+        return this.props.area.map(({
             id, 
             company, 
             city,
@@ -218,7 +219,7 @@ class ParkingArea extends React.Component {
                 alignItems : 'center',
             }
         }
-        console.log(imageHover)
+
         return (
             <div className = 'parking-main-container'>
                 <h1>Parking Area</h1>
@@ -325,19 +326,18 @@ class ParkingArea extends React.Component {
                     onClose = { _ => this.setState({deleteId : null})}
                     title = 'Delete confirmation ?'
                     handleOk = {this.onButtonDelete}
-                >
-                    {this.props.loading ? <CircularProgress/> : null}
-                </Modal>
+                />
+                <Loading open = {this.props.loading}/>
             </div>
         )
     }
 }
 
-const mapStore = ({ parkingReducer }) => {
+const mapStore = ({ parking }) => {
     return {
-        parking : parkingReducer.data,
-        loading : parkingReducer.uploading,
-        progress : parkingReducer.progress
+        area : parking.area,
+        loading : parking.loading,
+        progress : parking.progress
     }
 }
 

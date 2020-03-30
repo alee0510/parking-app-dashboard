@@ -28,12 +28,12 @@ import {
         paymentStatus,
         paymentTypes 
 } from './paymentReducer'
-import { parkingReducer } from './parkingAreaReducer'
 import { partnerReducer } from './partnerReducer'
 import { companyReducer } from './companyReducer'
 
 // 
 import { memberReducer } from './memberReducers'
+import { parkingReducer } from './parkingAreaReducer'
 
 // combine all reducer
 const allReducers = combineReducers({
@@ -59,12 +59,12 @@ const allReducers = combineReducers({
     paymentReducer,
     paymentStatus,
     paymentTypes,
-    parkingReducer,
     partnerReducer,
     allBrands,
     company : companyReducer,
         //     
-    member : memberReducer
+    member : memberReducer,
+    parking : parkingReducer
 })
 
 // export all reducers

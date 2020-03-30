@@ -1,26 +1,26 @@
 import { 
     GET_PARKING_AREA, 
-    PARKING_START,
-    PARKING_PROCCESS,
-    PARKING_END
-} from '../helpers/actionTypes'
+    GET_PARKING_START, 
+    GET_PARKING_END, 
+    PARKING_UPLOAD 
+} from '../actions'
 
 const INITIAL_STATE = {
-    data : [],
-    uploading : false,
-    progress : null
+    area : [],
+    loading : false,
+    progress : 0
 }
 
 export const parkingReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case GET_PARKING_AREA :
-            return { ...state, data : action.payload }
-        case PARKING_START :
-            return { ...state, uploading : true }
-        case PARKING_PROCCESS : 
+            return { ...state, area : action.payload }
+        case GET_PARKING_START :
+            return { ...state, loading : true }
+        case GET_PARKING_END :
+            return { ...state, loading : false }
+        case PARKING_UPLOAD :
             return { ...state, progress : action.payload }
-        case PARKING_END :
-            return { ...state, uploading : false, progress : null }
         default : return state
     }
 }
