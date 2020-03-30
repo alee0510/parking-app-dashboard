@@ -9,38 +9,13 @@ import ClearIcon from '@material-ui/icons/Clear'
 import CheckIcon from '@material-ui/icons/Check'
 
 // import actions creator
-import { 
-    getInitialCarBrands, 
-    getNextCarBrands, 
-    getPrevCarBrands,
-    getTotalCarBrands, 
-    getInitialCarTypes, 
-    getNextCarTypes, 
-    getPrevCarTypes,
-    getTotalCarTypes, 
-    getInitialMotorBrands, 
-    getInitialMotorTypes, 
-    getTotalMotorBrands,
-    getTotalMotorTypes, 
-    getNextMotorBrands, 
-    getPrevMotorBrands, 
-    getNextMotorTypes, 
-    getPrevMotorTypes,
+import {
     getPathAction,
-    editCarBrand,
-    editCarType,
-    editMotorBrand,
-    editMotorType,
-    getCarBrandAll,
-    getMotorBrandAll,
-    addNewCarBrand,
-    addNewMotorBrand,
-    deleteCarBrand,
-    deleteMotorBrand,
-    addNewCarType,
-    addNewMotorType,
-    deleteCarType,
-    deleteMotorType
+    getTotalVehicle,
+    getVehicle,
+    addVehicle,
+    editVehicle,
+    deleteVehicle
  } from '../actions'
 
 // import components
@@ -57,7 +32,7 @@ class Vehicles extends React.Component {
         rowPerPage : 10,
         typePage : 1,
         typeRowPerPage : 10,
-        branHoverId : null,
+        brandHoverId : null,
         typeHoverId : null,
         selectedId : null,
         editBrand : null,
@@ -72,12 +47,14 @@ class Vehicles extends React.Component {
     }
     componentDidMount () {
         this.props.getPathAction('vehicles')
-        this.props.getInitialCarBrands(this.state.rowPerPage)
-        this.props.getTotalCarBrands()
-        this.props.getInitialCarTypes(this.state.typeRowPerPage)
-        this.props.getTotalCarTypes()
-        this.props.getCarBrandAll()
-        this.props.getMotorBrandAll()
+
+        // get initial data
+        this.props.getTotalVehicle('car_brand')
+        this.props.getTotalVehicle('car_type')
+        this.props.getTotalVehicle('motor_brand')
+        this.props.getTotalVehicle('motor_type')
+        this.props.getVehicle('car_brand', this.state.rowPerPage)
+        this.props.getVehicle('car_type', this.state.rowPerPage)
     }
 
     handleTab = () => {
@@ -93,39 +70,38 @@ class Vehicles extends React.Component {
         },
             () => {
                 if (this.state.tabValue) { // tabValue === 1
-                    this.props.getTotalMotorBrands()
-                    this.props.getTotalMotorTypes()
-                    this.props.getInitialMotorBrands(this.state.rowPerPage)
-                    this.props.getInitialMotorTypes(this.state.typeRowPerPage)
+                    this.props.getVehicle('motor_brand', this.state.rowPerPage)
+                    this.props.getVehicle('motor_type', this.state.typeRowPerPage)
                     return
                 }
-                this.props.getTotalCarBrands()
-                this.props.getTotalCarTypes()
-                this.props.getInitialCarBrands(this.state.rowPerPage)
-                this.props.getInitialCarTypes(this.state.typeRowPerPage)
+                this.props.getVehicle('car_brand', this.state.rowPerPage)
+                this.props.getVehicle('car_type', this.state.typeRowPerPage)
             }
         )
     }
 
-    handleBrandOption = (value) => {
+    onBrandOption = (value) => {
         this.setState({ rowPerPage : value, page : 1 })
 
         // get initial data by tabValue
-        this.state.tabValue ? this.props.getInitialMotorBrands(value) 
-        : this.props.getInitialCarBrands(value)
+        this.state.tabValue ? 
+        this.props.getVehicle('motor_brand', value) : 
+        this.props.getVehicle('car_brand', value)
     }
 
-    handleTypeOption = (value) => {
+    onTypeOption = (value) => {
         this.setState({ typeRowPerPage : value, typePage : 1})
 
         // get initial data by tabValue
-        this.state.tabValue ? this.props.getInitialMotorTypes(value) 
-        : this.props.getInitialCarTypes(value)
+        this.state.tabValue ? 
+        this.props.getVehicle('motor_type', value) : 
+        this.props.getVehicle('car_type', value)
     }
 
-    handleBrandNext = () => {
+    onButtonBrandNext = () => {
         const { page, rowPerPage, tabValue } = this.state
         const { motorBrandTotal, carBrandTotal, motorBrands, carBrands} = this.props
+
         // check page
         const totalPage = tabValue ? motorBrandTotal : carBrandTotal
         if (page * rowPerPage >= totalPage) return null
@@ -135,11 +111,12 @@ class Vehicles extends React.Component {
         const lastId = tabValue ? motorBrands[rowPerPage - 1].id : carBrands[rowPerPage - 1].id
 
         // do request by check tab value
-        tabValue ? this.props.getNextMotorBrands(lastId, rowPerPage) 
-        : this.props.getNextCarBrands(lastId, rowPerPage)
+        tabValue ? 
+        this.props.getVehicle('motor_brand', rowPerPage, lastId) : 
+        this.props.getVehicle('car_brand', rowPerPage, lastId) 
     }
 
-    handleTypeNext = () => {
+    onButtonTypeNext = () => {
         const { typePage, typeRowPerPage, tabValue } = this.state
         const { motorTypeTotal, carTypeTotal, motorTypes, carTypes } = this.props
         // check page
@@ -151,11 +128,12 @@ class Vehicles extends React.Component {
         const lastId = tabValue ? motorTypes[typeRowPerPage -1].id : carTypes[typeRowPerPage - 1].id
 
         // do request by check tab value
-        tabValue ? this.props.getNextMotorTypes(lastId, typeRowPerPage) 
-        : this.props.getNextCarTypes(lastId, typeRowPerPage)
+        tabValue ? 
+        this.props.getVehicle('motor_type', typeRowPerPage, lastId)  : 
+        this.props.getVehicle('car_type', typeRowPerPage, lastId) 
     }
 
-    handleBrandPrev = () => {
+    onButtonBrandPrev = () => {
         const { page, rowPerPage, tabValue } = this.state
         const { motorBrands, carBrands } = this.props
         // check page
@@ -166,11 +144,12 @@ class Vehicles extends React.Component {
         const firstId = tabValue ? motorBrands[0].id : carBrands[0].id
 
         // do request by check tab value
-        tabValue ? this.props.getPrevMotorBrands(firstId, rowPerPage) 
-        : this.props.getPrevCarBrands(firstId, rowPerPage)
+        tabValue ? 
+        this.props.getVehicle('motor_brand', rowPerPage, null, firstId) : 
+        this.props.getVehicle('car_brand', rowPerPage, null, firstId)
     }
 
-    handleTypePrev = () => {
+    onButtonTypePrev = () => {
         const { typePage, typeRowPerPage, tabValue } = this.state
         const { motorTypes, carTypes } = this.props
         // check page
@@ -181,8 +160,9 @@ class Vehicles extends React.Component {
         const firstId = tabValue ? motorTypes[0].id : carTypes[0].id
 
         // do request by check tab value
-        tabValue ? this.props.getPrevMotorTypes(firstId, typeRowPerPage) 
-        : this.props.getPrevCarTypes(firstId, typeRowPerPage)
+        tabValue ? 
+        this.props.getVehicle('motor_type', typeRowPerPage, null, firstId) : 
+        this.props.getVehicle('car_type', typeRowPerPage, null, firstId)
     }
 
     handleEditBrand = (id, brand) => {
@@ -283,13 +263,13 @@ class Vehicles extends React.Component {
     }
 
     tableBrand = () => {
-        const { branHoverId, tabValue, selectedId, editBrand } = this.state
+        const { brandHoverId, tabValue, selectedId, editBrand } = this.state
         const { motorBrands, carBrands } = this.props
         return (tabValue ? motorBrands : carBrands).map(({id, brand}) => {
             return (
                 <tr key = {id}
-                    onMouseEnter = { _ => this.setState({branHoverId : id})}
-                    onMouseLeave = { _ => this.setState({branHoverId : 0})}
+                    onMouseEnter = { _ => this.setState({brandHoverId : id})}
+                    onMouseLeave = { _ => this.setState({brandHoverId : 0})}
                 >
                     <td></td>
                     <td>
@@ -310,13 +290,13 @@ class Vehicles extends React.Component {
                         selectedId === id ?
                             <td>
                                 <div id = 'check-icon'
-                                    style = {{display : branHoverId === id ? 'flex' : 'none'}}
+                                    style = {{display : brandHoverId === id ? 'flex' : 'none'}}
                                     onClick = { _ => this.handleConfirmEditBrand(id)}
                                 >
                                     <CheckIcon/>
                                 </div>
                                 <div id = 'clear-icon' 
-                                    style = {{display : branHoverId === id ? 'flex' : 'none'}}
+                                    style = {{display : brandHoverId === id ? 'flex' : 'none'}}
                                     onClick = { _ => this.setState({ selectedId : null, editBrand : null})}
                                 >
                                     <ClearIcon/>
@@ -325,13 +305,13 @@ class Vehicles extends React.Component {
                         :
                             <td>
                                 <div id = 'edit-icon'
-                                    style = {{display : branHoverId === id ? 'flex' : 'none'}}
+                                    style = {{display : brandHoverId === id ? 'flex' : 'none'}}
                                     onClick = { _ => this.handleEditBrand(id, brand)}
                                 >
                                     <EditIcon/>
                                 </div>
                                 <div id = 'delete-icon' 
-                                    style = {{display : branHoverId === id ? 'flex' : 'none'}}
+                                    style = {{display : brandHoverId === id ? 'flex' : 'none'}}
                                     onClick = { _ => this.setState({ deleteBrand : id })}
                                 >
                                     <DeleteIcon/>
@@ -456,13 +436,13 @@ class Vehicles extends React.Component {
                             headerItems = {['Brand']}
                             menuItems = {[10, 15, 20, 25, 30]}
                             optionValue = {rowPerPage}
-                            handleOption = {this.handleBrandOption}
+                            handleOption = {this.onBrandOption}
                             page = {page}
                             rowPerPage = {rowPerPage}
                             totalPage = {brandPageTotal}
                             tableBody = {this.tableBrand}
-                            handlePrevious = {this.handleBrandPrev}
-                            handleNext = {this.handleBrandNext}
+                            handlePrevious = {this.onButtonBrandPrev}
+                            handleNext = {this.onButtonBrandNext}
                             addButton = {true}
                             handleClickAdd = { _ => this.setState({ addBrand : true })}
                         />
@@ -473,20 +453,20 @@ class Vehicles extends React.Component {
                             headerItems = {['Brand', 'Name']}
                             menuItems = {[10, 15, 20, 25, 30]}
                             optionValue = {typeRowPerPage}
-                            handleOption = {this.handleTypeOption}
+                            handleOption = {this.onTypeOption}
                             page = {typePage}
                             rowPerPage = {typeRowPerPage}
                             totalPage = {typePageTotal}
                             tableBody = {this.tableType}
-                            handlePrevious = {this.handleTypePrev}
-                            handleNext = {this.handleTypeNext}
+                            handlePrevious = {this.onButtonTypePrev}
+                            handleNext = {this.onButtonTypeNext}
                             addButton = {true}
                             handleClickAdd = { _ => this.setState({ addType : true })}
                         />
                     </div>
                 </div>
                 {/* MODAL FOR ADD NEW BRAND OR TYPE*/}
-                <Modal 
+                {/* <Modal 
                     open = {addBrand}
                     onClose = { _ => this.setState({ addBrand : false })}
                     title = 'Add new brand'
@@ -529,7 +509,7 @@ class Vehicles extends React.Component {
                         autoFocus
                         style = {{ height : 40, padding : 10 }}
                     />
-                </Modal>
+                </Modal> */}
                 {/* MOADAL FOR DELETE CONFIRMATION */}
                 <Modal
                     open = {Boolean(deleteBrand)}
@@ -548,64 +528,28 @@ class Vehicles extends React.Component {
     }
 }
 
-const mapStore = ({ 
-    carBrands , 
-    carBrandTotal, 
-    carTypes, 
-    carTypeTotal, 
-    motorBrandTotal, 
-    motorBrands, 
-    motorTypeTotal,
-    motorTypes,
-    allBrands 
-}) => {
+const mapStore = ({ vehicle }) => {
     return {
-        carBrands : carBrands.carBrands,
-        carBrandTotal : carBrandTotal.carBrandTotal,
-        carTypes : carTypes.carTypes,
-        carTypeTotal : carTypeTotal.carTypeTotal,
-        motorBrands : motorBrands.motorBrands,
-        motorBrandTotal : motorBrandTotal.motorBrandTotal,
-        motorTypes : motorTypes.motorTypes,
-        motorTypeTotal : motorTypeTotal.motorTypeTotal,
-        allCarBrands : allBrands.car,
-        allMotorBrands : allBrands.motor
+        carBrands : vehicle.car_brand,
+        carBrandTotal : vehicle.car_brand_total,
+        carTypes : vehicle.car_type,
+        carTypeTotal : vehicle.car_type_total,
+        motorBrands : vehicle.motor_brand,
+        motorBrandTotal : vehicle.motor_brand_total,
+        motorTypes : vehicle.motor_type,
+        motorTypeTotal : vehicle.motor_type_total,
+        loading : vehicle.loading
     }
 }
 
 const mapDispatch = () => {
     return {
-        getInitialCarBrands, 
-        getNextCarBrands, 
-        getPrevCarBrands,
-        getTotalCarBrands, 
-        getInitialCarTypes, 
-        getNextCarTypes, 
-        getPrevCarTypes,
-        getTotalCarTypes, 
-        getInitialMotorBrands, 
-        getInitialMotorTypes, 
-        getTotalMotorBrands,
-        getTotalMotorTypes, 
-        getNextMotorBrands, 
-        getPrevMotorBrands, 
-        getNextMotorTypes, 
-        getPrevMotorTypes,
         getPathAction,
-        editCarBrand,
-        editCarType,
-        editMotorBrand,
-        editMotorType,
-        getCarBrandAll,
-        getMotorBrandAll,
-        addNewCarBrand,
-        addNewMotorBrand,
-        deleteCarBrand,
-        deleteMotorBrand,
-        addNewCarType,
-        addNewMotorType,
-        deleteCarType,
-        deleteMotorType
+        getTotalVehicle,
+        getVehicle,
+        addVehicle,
+        editVehicle,
+        deleteVehicle
     }
 }
 

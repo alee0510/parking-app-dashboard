@@ -65,11 +65,15 @@ class Drawer extends React.Component {
             document.removeEventListener('click', this.outsideClick)
         }
 
-        // const pathname = window.location.pathname.split('/')[2]
-        // console.log(window.location)
         const { pathname } = this.props
         return (
-            <div className = 'drawer-main-container' ref = 'area' style = {styles.container}>
+            <div 
+                className = 'drawer-main-container' 
+                ref = 'area' 
+                style = {styles.container}
+                onMouseEnter = { _ => this.props.burgerAction(true)}
+                onMouseLeave = { _ => this.props.burgerAction(false)}
+            >
                 <div className = 'top' style = {styles.menus}>
                     <Link to = 'feed' id = 'item-1' style = {styles.items}>
                         <div id = 'dash-icon'>

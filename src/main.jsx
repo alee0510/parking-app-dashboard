@@ -11,7 +11,7 @@ import NotFound from './noFound'
 
 class Main extends React.Component {
     componentDidMount () {
-        // this.props.stayLogin()
+        this.props.stayLogin()
     }
 
     render () {

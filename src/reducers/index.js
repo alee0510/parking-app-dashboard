@@ -4,17 +4,6 @@ import { combineReducers } from 'redux'
 // import reducers
 import { burgerReducer, avatarReducer } from './componentReducers'
 import { userReducer, userProfileReducer } from './userReducer'
-import { 
-        carBrandReducrer, 
-        carTypeReducer, 
-        carBrandTotal, 
-        carTypeTotal,
-        motorBrandTotal, 
-        motorBrandReducer, 
-        motorTypeTotal, 
-        motorTypeReducer,
-        allBrands 
-} from './vehicleReducer'
 import { partnerReducer } from './partnerReducer'
 import { companyReducer } from './companyReducer'
 
@@ -24,6 +13,7 @@ import { parkingReducer } from './parkingAreaReducer'
 import { ratingReducer } from './ratingReducer'
 import { historyReducer } from './historyReducer'
 import { paymentReducer } from './paymentReducer'
+import { vehicleReducer } from './vehicleReducer'
 
 // combine all reducer
 const allReducers = combineReducers({
@@ -31,23 +21,15 @@ const allReducers = combineReducers({
     avatarReducer,
     user : userReducer,
     userProfile : userProfileReducer,
-    carBrands : carBrandReducrer,
-    carTypes : carTypeReducer,
-    carBrandTotal, 
-    carTypeTotal,
-    motorBrandTotal, 
-    motorTypeTotal,
-    motorBrands : motorBrandReducer,
-    motorTypes : motorTypeReducer,
     partnerReducer,
-    allBrands,
     company : companyReducer,
         //     
     member : memberReducer,
     parking : parkingReducer,
     rating : ratingReducer,
     history : historyReducer,
-    payment : paymentReducer
+    payment : paymentReducer,
+    vehicle : vehicleReducer
 })
 
 // export all reducers
