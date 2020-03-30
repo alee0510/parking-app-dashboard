@@ -28,9 +28,9 @@ class Dashboard extends React.Component {
     render () {
         const { match } = this.props
 
-        if(!this.props.username) {
-            return <Redirect to = '/'/>
-        }
+        // if(!this.props.username) {
+        //     return <Redirect to = '/'/>
+        // }
 
         return (
             <div className = 'dashboard-main-container'>
@@ -42,9 +42,9 @@ class Dashboard extends React.Component {
                 <Route path={match.path + '/vehicles'} component = {Vehicles}/>
                 <Route path={match.path + '/rating'} component = {Rating}/>
                 <Route path={match.path + '/history'} component = {History}/>
-                <PrivateRoute path={match.path + '/payment'} component = {Payment}/>
+                <Route path={match.path + '/payment'} component = {Payment}/>
                 <Route path={match.path + '/parking'} component = {ParkingArea}/>
-                <PrivateRoute path={match.path + '/partner'} component = {Partner}/>
+                <Route path={match.path + '/partner'} component = {Partner}/>
                 <Route path={match.path + '/company'} component = {Company}/>
             </div>
         )

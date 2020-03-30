@@ -11,7 +11,7 @@ import NotFound from './noFound'
 
 class Main extends React.Component {
     componentDidMount () {
-        this.props.stayLogin()
+        // this.props.stayLogin()
     }
 
     render () {
@@ -21,7 +21,7 @@ class Main extends React.Component {
                     <Route path = '/' component = {Home} exact/>
                     <Route path = '/signup' component = {SignUp}/>
                     <Route path = '/dashboard' component = {Dashboard}/>
-                    <Route path = '*' component = {NotFound}/>
+                    {/* <Route path = '*' component = {NotFound}/> */}
                 </Switch>
             </div>
         )

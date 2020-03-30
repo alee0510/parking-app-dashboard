@@ -1,0 +1,15 @@
+// import variable
+@import './variables.scss';
+
+// styling loading
+.loading-main-container {
+    .loading-content {
+        @include flex(row, center, center);
+        padding: 20px;
+        h1 {
+            font-size: 20px;
+            margin-left: 20px;
+            font-weight: 600;
+        }
+    }
+}

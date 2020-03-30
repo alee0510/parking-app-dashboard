@@ -1,30 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Select, MenuItem, Typography } from '@material-ui/core'
+import { Select, MenuItem, Typography, CircularProgress } from '@material-ui/core'
 
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
-import DeleteIcon from '@material-ui/icons/Delete'
 import ClearIcon from '@material-ui/icons/Clear'
 import CheckIcon from '@material-ui/icons/Check'
 
 // import action
 import { 
-    getUserAction, 
-    nextUserAction, 
-    prevUserAction,
-    getProfileAction, 
-    nextProfileAction, 
-    prevProfileAction,
-    getUserRoles, 
-    editUserRole, 
-    getTotalUser,
-    getPathAction
+    getPathAction,
+    getMemberTotal, 
+    getMemberAccount, 
+    getMemberProfile, 
+    getMemberRoles, 
+    editMemberRole 
 } from '../actions'
 
 // import components
 import TabMenu from '../components/tabs'
 import Table from '../components/table'
+import Loading from '../components/loading'
 
 // import style
 import '../styles/member.scss'
@@ -42,17 +38,10 @@ class Member extends React.Component {
 
     componentDidMount () {
         this.props.getPathAction('member')
-        const role = parseInt(localStorage.getItem('role'))
-
-        // get total user
-        this.props.getTotalUser()
-
-        // get initialize data
-        role === 1 ? this.props.getUserAction(this.state.rowPerPage) 
-        : this.props.getUserAction(this.state.rowPerPage, 3)
-        
-        // get user role
-        this.props.getUserRoles()
+        // get initial data
+        this.props.getMemberAccount(this.state.rowPerPage)
+        this.props.getMemberTotal()
+        this.props.getMemberRoles()
     }
 
     handleTab = () => {
@@ -63,70 +52,79 @@ class Member extends React.Component {
             page : 1, 
             sortByValue : 0 }, 
             () => {
-                this.props.getTotalUser()
-                this.state.tabValue === 1 ? this.props.getProfileAction(this.state.rowPerPage) 
-                : this.props.getUserAction(this.state.rowPerPage)
+                this.state.tabValue === 1 ? 
+                this.props.getMemberProfile(this.state.rowPerPage) : 
+                this.props.getMemberAccount(this.state.rowPerPage)
             }
         )
     }
 
     handleOption = (value) => {
-        const { sortByValue, tabValue } = this.state
+        // refresh redux data
+        const { tabValue } = this.state
+        tabValue ? 
+        this.props.getMemberProfile(value) : 
+        this.props.getMemberAccount(value)
+        
         this.setState({rowPerPage : value, page : 1})
-
-        // refresh user and profile data
-        tabValue ? this.props.getProfileAction(value, sortByValue || null) 
-        : this.props.getUserAction(value)
     }
 
-    handleNext = () => {
-        const { page, rowPerPage, tabValue, sortByValue } = this.state
+    onButtonNext = () => {
+        const { page, rowPerPage, tabValue } = this.state
         const { total, profile, account } = this.props
+        
         // check page
         if (page * rowPerPage >= total) return null
         this.setState({page : page + 1})
 
         // get last id and do query
         const lastId = tabValue ? profile[rowPerPage - 1].id : account[rowPerPage - 1].id
-        // console.log('lastId', lastId)
 
         // check tab value
-        tabValue ? this.props.nextProfileAction(lastId, rowPerPage, sortByValue || null) 
-        : this.props.nextUserAction(lastId, rowPerPage)
+        tabValue ? 
+        this.props.getMemberProfile(rowPerPage, lastId) : 
+        this.props.getMemberAccount(rowPerPage, lastId)
     }
 
-    handlePrevious = () => {
-        const { page, rowPerPage, tabValue, sortByValue } = this.state
+    onButtonPrev = () => {
+        const { page, rowPerPage, tabValue } = this.state
         const { profile, account } = this.props
+
         // check page
         if (page <= 1) return null
         this.setState({page : page - 1})
 
         // get first id and do query
         const firstId = tabValue ? profile[0].id : account[0].id
-        // console.log('firstId', firstId)
 
         // check tab value
-        tabValue ? this.props.prevProfileAction(firstId, rowPerPage, sortByValue || null) 
-        : this.props.prevUserAction(firstId, rowPerPage)
+        tabValue ? 
+        this.props.getMemberProfile(rowPerPage, null, firstId) : 
+        this.props.getMemberAccount(rowPerPage, null, firstId)
     }
 
-    handleSortByChange = (value) => {
+    onButtonFilter = (value) => {
+        const { tabValue, rowPerPage } = this.state
+        // refresh total data
+        this.props.getMemberTotal(value)
+
+        // refresh local state
         this.setState({sortByValue : value, page : 1})
 
-        // refresh total data
-        this.props.getTotalUser(value)
-
-        // refresh user data
-        if (this.state.tabValue) { // tabValue !== 0, profile tab
-            return this.props.getProfileAction(this.state.rowPerPage, value || null)
-        }
-        this.props.getUserAction(this.state.rowPerPage, value || null)
+        // refresh member data
+        tabValue ?
+        this.props.getMemberProfile(rowPerPage, null, null, value) :
+        this.props.getMemberAccount(rowPerPage, null, null, value)
     }
 
-    hanldeEditConfirmation = (id) => {
+    onButtonConfirm = (id) => {
+        const { role, rowPerPage, sortByValue } =  this.state
         const dataId = this.props.account[0].id
-        this.props.editUserRole(id, this.state.role, dataId, this.state.rowPerPage, this.state.sortByValue || null)
+
+        // do request edit
+        this.props.editMemberRole(id, role, rowPerPage, dataId, sortByValue)
+
+        // refresh local state
         this.setState({ selectedId : null })
     }
 
@@ -136,14 +134,15 @@ class Member extends React.Component {
                 value = {this.state.role} 
                 onChange = {(e) => this.setState({role : e.target.value})}
                 disableUnderline = {true}
-            > {
+            > 
+            {
                 this.props.roles.map(item => <MenuItem key = {item.id} value = {item.id}>{item.role}</MenuItem>)
             }
             </Select>
         )
     }
 
-    renderSortByOption = () => {
+    renderFilterBy = () => {
         return (
             <div className = 'member-sortby-container' 
                 style = {{display : parseInt(localStorage.getItem('role')) === 1 ? 'flex' : 'none'}}
@@ -151,11 +150,11 @@ class Member extends React.Component {
                 <Typography 
                     style = {{fontSize : 16, fontWeight : 400, marginRight : 15}}
                 >
-                    Sort by
+                    Filter by
                 </Typography>
                 <Select 
                     value = {this.state.sortByValue} 
-                    onChange = {(e) => this.handleSortByChange(e.target.value)}
+                    onChange = {(e) => this.onButtonFilter(e.target.value)}
                     disableUnderline = {true}
                 >
                     <MenuItem value = {0}>All</MenuItem>
@@ -168,7 +167,6 @@ class Member extends React.Component {
 
     tableAccount = () => {
         const { hoverId, selectedId } = this.state
-        // const { accountLoad } = this.props
         return this.props.account.map(({id, username, email, role, status}) => {
             const userRole = parseInt(localStorage.getItem('role'))
             return (
@@ -190,7 +188,7 @@ class Member extends React.Component {
                             <td>
                                 <div id = 'check-icon' 
                                     style = {{display : hoverId === id ? 'flex' : 'none'}}
-                                    onClick = {_ => this.hanldeEditConfirmation(id)}
+                                    onClick = {_ => this.onButtonConfirm(id)}
                                 >
                                     <CheckIcon/>
                                 </div>
@@ -208,11 +206,6 @@ class Member extends React.Component {
                                     onClick = { _ => this.setState({selectedId : id})}
                                 >
                                     <EditIcon/>
-                                </div>
-                                <div id = 'delete-icon' 
-                                    style = {{display : hoverId === id ? 'flex' : 'none'}}
-                                >
-                                    <DeleteIcon/>
                                 </div>
                             </td>
                             :
@@ -245,14 +238,23 @@ class Member extends React.Component {
             <div className = 'member-main-container'>
                 <h1>Member</h1>
                 <div className = 'tab-menu'>
-                    <TabMenu value = {tabValue} handleTab = {this.handleTab} label1 = 'Account' label2 = 'Profiles'/>
-                    {this.renderSortByOption()}
+                    <TabMenu 
+                        value = {tabValue} 
+                        handleTab = {this.handleTab} 
+                        label1 = 'Account' 
+                        label2 = 'Profiles'
+                    />
+                    {this.renderFilterBy()}
                 </div>
                 <div  className = 'table'>
                     <Table
                         className = 'table'
-                        headerItems = { tabValue ? ['username', 'name', 'birthdate', 'phone', 'address'] 
-                        : ['username', 'email', 'role', 'status'] }
+                        headerItems = { 
+                            tabValue ? 
+                            ['username', 'name', 'birthdate', 'phone', 'address'] 
+                            : 
+                            ['username', 'email', 'role', 'status'] 
+                        }
                         menuItems = {[10, 15, 20, 25, 30]}
                         optionValue = {rowPerPage}
                         handleOption = {this.handleOption}
@@ -260,38 +262,34 @@ class Member extends React.Component {
                         rowPerPage = {rowPerPage}
                         totalPage = {Math.ceil(this.props.total/rowPerPage)}
                         tableBody = {tabValue ? this.tableProfile : this.tableAccount}
-                        handlePrevious = {this.handlePrevious}
-                        handleNext = {this.handleNext}
+                        handlePrevious = {this.onButtonPrev}
+                        handleNext = {this.onButtonNext}
                     />
                 </div>
+                <Loading open = {this.props.loading}/>
             </div>
         )
     }
 }
 
-const mapStore = ({ account, totalAccount, profile, roles }) => {
+const mapStore = ({ member }) => {
     return {
-        account : account.user,
-        accountLoad : account.loading,
-        profile : profile.profile,
-        profileLoading : profile.loading,
-        total : totalAccount.userTotal,
-        roles : roles.roles,
+        account : member.account,
+        profile : member.profile,
+        loading : member.loading,
+        total : member.total,
+        roles : member.roles
     }
 }
 
 const mapDispatch = () => {
     return {
-        getUserAction, 
-        nextUserAction, 
-        prevUserAction,
-        getProfileAction, 
-        nextProfileAction, 
-        prevProfileAction,
-        getUserRoles, 
-        editUserRole, 
-        getTotalUser,
-        getPathAction
+        getPathAction,
+        getMemberAccount,
+        getMemberProfile,
+        getMemberTotal,
+        getMemberRoles,
+        editMemberRole
     }
 }
 

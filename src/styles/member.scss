@@ -9,7 +9,6 @@
     height: calc(100vh - 50px); 
     width: calc(100% - 50px);
     padding: 2% 50px;
-    // background-color: yellow;
     z-index: 1;
     h1 {
         font-size: 28px;
@@ -20,17 +19,14 @@
         @include flex (row, space-between, center);
         width: 100%;
         margin-bottom: 15px;
-        // background-color: red;
     }
     .table {
         width: 100%; height: calc(100% - 110px);
-        // background-color: pink;
         overflow: hidden;
     }
     .member-sortby-container {
         @include flex (row, '', center);
         height: 100%; width: auto;
-        // background-color: yellow;
     }
 
 }

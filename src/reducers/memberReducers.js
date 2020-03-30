@@ -1,50 +1,34 @@
 import { 
-    TOTAL_USER, 
-    GET_USER, 
-    GET_USER_START,
-    GET_USER_END,
-    GET_PROFILE,
-    GET_PROFILE_START,
-    GET_PROFILE_END,
-    GET_ROLES,
-} from '../helpers/actionTypes'
+    GET_MEMBER_ACCOUNT, 
+    GET_MEMBER_PROFILE, 
+    GET_MEMBER_ROLE, 
+    GET_MEMBER_TOTAL,
+    GET_MEMBER_START, 
+    GET_MEMBER_END, 
+} from '../actions'
 
-export const getTotalUserReducer = (state = { userTotal : 0}, action) => {
-    switch(action.type) {
-        case TOTAL_USER :
-            return { userTotal : action.payload }
-        default : return state
-    }
+const INITIAL_STATE = {
+    total : 0,
+    account : [],
+    profile : [],
+    roles : [],
+    loading : false
 }
 
-export const getUserReducer = (state = { user : [], loading : false }, action) => {
+export const memberReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
-        case GET_USER :
-            return { ...state, user : action.payload }
-        case GET_USER_START : 
+        case GET_MEMBER_ACCOUNT :
+            return { ...state, account : action.payload }
+        case GET_MEMBER_PROFILE :
+            return { ...state, profile : action.payload }
+        case GET_MEMBER_ROLE :
+            return { ...state, roles : action.payload }
+        case GET_MEMBER_TOTAL :
+            return { ...state, total : action.payload }
+        case GET_MEMBER_START :
             return { ...state, loading : true }
-        case GET_USER_END :
+        case GET_MEMBER_END :
             return { ...state, loading : false }
-        default : return state
-    }
-}
-
-export const getProfileReducer = (state = { profile : [], loading : false }, action) => {
-    switch(action.type) {
-        case GET_PROFILE :
-            return { profile : action.payload }
-        case GET_PROFILE_START :
-            return { ...state, loading : true }
-        case GET_PROFILE_END :
-            return { ...state, loading : false }
-        default : return state
-    }
-}
-
-export const getUserRoleReducer = (state = { roles : [] }, action) => {
-    switch(action.type) {
-        case GET_ROLES :
-            return { roles : action.payload }
         default : return state
     }
 }

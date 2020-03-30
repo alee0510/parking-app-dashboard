@@ -3,12 +3,6 @@ import { combineReducers } from 'redux'
 
 // import reducers
 import { burgerReducer, avatarReducer } from './componentReducers'
-import { 
-        getTotalUserReducer, 
-        getUserReducer, 
-        getProfileReducer, 
-        getUserRoleReducer 
-} from './memberReducers'
 import { userReducer, userProfileReducer } from './userReducer'
 import { 
         carBrandReducrer, 
@@ -38,14 +32,13 @@ import { parkingReducer } from './parkingAreaReducer'
 import { partnerReducer } from './partnerReducer'
 import { companyReducer } from './companyReducer'
 
+// 
+import { memberReducer } from './memberReducers'
+
 // combine all reducer
 const allReducers = combineReducers({
     burgerReducer, 
     avatarReducer,
-    totalAccount : getTotalUserReducer, 
-    account : getUserReducer,
-    profile : getProfileReducer,
-    roles : getUserRoleReducer, 
     user : userReducer,
     userProfile : userProfileReducer,
     carBrands : carBrandReducrer,
@@ -69,7 +62,9 @@ const allReducers = combineReducers({
     parkingReducer,
     partnerReducer,
     allBrands,
-    company : companyReducer
+    company : companyReducer,
+        //     
+    member : memberReducer
 })
 
 // export all reducers

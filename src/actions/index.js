@@ -9,3 +9,6 @@ export * from './paymentAction'
 export * from './parkingAction'
 export * from './partnerAction'
 export * from './companyAction'
+
+// action types
+export * from './types'
