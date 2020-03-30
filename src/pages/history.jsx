@@ -2,20 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 // import actions creator
-import { getHistoryTotal, 
-    getInitialHistory, 
-    getNextHistory, 
-    getPrevHistory,
-    getOnActiveTotal,
-    getInitialOnActive,
-    getNextOnActive,
-    getPrevOnActive,
-    getPathAction
+import {
+    getPathAction,
+    getTotalHistory,
+    getTotalHistoryActive,
+    getHistory,
+    getHistoryActive
 } from '../actions'
 
 // import components
 import TabMenu from '../components/tabs'
 import Table from '../components/table'
+import Loading from '../components/loading'
 
 // import style
 import '../styles/history.scss'
@@ -29,8 +27,8 @@ class History extends React.Component {
 
     componentDidMount () {
         this.props.getPathAction('history')
-        this.props.getHistoryTotal()
-        this.props.getInitialHistory(this.state.rowPerPage)
+        this.props.getTotalHistory()
+        this.props.getHistory(this.state.rowPerPage)
 
     }
 
@@ -39,12 +37,12 @@ class History extends React.Component {
         this.setState({ tabValue : tabValue ? 0 : 1, rowPerPage : 10, page : 1}, 
             () => {
                 if (this.state.tabValue) { // tabValue === 1
-                    this.props.getOnActiveTotal()
-                    this.props.getInitialOnActive(this.state.rowPerPage)
+                    this.props.getTotalHistoryActive()
+                    this.props.getHistoryActive(this.state.rowPerPage)
                     return
                 }
-                this.props.getHistoryTotal()
-                this.props.getInitialHistory(this.state.rowPerPage)
+                this.props.getTotalHistory()
+                this.props.getHistory(this.state.rowPerPage)
             }
         )
     }
@@ -54,27 +52,30 @@ class History extends React.Component {
         this.setState({ rowPerPage : value, page : 1})
 
         // refresh data by tabValue
-        tabValue ? this.props.getInitialOnActive(value) : this.props.getInitialHistory(value)
+        tabValue ?
+        this.props.getHistoryActive(value) : 
+        this.props.getHistory(value)
     }
 
-    handleNext = () => {
+    onButtonNext = () => {
         const { page, rowPerPage, tabValue } = this.state
         const { onActiveTotal, historyTotal, onActive, history } = this.props
+        
         // check page
         const totalPage = tabValue ? onActiveTotal : historyTotal
         if (page * rowPerPage >= totalPage) return null
         this.setState({page : page + 1})
 
         // get last id and do query
-        const lastId = tabValue ? onActive[rowPerPage - 1].id 
-        : history[rowPerPage - 1].id
+        const lastId = tabValue ? onActive[rowPerPage - 1].id : history[rowPerPage - 1].id
 
         // do request by check tab value
-        tabValue ? this.props.getNextOnActive(lastId, rowPerPage) 
-        : this.props.getNextHistory(lastId, rowPerPage)
+        tabValue ? 
+        this.props.getHistoryActive(rowPerPage, lastId) : 
+        this.props.getHistory(rowPerPage, lastId)
     }
 
-    hanldePrev = () => {
+    onButtonPrev = () => {
         const { page, rowPerPage, tabValue } = this.state
         const { onActive, history} = this.props
         // check page
@@ -85,8 +86,9 @@ class History extends React.Component {
         const firstId = tabValue ? onActive[0].id : history[0].id
 
         // do request by check tab value
-        tabValue ? this.props.getPrevOnActive(firstId, rowPerPage) 
-        : this.props.getPrevHistory(firstId, rowPerPage)
+        tabValue ? 
+        this.props.getHistoryActive(rowPerPage, null, firstId) : 
+        this.props.getHistory(rowPerPage, null, firstId)
     }
 
     tableHistory = () => {
@@ -140,39 +142,40 @@ class History extends React.Component {
                         handleOption = {this.handleOption}
                         page = {page}
                         rowPerPage = {rowPerPage}
-                        totalPage = {tabValue ? Math.ceil(onActiveTotal / rowPerPage) 
-                            : Math.ceil(historyTotal / rowPerPage)}
+                        totalPage = {
+                            tabValue ? 
+                            Math.ceil(onActiveTotal / rowPerPage) : 
+                            Math.ceil(historyTotal / rowPerPage)
+                        }
                         tableBody = {tabValue ? this.tableOnActive : this.tableHistory}
-                        handlePrevious = {this.hanldePrev}
-                        handleNext = {this.handleNext}
+                        handlePrevious = {this.onButtonPrev}
+                        handleNext = {this.onButtonNext}
                         addButton = {false}
                     />
                 </div>
+                <Loading open = {this.props.loading}/>
             </div>
         )
     }
 }
 
-const mapStore = ({ historyReducer, historyTotal, onActiveReducer, onActiveTotal }) => {
+const mapStore = ({ history }) => {
     return {
-        history : historyReducer.data,
-        historyTotal : historyTotal.total,
-        onActive : onActiveReducer.data,
-        onActiveTotal : onActiveTotal.total
+        history : history.data,
+        historyTotal : history.total,
+        onActive : history.active,
+        onActiveTotal : history.active_total,
+        loading : history.loading
     }
 }
 
 export const mapDispatch = () => {
     return {
-        getHistoryTotal, 
-        getInitialHistory, 
-        getNextHistory, 
-        getPrevHistory,
-        getOnActiveTotal,
-        getInitialOnActive,
-        getNextOnActive,
-        getPrevOnActive,
-        getPathAction
+        getPathAction,
+        getTotalHistory,
+        getTotalHistoryActive,
+        getHistory,
+        getHistoryActive
     }
 }
 

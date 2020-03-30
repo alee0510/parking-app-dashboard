@@ -15,13 +15,6 @@ import {
         motorTypeReducer,
         allBrands 
 } from './vehicleReducer'
-// import { totalRating, ratingReducer } from './ratingReducer'
-import { 
-        historyTotal, 
-        historyReducer, 
-        onActiveTotal, 
-        onActiveReducer 
-} from './historyReducer'
 import { 
         paymentTotalData, 
         paymentReducer,
@@ -35,6 +28,7 @@ import { companyReducer } from './companyReducer'
 import { memberReducer } from './memberReducers'
 import { parkingReducer } from './parkingAreaReducer'
 import { ratingReducer } from './ratingReducer'
+import { historyReducer } from './historyReducer'
 
 // combine all reducer
 const allReducers = combineReducers({
@@ -50,10 +44,6 @@ const allReducers = combineReducers({
     motorTypeTotal,
     motorBrands : motorBrandReducer,
     motorTypes : motorTypeReducer,
-    historyTotal,
-    historyReducer,
-    onActiveTotal,
-    onActiveReducer,
     paymentTotalData, 
     paymentReducer,
     paymentStatus,
@@ -64,7 +54,8 @@ const allReducers = combineReducers({
         //     
     member : memberReducer,
     parking : parkingReducer,
-    rating : ratingReducer
+    rating : ratingReducer,
+    history : historyReducer
 })
 
 // export all reducers
