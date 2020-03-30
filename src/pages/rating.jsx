@@ -3,16 +3,11 @@ import { connect } from 'react-redux'
 import StarIcon from '@material-ui/icons/Star'
 
 // import actions creator
-import { 
-    getRatingTotal, 
-    getInitialRating, 
-    getNextRating, 
-    getPrevRating,
-    getPathAction 
-} from '../actions'
+import { getPathAction, getRating, getTotalRating } from '../actions'
 
 // import table
 import Table from '../components/table'
+import Loading from '../components/loading'
 
 // import style
 import '../styles/rating.scss'
@@ -25,16 +20,16 @@ class Rating extends React.Component {
 
     componentDidMount() {
         this.props.getPathAction('rating')
-        this.props.getInitialRating(this.state.rowPerPage)
-        this.props.getRatingTotal()
+        this.props.getRating(this.state.rowPerPage)
+        this.props.getTotalRating()
     }
 
     handleOption = (value) => {
         this.setState({ rowPerPage : value, page : 1})
-        this.props.getInitialRating(value)
+        this.props.getRating(value)
     }
 
-    handleNext = () => {
+    onButtonNext = () => {
         const { page, rowPerPage } = this.state
 
         // check page
@@ -45,10 +40,10 @@ class Rating extends React.Component {
         const lastId = this.props.ratings[rowPerPage - 1].id
 
         // do request by check tab value
-        this.props.getNextRating(lastId, rowPerPage)
+        this.props.getRating(rowPerPage, lastId)
     }
 
-    handlePrev = () => {
+    onButtonPrev = () => {
         const { page, rowPerPage } = this.state
 
         // check page
@@ -59,7 +54,7 @@ class Rating extends React.Component {
         const firstId = this.props.ratings[0].id
 
         // do request by check tab value
-        this.props.getPrevRating(firstId, rowPerPage)
+        this.props.getRating(rowPerPage, null, firstId)
     }
 
     tableRating = () => {
@@ -96,30 +91,30 @@ class Rating extends React.Component {
                     rowPerPage = {rowPerPage}
                     totalPage = {Math.ceil(this.props.total / rowPerPage)}
                     tableBody = {this.tableRating}
-                    handlePrevious = {this.handlePrev}
-                    handleNext = {this.handleNext}
+                    handlePrevious = {this.onButtonPrev}
+                    handleNext = {this.onButtonNext}
                     addButton = {false}
                     />
                 </div>
+                <Loading open = {this.props.loading}/>
             </div>
         )
     }
 }
 
-const mapStore = ({ ratingReducer, totalRating }) => {
+const mapStore = ({ rating }) => {
     return {
-        ratings : ratingReducer.ratings,
-        total : totalRating.total
+        ratings : rating.data,
+        total : rating.total,
+        loading : rating.loading
     }
 }
 
 const mapDispatch = () => {
     return {
-        getInitialRating, 
-        getNextRating, 
-        getPrevRating, 
-        getRatingTotal,
-        getPathAction
+        getPathAction,
+        getRating,
+        getTotalRating
     }
 }
 
