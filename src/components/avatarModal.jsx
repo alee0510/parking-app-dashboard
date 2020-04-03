@@ -9,7 +9,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import BusinessIcon from '@material-ui/icons/Business'
 
 // import action
-import { avatarAction, logOutAction } from '../actions'
+import { avatarAction, logOut } from '../actions'
 
 // import style
 import '../styles/avatarModal.scss'
@@ -25,7 +25,7 @@ class AvatarModal extends React.Component {
     }
 
     handleSignOut = () => {
-        this.props.logOutAction()
+        this.props.logOut()
         this.props.avatarAction(false)
         localStorage.clear()
         document.removeEventListener('click', this.outsideClick)
@@ -83,18 +83,19 @@ class AvatarModal extends React.Component {
     }
 }
 
-const mapStore = ({ avatarReducer, user, userProfile }) => {
+const mapStore = ({ avatarReducer, user }) => {
     return {
         open : avatarReducer.avatar,
-        username : user.data.username,
-        email : user.data.email,
-        image : userProfile.data.image
+        username : user.account.username,
+        email : user.account.email,
+        image : user.profile.image
     }
 }
 
 const mapDispatch = () => {
     return {
-        avatarAction, logOutAction
+        avatarAction,
+        logOut
     }
 }
 

@@ -53,8 +53,8 @@ class Dashboard extends React.Component {
 
 const mapStore = ({ user }) => {
     return {
-        username : user.data.username,
-        role : user.data.role
+        username : user.account.username,
+        role : user.account.role
     }
 }
 

@@ -46,3 +46,10 @@ export const GET_MOTOR_TYPE_TOTAL = 'GET_MOTOR_TYPE_TOTAL'
 export const GET_ALL_BRANDS = 'GET_ALL_BRANDS'
 export const GET_VEHICLE_START = 'GET_VEHICLE_START'
 export const GET_VEHICLE_END = 'GET_VEHICLE_END'
+
+// USER : LOGIN AND LOG_OUT
+export const LOG_IN = 'LOG_IN'
+export const LOG_OUT = 'LOG_OUT'
+export const STAY_LOG_IN = 'STAY_LOG_IN'
+export const ERROR_LOG_IN = 'ERROR_LOG_IN'
+export const CLEAR_ERROR_LOG_IN = 'CLEAR_ERROR_LOG_IN'

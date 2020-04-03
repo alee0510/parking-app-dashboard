@@ -16,7 +16,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import WorkIcon from '@material-ui/icons/Work'
 
 // import action
-import { burgerAction, logOutAction, getPathAction } from '../actions'
+import { burgerAction, logOut, getPathAction } from '../actions'
 
 // import style
 import '../styles/drawer.scss'
@@ -35,7 +35,7 @@ class Drawer extends React.Component {
     }
 
     handleExit = () => {
-        this.props.logOutAction()
+        this.props.logOut()
         this.props.getPathAction(null)
     }
     
@@ -153,14 +153,14 @@ const mapStore = ({ burgerReducer, user }) => {
     return {
         open : burgerReducer.burger,
         pathname : burgerReducer.path,
-        role : user.data.role
+        role : user.account.role
     }
 }
 
 const mapDispatch = () => {
     return {
         burgerAction, 
-        logOutAction,
+        logOut,
         getPathAction
     }
 }

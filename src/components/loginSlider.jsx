@@ -10,7 +10,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
 // import action
-import { loginAction, clearErrorLogin } from '../actions'
+import { login, clearError } from '../actions'
 
 // import component
 import Alert from '../components/alert'
@@ -32,7 +32,7 @@ const LoginSlider = (props) => {
     }
 
     const handelSignIn = () => {
-        props.loginAction({
+        props.login({
             username : username.current.value, 
             password : password.current.value
         })
@@ -63,7 +63,7 @@ const LoginSlider = (props) => {
                         placeholder = 'e.g. xYzs190.'
                     />
                 </div>
-                <Alert open = {props.open} msg = {props.msg} handleClose = {props.clearErrorLogin}/>
+                <Alert open = {props.open} msg = {props.msg} handleClose = {props.clearError}/>
                 <div className = 'button'>
                     <Button id = 'button-sign-in' onClick = {handelSignIn}>Log In</Button>
                     <Link to = 'signup' id = 'link-sign-up'>
@@ -84,7 +84,8 @@ const mapStore = ({ user }) => {
 
 const mapDispatch = () => {
     return {
-        loginAction, clearErrorLogin
+        login, 
+        clearError
     }
 }
 

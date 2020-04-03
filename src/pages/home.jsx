@@ -38,7 +38,7 @@ class Home extends React.Component {
 
 const mapStore = ({ user }) => {
     return {
-        username : user.data.username
+        username : user.account.username
     }
 }
 

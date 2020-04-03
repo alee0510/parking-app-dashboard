@@ -1,27 +1,29 @@
 import Axios from 'axios' 
-import { API_URL_USER } from '../helpers/apiUrl'
-import { 
-    LOG_IN, 
-    LOG_OUT, 
-    STAY_LOGIN, 
-    LOG_IN_ERROR, 
-    CLEAR_LOGIN_ERROR, 
-    GET_USER_PROFILE, 
-    GET_PROFILE_ERROR 
-} from '../helpers/actionTypes'
+import { API_USER } from '../helpers/apiUrl'
+import {
+    LOG_IN,
+    LOG_OUT,
+    STAY_LOG_IN,
+    ERROR_LOG_IN,
+    CLEAR_ERROR_LOG_IN
+} from '../actions'
 
-export const loginAction = (body) => {
+export const login = (body) => {
     return async (dispatch) => {
         try {
             // check user input
-            if (!body.username || !body.password) throw new Error ('please fill your username and password')
-            
+            if (!body.username || !body.password) throw new Error ('please fill username and password.')
+
             // do request
-            let { data, headers } = await Axios.post(API_URL_USER + '/login', body)
+            const { data, headers } = await Axios.post(API_USER + '/login', body)
+            const profile = await Axios.get(API_USER + `/profile/${data.id}`)
             console.log(headers['auth-token'])
             dispatch({
                 type : LOG_IN,
-                payload : data
+                payload : {
+                    account : data,
+                    profile : profile.data
+                }
             })
             
             // set local storage
@@ -29,27 +31,23 @@ export const loginAction = (body) => {
             localStorage.setItem('role', data.role)
             localStorage.setItem('token', headers['auth-token'])
             localStorage.setItem('company_id', data.company_id)
-            
+
         } catch (err) {
-            console.log(err.response ? err.response.data : err)
             dispatch({
-                type : LOG_IN_ERROR,
+                type : ERROR_LOG_IN,
                 payload : err.response ? err.response.data : err
             })
+            console.log(err.response ? err.response.data : err)
         }
     }
 }
 
-export const logOutAction = () => {
-    return (dispatch) => {
-        localStorage.clear()
-        dispatch({ type : LOG_OUT })
-        dispatch({ type : GET_PROFILE_ERROR })
-    }
+export const clearError = () => {
+    return { type : CLEAR_ERROR_LOG_IN }
 }
 
-export const clearErrorLogin = () => {
-    return { type : CLEAR_LOGIN_ERROR }
+export const logOut = () => {
+    return { type : LOG_OUT }
 }
 
 export const stayLogin = () => {
@@ -60,22 +58,21 @@ export const stayLogin = () => {
             
             // request stay login
             const options = { headers : {'Auth-Token' : token} }
-            let user = await Axios.get(API_URL_USER + '/staylogin', options)
-            dispatch({
-                type : STAY_LOGIN,
-                payload : user.data
-            })
+            let user = await Axios.get(API_USER + '/staylogin', options)
+
             // get user profile
-            let profile = await Axios.get(API_URL_USER + `/profile/${user.data.id}`)
+            let profile = await Axios.get(API_USER + `/profile/${user.data.id}`)
             dispatch({
-                type : GET_USER_PROFILE,
-                payload : profile.data
+                type : STAY_LOG_IN,
+                payload : {
+                    account : user.data,
+                    profile : profile.data
+                }
             })
         } catch (err) {
             console.log('stay login running . . .')
             console.log(err.response ? err.response.data : err)
-            dispatch({ type : LOG_OUT })
-            dispatch({ type : GET_PROFILE_ERROR })
+            dispatch({type : LOG_OUT})
         }
     }
 }

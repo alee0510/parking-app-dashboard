@@ -71,12 +71,12 @@ class AppBar extends React.Component {
     }
 }
 
-const mapStore = ({ burgerReducer, avatarReducer, userProfile, user }) => {
+const mapStore = ({ burgerReducer, avatarReducer, user }) => {
     return {
         burger : burgerReducer.burger,
         avatar : avatarReducer.avatar,
-        image : userProfile.data.image,
-        username : user.data.username
+        image : user.profile.image,
+        username : user.account.username
     }
 }
 
