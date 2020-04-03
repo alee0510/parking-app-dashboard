@@ -7,6 +7,7 @@ import {
     GET_CAR_TYPE_TOTAL,
     GET_MOTOR_BRAND_TOTAL,
     GET_MOTOR_TYPE_TOTAL,
+    GET_ALL_BRANDS,
     GET_VEHICLE_START,
     GET_VEHICLE_END
 } from '../actions'
@@ -20,6 +21,8 @@ const INITIAL_STATE = {
     car_type_total : 0,
     motor_brand_total : 0,
     motor_type_total : 0,
+    car : [], // all car brand
+    motor : [], // all motor brand
     loading : false
 }
 
@@ -41,6 +44,8 @@ export const vehicleReducer = (state = INITIAL_STATE, action) => {
             return { ...state, motor_brand_total : action.payload }
         case GET_MOTOR_TYPE_TOTAL :
             return { ...state, motor_type_total : action.payload }
+        case GET_ALL_BRANDS :
+            return {...state, car : action.payload.car, motor : action.payload.motor }
         case GET_VEHICLE_START :
             return { ...state, loading : true }
         case GET_VEHICLE_END :

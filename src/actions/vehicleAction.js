@@ -9,6 +9,7 @@ import {
     GET_CAR_TYPE_TOTAL,
     GET_MOTOR_BRAND_TOTAL,
     GET_MOTOR_TYPE_TOTAL,
+    GET_ALL_BRANDS,
     GET_VEHICLE_START,
     GET_VEHICLE_END
 } from '../actions'
@@ -94,7 +95,7 @@ export const getVehicle = (key, limit = null, next = null, prev = null) => {
 }
 
 // CRUD OPERATION : ADD, EDIT, DELETE
-export const addVehicle = (key, limit, body) => {
+export const addVehicle = (key, body, limit) => {
     return async (dispatch) => {
         try {
             dispatch({type : GET_VEHICLE_START})
@@ -221,6 +222,28 @@ export const deleteVehicle = (key, id, prev, limit) => {
             dispatch({type : GET_VEHICLE_END})
         } catch (err) {
             dispatch({type : GET_VEHICLE_END})
+            console.log(err.response ? err.response.data : err)
+        }
+    }
+}
+
+// get all brand and types
+export const getBrand = () => {
+    return async (dispatch) => {
+        try {
+            // do query to get all car and motor brands
+            const car = await Axios.get(API_VEHICLE + '/car/brands')
+            const motor = await Axios.get(API_VEHICLE + '/motor/brands')
+
+            // store to redux
+            dispatch({
+                type : GET_ALL_BRANDS,
+                payload : {
+                    car : car.data,
+                    motor : motor.data
+                }
+            })
+        } catch (err) {
             console.log(err.response ? err.response.data : err)
         }
     }
