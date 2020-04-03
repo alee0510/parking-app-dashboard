@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { IconButton } from '@material-ui/core'
+import { IconButton, CircularProgress } from '@material-ui/core'
 
 // import action creators
 import { getCompany, addCompany, editCompany } from '../actions'
@@ -74,6 +74,8 @@ class Company extends React.Component {
                             this.props.data.length !== 2 ?
                             <IconButton onClick = {this.onButtonEdit}>
                                 {
+                                    this.props.loading ?
+                                    <CircularProgress size = {25}/> : 
                                     edit ? <CheckIcon/> : <EditIcon/>
                                 }
                             </IconButton>
@@ -139,7 +141,8 @@ class Company extends React.Component {
 
 const mapStore = ({ company }) => {
     return {
-        data : company.data
+        data : company.data,
+        loading : company.loading
     }
 }
 

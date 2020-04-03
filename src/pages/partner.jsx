@@ -10,6 +10,7 @@ import { getPartner, getPathAction, deletePartner } from '../actions'
 
 // import components
 import Table from '../components/table'
+import Loading from '../components/loading'
 
 // import style
 import '../styles/partner.scss'
@@ -86,14 +87,16 @@ class Partner extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+                <Loading open = {this.props.loading}/>
             </div>
         )
     }
 }
 
-const mapStore = ({ partnerReducer }) => {
+const mapStore = ({ partner }) => {
     return {
-        partner : partnerReducer.data
+        partner : partner.data,
+        loading : partner.loading
     }
 }
 

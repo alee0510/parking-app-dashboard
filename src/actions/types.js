@@ -47,9 +47,24 @@ export const GET_ALL_BRANDS = 'GET_ALL_BRANDS'
 export const GET_VEHICLE_START = 'GET_VEHICLE_START'
 export const GET_VEHICLE_END = 'GET_VEHICLE_END'
 
+// PARTNER PAGE
+export const GET_PARTNER = 'GET_PARTNER'
+export const GET_PARTNER_START = 'GET_PARTNER_START'
+export const GET_PARTNER_END = 'GET_PARTNER_END'
+
 // USER : LOGIN AND LOG_OUT
 export const LOG_IN = 'LOG_IN'
 export const LOG_OUT = 'LOG_OUT'
 export const STAY_LOG_IN = 'STAY_LOG_IN'
 export const ERROR_LOG_IN = 'ERROR_LOG_IN'
 export const CLEAR_ERROR_LOG_IN = 'CLEAR_ERROR_LOG_IN'
+
+// COMPANY PROFILE
+export const GET_COMPANY = 'GET_COMPANY'
+export const GET_COMPANY_START = 'GET_COMPANY_START'
+export const GET_COMPANY_END = 'GET_COMPANY_END'
+
+// COMPONENTS
+export const BURGER = 'BURGER'
+export const AVATAR = 'AVATAR'
+export const BURGER_PATH = 'BURGER_PATH'

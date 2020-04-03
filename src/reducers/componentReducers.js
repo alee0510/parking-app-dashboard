@@ -1,4 +1,4 @@
-import { BURGER, AVATAR, BURGER_PATH } from '../helpers/actionTypes'
+import { BURGER, AVATAR, BURGER_PATH } from '../actions'
 
 // create reducers
 export const burgerReducer = (state = { burger : false, path : null }, action) => {
