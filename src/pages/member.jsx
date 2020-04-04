@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Select, MenuItem, Typography, CircularProgress } from '@material-ui/core'
+import { Select, MenuItem, Typography } from '@material-ui/core'
 
 // import icons
 import EditIcon from '@material-ui/icons/Edit'
