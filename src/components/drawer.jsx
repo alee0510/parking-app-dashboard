@@ -37,6 +37,7 @@ class Drawer extends React.Component {
     handleExit = () => {
         this.props.logOut()
         this.props.getPathAction(null)
+        localStorage.clear()
     }
     
     render () {
